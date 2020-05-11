@@ -314,10 +314,12 @@ MonoBehaviour:
   reloadTime: 2.5
   tankBody: {fileID: 3011512554677805218}
   tankHead: {fileID: 6199770847258232032}
+  playerController: {fileID: 810642603324538955}
   cannonAnchor: {fileID: 381432557164754591}
   tankShell: {fileID: 4172022444014405964, guid: 8b5f864197f5a334cb45bb60a9181947,
     type: 3}
-  fireTransform: {fileID: 0}
+  fireTransform: {fileID: 921942916517126703}
+  reloadCooldown: 0
 --- !u!65 &8376072713328385595
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -340,6 +342,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6006706212355137273}
+  - component: {fileID: 810642603324538955}
   m_Layer: 0
   m_Name: Player Tank
   m_TagString: Untagged
@@ -362,6 +365,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &810642603324538955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7279860583100951786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06d4fe2f7a83c9f4db81b06802dada0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MaxHealth: 3
+  m_CurrentHealth: 3
+  m_Score: 0
+  m_Ammo: 25
+  cannonController: {fileID: 0}
+  m_ammoViewerText: {fileID: 0}
+  m_FireReadinessIcon: {fileID: 0}
 --- !u!1 &7517244726540537071
 GameObject:
   m_ObjectHideFlags: 0
