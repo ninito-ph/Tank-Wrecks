@@ -23,6 +23,8 @@ public class TankCannonController : MonoBehaviour
     public TankBodyController tankBody;
     [Tooltip("The object reference of the player's tank head.")]
     public TankHeadController tankHead;
+    [Tooltip("The player controller object reference")]
+    public PlayerController playerController;
     [Tooltip("The object reference for the cannon anchor")]
     public GameObject cannonAnchor;
     [Tooltip("Tank shell GameObject reference")]
@@ -35,7 +37,8 @@ public class TankCannonController : MonoBehaviour
     // The direction the cannon is inclining towards. -1 means up, 1 means down.
     private int inclineDirection;
     // The time in seconds before the tank can shoot again.
-    private float reloadCooldown = 0f;
+    [HideInInspector]
+    public float reloadCooldown = 2.5f;
     // Whether the cannon fire animation has started.
     private bool cannonAnimStarted = false;
     // The current time of the cannon animation.
@@ -70,7 +73,8 @@ public class TankCannonController : MonoBehaviour
         cannonAnchor.transform.Rotate(0, 0, cannonInclineRate * Time.deltaTime * inclineDirection);
 
         // Firing
-        if (Input.GetKey(KeyCode.Space) && reloadCooldown <= 0)
+        // If the firing key is being pressed, if reload cooldown is below zero, if ammo is greater than zero, perform firing action
+        if (Input.GetKey(KeyCode.Space) && reloadCooldown >= reloadTime && playerController.m_Ammo > 0)
         {
             // Assign transform to shell
             Vector3 shellOrigin = new Vector3(fireTransform.transform.position.x, fireTransform.transform.position.y, fireTransform.transform.position.z);
@@ -78,8 +82,9 @@ public class TankCannonController : MonoBehaviour
             // Create shell based on transform
             Instantiate(tankShell, shellOrigin, Quaternion.Euler(shellRotation));
             // Set cooldown
-            reloadCooldown = reloadTime;
-
+            reloadCooldown = 0;
+            // Diminish ammo by one
+            playerController.m_Ammo --;
 
             // Apply body recoil
             int recoilDirection = 1;
@@ -93,8 +98,9 @@ public class TankCannonController : MonoBehaviour
             cannonAnimStarted = true;
 
         }
-        // Tick down reloadCooldown timer
-        reloadCooldown = reloadCooldown - (1 * Time.deltaTime);
+        // Tick up reloadCooldown timer
+        // This cooldown timer unusually ticks up instead of down, to facilitate the implementation of the fire readiness icon.
+        reloadCooldown = reloadCooldown + (1 * Time.deltaTime);
     }
 
     void FixedUpdate()

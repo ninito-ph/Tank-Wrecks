@@ -6,9 +6,9 @@ public class PlayerShell : MonoBehaviour
 {
     [Header("Properties")]
     [Tooltip("The shell explosion radius")]
-    public float explosionRadius = 100f;
+    public float m_explosionRadius = 100f;
     [Tooltip("The damage in hearts the shell's explosion will deal")]
-    public int explosionDamage = 1;
+    public int m_explosionDamage = 1;
     [Tooltip("The speed at which the shell will fly through the air")]
     public float shellSpeed = 20f;
 

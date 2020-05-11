@@ -1,0 +1,28 @@
+fileFormatVersion: 2
+guid: 2d7316de9facb5e488f3d19c9c55c4e7
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Alma Mono
+  fontNames:
+  - Alma Mono
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: b12c9c4076c3e7a4fa611762e640f3ac, type: 3}
+  - {fileID: 12800000, guid: c3a46bc4d83da5f479df42552f2ce9e9, type: 3}
+  - {fileID: 12800000, guid: ac2eb1466a037de4c91b651f64b07b06, type: 3}
+  - {fileID: 12800000, guid: c6ff3e4a867945f4cb3298664b2f1747, type: 3}
+  - {fileID: 12800000, guid: 6b4fd53c11e240d43b8f7b5aa4482c1b, type: 3}
+  - {fileID: 12800000, guid: 3865386f8fcb2754e85138147e47ef8b, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
