@@ -1,0 +1,9 @@
+#name: Acquire activation file
+#on: [push]
+#jobs:
+#  activation:
+#    name: Request manual activation file
+#    id: getManualLicenseFile
+#    runs-on: ubuntu-latest
+#    steps:
+    
