@@ -27,12 +27,13 @@
   <a href="https://github.com/ninito-ph/Tank-Wrecks/blob/master/README.md">
     <img src="https://i.imgur.com/LNEaFxc.png" alt="Tank Wrecks Logo" width="350" height="350">
   </a>
-  
-<p align="center">
-  <a href="https://www.codefactor.io/repository/github/ninito-ph/tank-wrecks"><img src="https://www.codefactor.io/repository/github/ninito-ph/tank-wrecks/badge?s=3c7b0b2a6c29b80d5ad232ead059891684dec177" alt="CodeFactor" /></a>
-  <br />
+ 
+<h3 align="center">Tank Wrecks</h3>
+  <p align="center">
+    <a href="https://www.codefactor.io/repository/github/ninito-ph/tank-wrecks"><img src="https://www.codefactor.io/repository/github/ninito-ph/tank-wrecks/badge?s=3c7b0b2a6c29b80d5ad232ead059891684dec177" alt="CodeFactor" /></a>
+    <br />
+    </p>
   </p>
-</p>
 
   <p align="center">
     A fast-paced arcade game based on tank battles!
