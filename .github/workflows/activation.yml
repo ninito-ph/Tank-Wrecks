@@ -1,19 +1,22 @@
 name: Activate Unity
 on: [push]
+
 jobs:
   requestActivation:
     name: Request activation
     runs-on: ubuntu-latest
     steps:
-    
-    # Request manual activation file
-    - id: getManualLicenseFile
-    - uses: webbertakken/unity-request-manual-activation-file@v1.1
-      with:
-        unityVersion: 2019.4.4f1
 
-    # Expose as artifact
-    - uses: actions/upload-artifact@v1
-      with:
-        name: ${{ steps.getManualLicenseFile.outputs.filePath }}
-        path: ${{ steps.getManualLicenseFile.outputs.filePath }}
+    # Get manual activation file
+      - name: Request Manual Activation File
+        id: getManualLicenseFile
+        uses: webbertakken/unity-request-manual-activation-file@v1.1
+        with:
+          unityVersion: 2019.4.4f1
+
+    # Upload manual activation file as artifact
+      - name: Expose as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: ${{ steps.getManualLicenseFile.outputs.filePath }}
+          path: ${{ steps.getManualLicenseFile.outputs.filePath }}
