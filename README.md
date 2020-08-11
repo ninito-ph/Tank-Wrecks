@@ -33,9 +33,11 @@
   <p align="center">
     A fast-paced arcade game based on tank battles!
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
+    [![CodeFactor](https://www.codefactor.io/repository/github/ninito-ph/tank-wrecks/badge?s=3c7b0b2a6c29b80d5ad232ead059891684dec177)](https://www.codefactor.io/repository/github/ninito-ph/tank-wrecks)
+    <br />
+    <a href="https://github.com/ninito-ph/Tank-Wrecks/issues">Report Bug</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Send Feedback</a>
+    <a href="#contact">Send Feedback</a>
   </p>
 </p>
 
@@ -93,24 +95,11 @@ In Tank Wrecks, you control a tank seen from a third-person perspective. You can
 
 The game is scheduled to enter Alpha in september 17, where the game will be at an early but functional stage at this point. Core features will be implemented, but may lack polish and content. Later, in october 17, the game will enter Beta, where most features will have seen considerable amounts of polish, and most content will have been implemented. Lastly, in november 18, the game will go gold, where it will be feature-complete and content-complete. Most bugs will have been ironed out, and it is unlikely the game will recieve further support past this point. 
 
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-
 
 <!-- LICENSE -->
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
 
 
 <!-- CONTACT -->
