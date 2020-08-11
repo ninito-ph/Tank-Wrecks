@@ -29,11 +29,13 @@ jobs:
     steps:
 
       # Checks out to branch
+      - name: Checkout to branch
       - uses: actions/checkout@v2
         with:
           lfs: true
       
-      # Caches Unity Library for faster
+      # Caches Unity Library for faster tests
+      - name: Cache Unity library
       - uses: actions/cache@v1.1.0
         with:
           path: ${{ matrix.projectPath }}/Library
@@ -41,12 +43,9 @@ jobs:
           restore-keys: |
             Library-${{ matrix.projectPath }}-
             Library-
-      
-      # Check if Unity is activated
-      - name: Unity - Activate
-        uses: webbertakken/unity-activate@v1.2
 
       # Runs tests
+      - name: Unity - Run tests
       - uses: webbertakken/unity-test-runner@v1.4
         id: testRunner
         env:
@@ -58,12 +57,14 @@ jobs:
           unityVersion: ${{ matrix.unityVersion }}
 
       # Uploads test artifacts
+      - name: Upload test artifacts
       - uses: actions/upload-artifact@v1
         with:
           name: Test results (all modes)
           path: ${{ steps.testRunner.outputs.artifactsPath }}
 
       # Builds for target platforms
+      - name: Unity - Build to target platforms
       - uses: webbertakken/unity-builder@v0.10
         with:
           projectPath: ${{ matrix.projectPath }}
@@ -71,6 +72,7 @@ jobs:
           targetPlatform: ${{ matrix.targetPlatform }}
 
       # Uploads builds
+      - name: Upload build artifacts
       - uses: actions/upload-artifact@v1
         with:
           name: Build
