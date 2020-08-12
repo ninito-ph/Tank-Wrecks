@@ -1,4 +1,4 @@
-name: Actions 😎
+name: Test 🔧 & Build 📦
 
 on:
   pull_request: {}
@@ -11,7 +11,8 @@ env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
 jobs:
-  buildAndTestForSomePlatforms:
+
+  buildAndTest:
     name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
     runs-on: ubuntu-latest
     strategy:
@@ -25,6 +26,9 @@ jobs:
           - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
           - StandaloneWindows64 # Build a Windows 64-bit standalone.
           - StandaloneLinux64 # Build a Linux 64-bit standalone.
+        testMode:
+          - playmode
+          - editmode
 
     steps:
 
@@ -41,12 +45,11 @@ jobs:
           path: ${{ matrix.projectPath }}/Library
           key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
           restore-keys: |
-            Library-${{ matrix.projectPath }}-
             Library-
 
       # Runs tests
       - name: Unity - Run tests
-        uses: webbertakken/unity-test-runner@v1.4
+        uses: webbertakken/unity-test-runner@v1.6
         id: testRunner
         env:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
@@ -65,7 +68,7 @@ jobs:
 
       # Builds for target platforms
       - name: Unity - Build to target platforms
-        uses: webbertakken/unity-builder@v0.10
+        uses: webbertakken/unity-builder@v1.1
         with:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
@@ -77,3 +80,8 @@ jobs:
         with:
           name: Build
           path: build
+
+      # Return license
+      - name: Return license
+        uses: webbertakken/unity-return-license@v1
+        if: always()
