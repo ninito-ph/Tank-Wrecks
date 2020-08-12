@@ -53,7 +53,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Test Results
-          path: tests
+          path: artifacts
       
       # Build
       - name: Build project
@@ -63,6 +63,8 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
           UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
         with:
+          # allowDirtyBuild is usually NOT a good idea, but due to a bug in testrunner being unable to delete artifacts folder after uploading it (thus making the branch dirty), this flag is currently necessary
+          allowDirtyBuild: true
           buildName: Tank-Wrecks-${{ matrix.targetPlatform }}
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
