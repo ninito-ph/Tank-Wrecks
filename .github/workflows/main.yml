@@ -11,11 +11,13 @@ env:
 
 jobs:
   buildAndroid:
-    name: Build for ${{ matrix.targetPlatform }}
+    name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
+        unityVersion:
+          - 2019.4.7f1
         targetPlatform:
           - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
           - StandaloneWindows64 # Build a Windows 64-bit standalone.
@@ -34,6 +36,24 @@ jobs:
         with:
           path: Library
           key: Library
+
+      # Runs tests
+      - name: Test project
+        uses: webbertakken/unity-test-runner@v1.6
+        id: testRunner
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
+        with:
+          unityVersion: ${{ matrix.unityVersion }}
+
+        # Output
+      - name: Upload test artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Test Results
+          path: tests
       
       # Build
       - name: Build project
@@ -43,12 +63,14 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
           UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
         with:
-          unityVersion: 2019.4.7f1
+          buildName: Tank-Wrecks-${{ matrix.targetPlatform }}
+          unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
+          versioning: Semantic
 
       # Output
-      - name: Upload artifact
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: Build
+          name: Builds
           path: build
