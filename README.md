@@ -31,6 +31,7 @@
 <h3 align="center">Tank Wrecks</h3>
   <p align="center">
     <a href="https://www.codefactor.io/repository/github/ninito-ph/tank-wrecks"><img src="https://www.codefactor.io/repository/github/ninito-ph/tank-wrecks/badge?s=3c7b0b2a6c29b80d5ad232ead059891684dec177" alt="CodeFactor" /></a>
+<img alt="Code Climate maintainability" src="https://img.shields.io/codeclimate/maintainability/ninito-ph/Tank-Wrecks">
     <br />
     </p>
   </p>
