@@ -11,7 +11,7 @@ env:
 
 jobs:
   buildAndroid:
-    name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
+    name: Build and test for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -25,20 +25,20 @@ jobs:
 
     steps:
       # Checkout
-      - name: Checkout repository
+      - name: Checkout repository 🔽
         uses: actions/checkout@v2
         with:
           lfs: true
       
       # Cache
-      - name: Cache library
+      - name: Cache library 📚
         uses: actions/cache@v2
         with:
           path: Library
           key: Library
 
       # Runs tests
-      - name: Test project
+      - name: Test project 🔧
         uses: webbertakken/unity-test-runner@v1.6
         id: testRunner
         env:
@@ -49,14 +49,14 @@ jobs:
           unityVersion: ${{ matrix.unityVersion }}
 
         # Output
-      - name: Upload test artifacts
+      - name: Upload test artifacts 🔼
         uses: actions/upload-artifact@v2
         with:
           name: Test Results
           path: artifacts
       
       # Build
-      - name: Build project
+      - name: Build project 📦
         uses: webbertakken/unity-builder@v1.1
         env:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
@@ -70,7 +70,7 @@ jobs:
           targetPlatform: ${{ matrix.targetPlatform }}
 
       # Output
-      - name: Upload build artifacts
+      - name: Upload build artifacts 🔼
         uses: actions/upload-artifact@v2
         with:
           name: Builds
