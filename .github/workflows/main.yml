@@ -7,9 +7,6 @@ on:
       - master
       - 'development'
 
-env:
-  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-
 jobs:
 
   buildAndTest:
@@ -26,9 +23,6 @@ jobs:
           - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
           - StandaloneWindows64 # Build a Windows 64-bit standalone.
           - StandaloneLinux64 # Build a Linux 64-bit standalone.
-        testMode:
-          - playmode
-          - editmode
 
     steps:
 
@@ -45,6 +39,7 @@ jobs:
           path: ${{ matrix.projectPath }}/Library
           key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
           restore-keys: |
+            Library-{{ matrix.projectPath }}-
             Library-
 
       # Runs tests
@@ -56,7 +51,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
           UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
         with:
-          projectPath: ${{ matrix.projectPath }}
+          projectPath: ${{  matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
 
       # Uploads test artifacts
@@ -69,10 +64,16 @@ jobs:
       # Builds for target platforms
       - name: Unity - Build to target platforms
         uses: webbertakken/unity-builder@v1.1
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
         with:
-          projectPath: ${{ matrix.projectPath }}
+          projectPath: ${{  matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
+          buildName: TankWrecks${{ matrix.targetPlatform }}
+          versioning: Semantic
 
       # Uploads builds
       - name: Upload build artifacts
