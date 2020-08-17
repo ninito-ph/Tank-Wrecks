@@ -90,8 +90,8 @@ public class OilBarrelPowerup : MonoBehaviour
         // Find a way to get Player Tank reference through transform.root, as it is considerably more performant
         GameObject player = GameObject.Find("Player Tank");
 
-        // Gets PlayerController class reference
-        PlayerController playerController = player.gameObject.GetComponent<PlayerController>();
+        // Gets PlayerControllerOld class reference
+        PlayerControllerOld playerController = player.gameObject.GetComponent<PlayerControllerOld>();
 
         // If the player is not invulnerable
         if (!playerController.m_Invulnerable)
@@ -111,8 +111,8 @@ public class OilBarrelPowerup : MonoBehaviour
         // Find a way to get Player Tank reference through transform.root, as it is considerably more performant
         GameObject player = GameObject.Find("Player Tank");
 
-        // Gets PlayerController class reference
-        PlayerController playerController = player.gameObject.GetComponent<PlayerController>();
+        // Gets PlayerControllerOld class reference
+        PlayerControllerOld playerController = player.gameObject.GetComponent<PlayerControllerOld>();
 
         // Sets powerup multiplier
         playerController.m_OilBarrelMultiplier = multiplier;

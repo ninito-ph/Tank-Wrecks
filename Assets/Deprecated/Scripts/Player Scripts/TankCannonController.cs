@@ -24,7 +24,7 @@ public class TankCannonController : MonoBehaviour
     [Tooltip("The object reference of the player's tank head.")]
     public TankHeadController tankHead;
     [Tooltip("The player controller object reference")]
-    public PlayerController playerController;
+    public PlayerControllerOld playerController;
     [Tooltip("The object reference for the cannon anchor")]
     public GameObject cannonAnchor;
     [Tooltip("Tank shell GameObject reference")]
