@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RushState : MonoBehaviour
+public class RushState : EnemyBaseState
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void EnterState(EnemyBase enemy)
     {
-        
+        throw new System.NotImplementedException();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Update(EnemyBase enemy)
     {
-        
+        throw new System.NotImplementedException();
     }
 }
