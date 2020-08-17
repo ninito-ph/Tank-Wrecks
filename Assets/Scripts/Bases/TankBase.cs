@@ -142,7 +142,7 @@ public class TankBase : MonoBehaviour
     {
         // Creates instance of tank part dictionary
         tankParts = new Dictionary<string, GameObject>();
-        // Creates instance of tank part list lsit
+        // Creates instance of tank part list list
         tankPartList = new List<GameObject>();
 
         // Populates dictionary with tankPartList entries
