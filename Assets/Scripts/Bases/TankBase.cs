@@ -49,6 +49,12 @@ public class TankBase : MonoBehaviour
     [HideInInspector]
     public int MaxHealth
     {
+        get { return maxHealth; }
+    }
+
+    [HideInInspector]
+    public int Ammo
+    {
         get { return ammo; }
     }
 
