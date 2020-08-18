@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    private float score = 0;
+
+    public float Score
+    {
+        get { return score; }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
