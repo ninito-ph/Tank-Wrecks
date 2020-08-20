@@ -1,4 +1,5 @@
-﻿using System;
+﻿using UnityEngine;
+using System;
 
 public static class EventBroker
 {
@@ -8,7 +9,7 @@ public static class EventBroker
     // Methods and actions are static so that classes don't need a reference to EventBroker
 
     // Notifies that an enemy has been destroyed
-    public static event Action<EnemyBase> EnemyDestroyed;
+    public static event Action<GameObject> EnemyDestroyed;
 
     // Notifies that a shot has been fired
     public static event Action ShotFired;
@@ -19,7 +20,7 @@ public static class EventBroker
 
     // Methods that are called by other classes to trigger actions
     // Methods and actions are static so that classes don't need a reference to EventBroker
-    public static void CallEnemyDestroyed(EnemyBase assignedReference)
+    public static void CallEnemyDestroyed(GameObject assignedReference)
     {
         if (EnemyDestroyed != null)
         {

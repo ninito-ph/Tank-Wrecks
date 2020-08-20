@@ -10,7 +10,7 @@ public class EnemyBase : TankBase
     #region Core Values
 
     // Basic variables for the functioning of the class
-    private EnemyBase assignedReference;
+    private GameObject assignedReference;
     private EnemyTypes enemyType;
     private GameObject playerReference;
 
@@ -31,7 +31,7 @@ public class EnemyBase : TankBase
         set { playerReference = value; }
     }
 
-    public EnemyBase AssignedReference
+    public GameObject AssignedReference
     {
         get { return assignedReference; }
         set { assignedReference = value; }
