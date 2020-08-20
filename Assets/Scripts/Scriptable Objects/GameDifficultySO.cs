@@ -9,7 +9,29 @@ public class GameDifficultySO : ScriptableObject
 
     #region Core Values
 
-    [Header("Spawn chances in percentile")]
+    [Header("Powerup spawn chances in percentile")]
+    [SerializeField]
+    [Tooltip("The spawn chance of this type of powerup in percentage. The percentages must add up to 100.")]
+    private int oilBarrelChance = 20;
+    [SerializeField]
+    [Tooltip("The spawn chance of this type of powerup in percentage. The percentages must add up to 100.")]
+    private int shieldChance = 20;
+    [SerializeField]
+    [Tooltip("The spawn chance of this type of powerup in percentage. The percentages must add up to 100.")]
+    private int wrenchChance = 20;
+    [SerializeField]
+    [Tooltip("The spawn chance of this type of powerup in percentage. The percentages must add up to 100.")]
+    private int ammoChance = 30;
+    [SerializeField]
+    [Tooltip("The spawn chance of this type of powerup in percentage. The percentages must add up to 100.")]
+    private int nukeShellChance = 10;
+
+    [Header("Powerup frequency")]
+    [Tooltip("The percentage chance that a powerup will in fact spawn. Only after a powerup in fact spawns, will its type be decided.")]
+    [Range(0f, 1f)]
+    private float powerupChance = 0.33f;
+
+    [Header("Enemy spawn chances in percentile")]
     [SerializeField]
     [Tooltip("The spawn chance of this type of enemy in percentage. The percentages must add up to 100.")]
     private int rollerTankChance = 40;
@@ -22,10 +44,11 @@ public class GameDifficultySO : ScriptableObject
     [SerializeField]
     [Tooltip("The spawn chance of this type of enemy in percentage. The percentages must add up to 100.")]
     private int annihilatorTankChance = 10;
+
     [Header("Enemy amount")]
     [SerializeField]
     [Tooltip("The amount of enemies that will spawn on a given wave. This number increases as the waves increase.")]
-    private int enemyAmount;
+    private int enemyAmount = 4;
     [SerializeField]
     [Tooltip("The Roller Tank prefab")]
     private GameObject rollerTank;
@@ -43,13 +66,72 @@ public class GameDifficultySO : ScriptableObject
 
     #region Properties
 
+    // Powerup spawn chance properties
+    public int OilBarrelChance
+    {
+        get { return oilBarrelChance; }
+        set
+        {
+            oilBarrelChance = value;
+            PowerupSpawnChanceValidity();
+        }
+            
+    }
+
+    public int ShieldChance
+    {
+        get { return shieldChance; }
+        set
+        {
+            shieldChance = value;
+            PowerupSpawnChanceValidity();
+        }
+    }
+
+    public int WrenchChance
+    {
+        get { return wrenchChance; }
+        set
+        {
+            wrenchChance = value;
+            PowerupSpawnChanceValidity();
+        }
+    }
+
+    public int AmmoChance
+    {
+        get { return ammoChance; }
+        set
+        {
+            ammoChance = value;
+            PowerupSpawnChanceValidity();
+        }
+    }
+
+    public int NukeShellChance
+    {
+        get { return nukeShellChance; }
+        set
+        {
+            nukeShellChance = value;
+            PowerupSpawnChanceValidity();
+        }
+    }
+
+    // Powerup spawn chance
+    public float PowerupChance
+    {
+        get { return powerupChance; }
+    }
+
+    // Enemy spawn chance properties
     public int RollerTankChance
     {
         get { return rollerTankChance; }
         set
         {
             rollerTankChance = value;
-            SpawnChanceValidityCheck();
+            EnemySpawnChanceValidity();
         }
     }
 
@@ -59,7 +141,7 @@ public class GameDifficultySO : ScriptableObject
         set
         {
             speederTankChance = value;
-            SpawnChanceValidityCheck();
+            EnemySpawnChanceValidity();
         }
     }
 
@@ -69,7 +151,7 @@ public class GameDifficultySO : ScriptableObject
         set
         {
             smasherTankChance = value;
-            SpawnChanceValidityCheck();
+            EnemySpawnChanceValidity();
         }
     }
 
@@ -79,8 +161,14 @@ public class GameDifficultySO : ScriptableObject
         set
         {
             annihilatorTankChance = value;
-            SpawnChanceValidityCheck();
+            EnemySpawnChanceValidity();
         }
+    }
+
+    // Enemy properties
+    public int EnemyAmount
+    {
+        get { return enemyAmount; }
     }
 
     public GameObject RollerTank
@@ -115,12 +203,31 @@ public class GameDifficultySO : ScriptableObject
 
     }
 
-    public void SpawnChanceValidityCheck()
+    // Checks whether them sum of all spawn chances are below or over 100
+    public void EnemySpawnChanceValidity()
     {
         float totalSpawnChance = (rollerTankChance + speederTankChance + smasherTankChance + annihilatorTankChance);
         if (totalSpawnChance > 100)
         {
-            Debug.LogErrorFormat("Total spawn chance is currently {0}%! If all spawn chances add up to more than 100%, some spawns may be more likely than intended, and some may be impossible!", totalSpawnChance);
+            Debug.LogErrorFormat("Total enemy spawn chance is currently {0}%! If all spawn chances add up to more than 100%, some spawns may be more likely than intended, and some may be impossible!", totalSpawnChance);
+        }
+        else if (totalSpawnChance < 100)
+        {
+            Debug.LogErrorFormat("Total enemy spawn chance is currently {0}%! If all spawn chances add up to less than 100%, some spawns may fail!", totalSpawnChance);
+        }
+    }
+
+        // Checks whether them sum of all spawn chances are below or over 100
+    public void PowerupSpawnChanceValidity()
+    {
+        float totalSpawnChance = (oilBarrelChance + shieldChance + wrenchChance + ammoChance + nukeShellChance);
+        if (totalSpawnChance > 100)
+        {
+            Debug.LogErrorFormat("Total powerup spawn chance is currently {0}%! If all spawn chances add up to more than 100%, some spawns may be more likely than intended, and some may be impossible!", totalSpawnChance);
+        }
+        else if (totalSpawnChance < 100)
+        {
+            Debug.LogErrorFormat("Total powerup spawn chance is currently {0}%! If all spawn chances add up to less than 100%, some spawns may fail!", totalSpawnChance);
         }
     }
 
