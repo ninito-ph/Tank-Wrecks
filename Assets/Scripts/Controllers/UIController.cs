@@ -54,7 +54,7 @@ public class UIController : MonoBehaviour
     private void Start() 
     {
         gameController = FindObjectOfType<GameController>();
-        playerController = gameController.PlayerReference;
+        playerController = gameController.PlayerReference.GetComponent<PlayerController>();
     }
 
     // Update runs every frame

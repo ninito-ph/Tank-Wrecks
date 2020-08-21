@@ -20,7 +20,7 @@ public class GameController : MonoBehaviour
     private Coroutine spawnEnemiesRoutine;
     private Coroutine spawnPowerupsRoutine;
     private Coroutine isWaveOverRoutine;
-    private PlayerController playerReference;
+    private GameObject playerReference;
 
     #endregion
 
@@ -36,7 +36,7 @@ public class GameController : MonoBehaviour
         get { return score; }
     }
 
-    public PlayerController PlayerReference
+    public GameObject PlayerReference
     {
         get { return playerReference; }
     }
@@ -46,11 +46,12 @@ public class GameController : MonoBehaviour
     #endregion
 
     #region Unity Methods
+
     // Start is called before the first frame update
     void Start()
     {
         // Gets a reference of playerController so other classes can access it
-        playerReference = FindObjectOfType<PlayerController>();
+        playerReference = FindObjectOfType<GameObject>();
 
         // Creates instances of used lists
         powerupSpawnPool = new List<GameObject>();
@@ -64,20 +65,19 @@ public class GameController : MonoBehaviour
         // Creates instances of used Queues
         enemiesToSpawn = new Queue<GameObject>();
 
+        // Subscribes RemoveEnemyFromList to EnemyDestroyed event
+        // NOTE: We're not sure whether RemoveEnemyFromList actually receives the EnemyDestroyed action parameters, so this may cause a bug. make sure to debug this.
+        EventBroker.EnemyDestroyed += RemoveEnemyFromList;
+
         // Starts the game
         StartGame();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     #endregion
 
     #region Custom Methods
 
+    // Runs before the first wave in the game
     private void StartGame()
     {
         // Initial populate spawnpools
@@ -87,11 +87,13 @@ public class GameController : MonoBehaviour
         BeginWave();
     }
 
+    // Runs after the player dies
     private void EndGame()
     {
         // TODO: Add game end effects, save game metrics and return to main menu
     }
 
+    // Begins next wave
     private void BeginWave()
     {
         // Spawns enemies & powerups
@@ -103,14 +105,11 @@ public class GameController : MonoBehaviour
         wave++;
         // Calls WaveOver event
         EventBroker.CallWaveStarted();
-        // Starts checking if wave is over
-        isWaveOverRoutine = StartCoroutine(IsWaveOver());
     }
 
+    // Ends current wave
     private void EndWave()
     {
-        // Stop checking if wave is over
-        StopCoroutine(IsWaveOver());
         // Stops powerups from spawning
         StopCoroutine(spawnPowerupsRoutine);
         // TODO: Add a grace period inbetween waves
@@ -118,6 +117,7 @@ public class GameController : MonoBehaviour
         BeginWave();
     }
 
+    // Loads the next level in the game
     private void NextLevel()
     {
 
@@ -244,6 +244,20 @@ public class GameController : MonoBehaviour
         }
     }
 
+    // Removes and enemy from the list and ends the wave if the list is empty
+    private void RemoveEnemyFromList(GameObject enemyReference)
+    {
+        // Removes the enemy from the list
+        activeEnemies.Remove(enemyReference);
+
+        // Checks if all enemies are dead
+        if (activeEnemies.Count == 0)
+        {
+            // Ends wave
+            EndWave();
+        }
+    }
+
     #region Coroutines
 
     // Coroutine for periodically spawning enemies. Ends itself once it finishes spawning things.
@@ -313,17 +327,6 @@ public class GameController : MonoBehaviour
         }
 
         yield return new WaitForSeconds(7);
-    }
-
-    // Coroutine for periodically checking if all enemies have been destroyed
-    private IEnumerator IsWaveOver()
-    {
-        if (activeEnemies.Count == 0 && spawnEnemiesRoutine == null)
-        {
-            EndWave();
-        }
-
-        yield return new WaitForSeconds(4);
     }
 
     #endregion
