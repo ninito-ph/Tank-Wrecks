@@ -14,6 +14,9 @@ public static class EventBroker
     // Notifies that a shot has been fired
     public static event Action ShotFired;
 
+    // Notifies that a wave has ended
+    public static event Action WaveStarted;
+
     #endregion
 
     #region Call Methods
@@ -33,6 +36,14 @@ public static class EventBroker
         if (ShotFired != null)
         {
             ShotFired();
+        }
+    }
+
+    public static void CallWaveStarted()
+    {
+        if (WaveStarted != null)
+        {
+            WaveStarted();
         }
     }
 

@@ -31,6 +31,23 @@ public class GameDifficultySO : ScriptableObject
     [Range(0f, 1f)]
     private float powerupChance = 0.33f;
 
+    [Header("Powerups")]
+    [SerializeField]
+    [Tooltip("The Oil Barrel powerup prefab")]
+    private GameObject oilBarrelPowerup;
+    [SerializeField]
+    [Tooltip("The Shield powerup prefab")]
+    private GameObject shieldPowerup;
+    [SerializeField]
+    [Tooltip("The Wrench powerup prefab")]
+    private GameObject wrenchPowerup;
+    [SerializeField]
+    [Tooltip("The Ammo powerup prefab")]
+    private GameObject ammoPowerup;
+    [SerializeField]
+    [Tooltip("The Nuke Shell powerup prefab")]
+    private GameObject nukeShellPowerup;
+
     [Header("Enemy spawn chances in percentile")]
     [SerializeField]
     [Tooltip("The spawn chance of this type of enemy in percentage. The percentages must add up to 100.")]
@@ -62,11 +79,33 @@ public class GameDifficultySO : ScriptableObject
     [Tooltip("The Annihilator Tank prefb")]
     private GameObject annihilatorTank;
 
+    [Header("Score Rewards")]
+    [SerializeField]
+    [Tooltip("The bonus in points for completing a wave")]
+    private float waveCompleteBonus = 50f;
+    [SerializeField]
+    [Tooltip("The difficulty for which score is multiplied")]
+    private float difficultyScoreModifier = 1f;
+
     #endregion
 
     #region Properties
 
+    #region Score Properties
+    public float WaveCompleteBonus
+    {
+        get { return waveCompleteBonus; }
+    }
+
+    public float DifficultyScoreModifier
+    {
+        get { return difficultyScoreModifier; }
+    }
+    #endregion
+
+    #region Powerup Properties
     // Powerup spawn chance properties
+
     public int OilBarrelChance
     {
         get { return oilBarrelChance; }
@@ -124,6 +163,35 @@ public class GameDifficultySO : ScriptableObject
         get { return powerupChance; }
     }
 
+    // Powerup spawn chance
+    public GameObject OilBarrelPowerup
+    {
+        get { return oilBarrelPowerup; }
+    }
+
+    public GameObject ShieldPowerup
+    {
+        get { return shieldPowerup; }
+    }
+
+    public GameObject WrenchPowerup
+    {
+        get { return wrenchPowerup; }
+    }
+
+    public GameObject AmmoPowerup
+    {
+        get { return ammoPowerup; }
+    }
+
+    public GameObject NukeShellPowerup
+    {
+        get { return nukeShellPowerup; }
+    }
+
+    #endregion
+
+    #region Enemy Properties
     // Enemy spawn chance properties
     public int RollerTankChance
     {
@@ -190,6 +258,8 @@ public class GameDifficultySO : ScriptableObject
     {
         get { return annihilatorTank; }
     }
+    
+    #endregion
 
     #endregion
 

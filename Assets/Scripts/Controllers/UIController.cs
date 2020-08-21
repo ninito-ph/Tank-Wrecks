@@ -11,6 +11,7 @@ public class UIController : MonoBehaviour
 
     // Text and other variables used for display in the UI
     private int displayedScore;
+    private Text waveCountText;
     private Text ammoCountText;
     private Text scoreText;
     [Header("Icons")]
@@ -46,6 +47,8 @@ public class UIController : MonoBehaviour
     {
         // Subscribes ammo update to shot fired by player event
         EventBroker.ShotFired += UpdateAmmo;
+        // Subscribes wave update to wave over event
+        EventBroker.WaveStarted += UpdateWave;
     }
 
     private void Start() 
@@ -93,6 +96,12 @@ public class UIController : MonoBehaviour
     private void UpdateAmmo()
     {
         ammoCountText.text = playerController.Ammo.ToString();
+    }
+
+    // Updates wave counter text
+    private void UpdateWave()
+    {
+        waveCountText.text = gameController.Wave.ToString();
     }
 
     // Updates fire cooldown fill
