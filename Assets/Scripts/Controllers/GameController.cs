@@ -8,8 +8,10 @@ public class GameController : MonoBehaviour
 
     #region  Core Values
 
-    private int wave = 1;
+    private int wave = 0;
     private float score = 0;
+    [SerializeField]
+    [Tooltip("The difficulty config profile to be used")]
     private GameDifficultySO difficultyConfig;
     private Queue<GameObject> enemiesToSpawn;
     private List<GameObject> activeEnemies;
@@ -66,8 +68,9 @@ public class GameController : MonoBehaviour
         enemiesToSpawn = new Queue<GameObject>();
 
         // Subscribes RemoveEnemyFromList to EnemyDestroyed event
-        // NOTE: We're not sure whether RemoveEnemyFromList actually receives the EnemyDestroyed action parameters, so this may cause a bug. make sure to debug this.
+        // NOTE: We're not sure whether a method actually receives an action's parameters, so this may cause a bug. make sure to debug this.
         EventBroker.EnemyDestroyed += RemoveEnemyFromList;
+        EventBroker.AddScore += AddScore;
 
         // Starts the game
         StartGame();
@@ -76,6 +79,12 @@ public class GameController : MonoBehaviour
     #endregion
 
     #region Custom Methods
+
+    // Adds score
+    private void AddScore(float scoreAmount)
+    {
+        score += scoreAmount * difficultyConfig.DifficultyScoreModifier * wave;
+    }
 
     // Runs before the first wave in the game
     private void StartGame()
@@ -100,7 +109,7 @@ public class GameController : MonoBehaviour
         spawnEnemiesRoutine = StartCoroutine(SpawnEnemy());
         spawnPowerupsRoutine = StartCoroutine(SpawnPowerup());
         // Adds to score based on previous wave
-        score += difficultyConfig.WaveCompleteBonus * difficultyConfig.DifficultyScoreModifier * wave;
+        AddScore(difficultyConfig.WaveCompleteBonus);
         // Increases wave
         wave++;
         // Calls WaveOver event
