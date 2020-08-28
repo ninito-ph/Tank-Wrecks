@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "GameDifficulty", menuName = "Game Configurations/Difficulty", order = 0)]
+[CreateAssetMenu(fileName = "GameDifficulty", menuName = "Game Configurations/Difficulty Profile", order = 0)]
 public class GameDifficultySO : ScriptableObject
 {
     #region Field Declarations
