@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -15,8 +16,15 @@ public class GameController : MonoBehaviour
     private GameDifficultySO difficultyConfig;
     private Queue<GameObject> enemiesToSpawn;
     private List<GameObject> activeEnemies;
+    [SerializeField]
+    [Tooltip("A list containing the individual spawn points for enemies")]
     private List<GameObject> enemySpawnPoints;
+    [SerializeField]
+    [Tooltip("A list containing the individual spawn points for powerups")]
     private List<GameObject> powerupSpawnPoints;
+    [SerializeField]
+    [Tooltip("A list containing the scenes for each level in the game")]
+    private List<Scene> gameLevels;
     private List<GameObject> enemySpawnPool;
     private List<GameObject> powerupSpawnPool;
     private Coroutine spawnEnemiesRoutine;
@@ -56,12 +64,11 @@ public class GameController : MonoBehaviour
         playerReference = FindObjectOfType<GameObject>();
 
         // Creates instances of used lists
+        gameLevels = new List<Scene>();
         powerupSpawnPool = new List<GameObject>();
         enemySpawnPool = new List<GameObject>();
-
         enemySpawnPoints = new List<GameObject>();
         powerupSpawnPoints = new List<GameObject>();
-
         activeEnemies = new List<GameObject>();
 
         // Creates instances of used Queues
@@ -124,12 +131,40 @@ public class GameController : MonoBehaviour
         // TODO: Add a grace period inbetween waves
         // Starts next wave
         BeginWave();
+        // Checks if the wave is a multiple of ten. If so, change the level
+        if (wave % 10 == 0)
+        {
+            NextLevel();
+        }
     }
 
     // Loads the next level in the game
     private void NextLevel()
     {
+        //TODO: Add a transition between scenes
+        //TODO: Evaluate whether the scenes take long enough to load to the point where they would need a loading screen
 
+        // Gets the current scene and its index on the list
+        Scene currentScene = SceneManager.GetActiveScene();
+        int levelIndex = gameLevels.FindIndex(Scene => Scene == currentScene);
+
+        // Stores the index of the next scene to be loaded
+        int levelToLoadIndex;
+
+        // Checks to see if there actually is a next level, or whether the game should reset back to the first level
+        if (levelIndex + 1 > gameLevels.Count)
+        {
+            // Sends the player back to the first level
+            levelToLoadIndex = 0;
+        }
+        else
+        {
+            // Sends the player to the next level
+            levelToLoadIndex = levelIndex + 1;
+        }
+
+        // Loads the next level
+        SceneManager.LoadScene(gameLevels[levelToLoadIndex].name);
     }
 
     // Picks an object from a list of spawnables
@@ -283,8 +318,8 @@ public class GameController : MonoBehaviour
         {
             // Picks a random number in the enemySpawnPoints list to choose the spawn location
             int randomSpawnPointPick = Mathf.RoundToInt(Random.Range(1f, enemySpawnPoints.Count));
-            // Defines a sphere to check if the spawn point is being occupied
-            var spawnColliderCheck = Physics.OverlapSphere(enemySpawnPoints[randomSpawnPointPick].transform.position, 2, 8);
+            // Defines a sphere to check if the spawn point is being occupied. The radius 5 is the nearest integer number that can fit an entire tank within.
+            var spawnColliderCheck = Physics.OverlapSphere(enemySpawnPoints[randomSpawnPointPick].transform.position, 5, 8);
 
 
             // Checks if the spawnpoint is being occupied by something else. If it is, change the spawn point position, update sphere collider and wait 3 seconds before trying again.
