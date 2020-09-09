@@ -75,7 +75,7 @@ public class TankBase : MonoBehaviour
     // Maximum turn and incline angles for head and cannon
     [SerializeField]
     [Tooltip("The maximum angle the tank's head can turn either direction.")]
-    protected float maxHeadTurnAngle = 120f;
+    protected float maxHeadRotation = 120f;
     [SerializeField]
     [Tooltip("The maximum angle the tank's cannon can incline or decline (respectively)")]
     protected Vector2 maxCannonInclineAngle = new Vector2(20f, -50f);
@@ -113,7 +113,7 @@ public class TankBase : MonoBehaviour
     // Other values needed for script functionality.
     // [SerializeField] Unfortunately, generic dictionaries are not serializable within Unity. We work around this by adding entries to the dictionary using a list.
     // [Tooltip("A dictionary containing all of the tank's parts.")]
-    protected Dictionary<string, GameObject> tankParts;
+    protected Dictionary<string, GameObject> tankParts = new Dictionary<string, GameObject>();
     [SerializeField]
     [Tooltip("A list containing, respectively, body, head, cannon, cannon anchor, fire transform, fire transform 2, fire transform 3, cannon 2 and cannon 3 references. ATTENTION! Must be in the aforementioned order!")]
     protected List<GameObject> tankPartList = new List<GameObject>();
@@ -137,9 +137,6 @@ public class TankBase : MonoBehaviour
 
     protected virtual void Awake()
     {
-        // Creates instance of tank part dictionary
-        tankParts = new Dictionary<string, GameObject>();
-
         // Populates dictionary with tankPartList entries
         tankParts.Add("Body", tankPartList[0]);
         tankParts.Add("Head", tankPartList[1]);
