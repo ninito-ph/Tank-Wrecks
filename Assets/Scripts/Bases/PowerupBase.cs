@@ -12,8 +12,8 @@ public class PowerupBase : MonoBehaviour
     private float rotationSpeed = 15f;
     // FIXME: The animation curve doesn't seem to actually fluctuate from 1 to 0 to 1, even when set up properly.
     [SerializeField]
-    [Tooltip("The modifier for the powerup's height. It is changed every frame accourding to a sample of the curve at a given time. Causes a float effect.")]
-    private AnimationCurve floatHeight;
+    [Tooltip("How high or low the powerup will float")]
+    private float floatMagnitude;
     [SerializeField]
     [Tooltip("The score bonus for collecting a powerup")]
     private float powerupScore = 200f;
@@ -61,7 +61,7 @@ public class PowerupBase : MonoBehaviour
         // Rotates the Oil Barrel based on the rotation speed around its Y axis
         transform.Rotate(new Vector3(0, rotationSpeed * Time.deltaTime, 0), Space.World);
         // Translates the Oil Barrel based on the height change induced by the accel curve
-        transform.Translate(new Vector3(0, floatHeight.Evaluate(Time.time) * Time.deltaTime, 0), Space.World);
+        transform.Translate(new Vector3(0, Mathf.Sin(Time.time * floatMagnitude) * Time.deltaTime, 0), Space.World);
     }
 
     #endregion

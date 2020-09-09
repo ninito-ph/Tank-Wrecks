@@ -60,12 +60,20 @@ public class UIController : MonoBehaviour
     // Update runs every frame
     private void Update()
     {
-        UpdateScore();
-        UpdateFireCooldown();
-        
-        // Checks if a change in health has occurred to prevent the expensive lerp operation from running all the time
         // Compares a float to a int using Approximately to prevent floating point comparison imprecision error
-        if (Mathf.Approximately(heartIcons.fillAmount, playerController.Health))
+        // Checks if a change in the value has occurred to prevent the expensive lerp operation from running all the time
+        
+        if (!Mathf.Approximately(displayedScore, gameController.Score))
+        {
+            UpdateScore();
+        }
+        
+        if (!Mathf.Approximately(fireCooldownIcon.fillAmount, playerController.FireCooldown / playerController.MaxFireCooldown))
+        {
+            UpdateFireCooldown();
+        }
+        
+        if (!Mathf.Approximately(heartIcons.fillAmount, playerController.Health))
         {
             UpdateHealth();
         }
@@ -85,10 +93,9 @@ public class UIController : MonoBehaviour
         scoreText.text = displayedScore.ToString();
     }
 
-    // Increases and decreases heart icon fill with a cris
+    // Increases and decreases heart icon fill
     private void UpdateHealth()
     {
-        // Time.deltaTime is multiplied by 13 - a number reached through testing.
         heartIcons.fillAmount = Mathf.Lerp(heartIcons.fillAmount, playerController.Health / playerController.MaxHealth, Time.deltaTime * healthLerpSpeed);
     }
 

@@ -318,7 +318,7 @@ public class GameController : MonoBehaviour
         {
             // Picks a random number in the enemySpawnPoints list to choose the spawn location
             int randomSpawnPointPick = Mathf.RoundToInt(Random.Range(1f, enemySpawnPoints.Count));
-            // Defines a sphere to check if the spawn point is being occupied. The radius 5 is the nearest integer number that can fit an entire tank within.
+            // Defines a sphere to check if the spawn point is being occupied. The radius 5 is the nearest integer radius that can fit an entire tank inside it.
             var spawnColliderCheck = Physics.OverlapSphere(enemySpawnPoints[randomSpawnPointPick].transform.position, 5, 8);
 
 
@@ -333,12 +333,13 @@ public class GameController : MonoBehaviour
             // Instantiates the enemy at the front of the queue
             GameObject spawnedEnemy = Instantiate(enemiesToSpawn.Dequeue(), enemySpawnPoints[randomSpawnPointPick].transform.position, Quaternion.identity);
             // Passes the spawnedEnemy its reference.
-            EnemyBase spawnedEnemyBase = spawnedEnemy.GetComponent<EnemyBase>();
+            IEnemy spawnedEnemyBase = spawnedEnemy.GetComponent<EnemyBase>();
             spawnedEnemyBase.AssignedReference = spawnedEnemy;
             // Adds the spawnedEnemy to the activeEnemy list
             activeEnemies.Add(spawnedEnemy);
         }
 
+        // NOTE: The coroutine is already yielding break. Is setting itself to null really necessary?
         // The spawnEnemy coroutine marks itself as null to signal it has finished spawning enemies 
         spawnEnemiesRoutine = null;
 
