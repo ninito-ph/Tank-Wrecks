@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class EnemyBase : TankBase
+public class EnemyBase : TankBase, IEnemy
 {
     #region Field Declarations
 
     #region Core Values
 
     // Basic variables for the functioning of the class
-    private GameObject assignedReference;
-    private EnemyTypes enemyType;
-    private GameObject playerReference;
+    protected GameObject assignedReference;
+    protected EnemyTypes enemyType;
+    protected GameObject playerReference;
 
     // Variables used for state machine functionality
-    private EnemyBaseState currentState;
+    protected EnemyBaseState currentState;
     protected RepositionState repositionState = new RepositionState();
     protected FireState fireState = new FireState();
     protected RushState rushState = new RushState();
