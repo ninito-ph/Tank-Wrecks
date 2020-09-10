@@ -176,16 +176,19 @@ public class PlayerController : TankBase
                 Health += powerupAmount;
                 break;
 
+            // Speed powerup
             case (PowerupTypes.OilBarrel):
-                OilPowerupRoutine = StartCoroutine("OilPowerup");
+                OilPowerupRoutine = StartCoroutine(OilPowerup(duration, speedMultiplier));
                 break;
 
+            // Shield powerup
             case (PowerupTypes.Shield):
-                ShieldPowerupRoutine = StartCoroutine("ShieldPowerup");
+                ShieldPowerupRoutine = StartCoroutine(ShieldPowerup(duration));
                 break;
 
+            // Nuke powerup
             case (PowerupTypes.NukeShell):
-                NukePowerupRoutine = StartCoroutine("NukePowerup");
+                NukePowerupRoutine = StartCoroutine(NukePowerup(powerupAmount));
                 break;
         }
     }
@@ -195,6 +198,18 @@ public class PlayerController : TankBase
     // Oil powerup coroutine
     private IEnumerator OilPowerup(float duration, float speedMultiplier)
     {
+        // Multiplies max speed and acceleration
+        maxSpeed = maxSpeed * speedMultiplier;
+        acceleration = acceleration * speedMultiplier;
+
+        // Waits until powerup time is over
+        yield return new WaitForSeconds(duration);
+
+        // Undoes multipliers on speed and acceleration
+        maxSpeed = maxSpeed / speedMultiplier;
+        acceleration = acceleration / speedMultiplier;
+
+        // Ends coroutine
         yield break;
     }
 
