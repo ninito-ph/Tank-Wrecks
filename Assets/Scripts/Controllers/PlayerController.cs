@@ -198,6 +198,8 @@ public class PlayerController : TankBase
     // Oil powerup coroutine
     private IEnumerator OilPowerup(float duration, float speedMultiplier)
     {
+        // TODO: add a way for the UI to tell how long there is left on a powerup
+
         // Multiplies max speed and acceleration
         maxSpeed = maxSpeed * speedMultiplier;
         acceleration = acceleration * speedMultiplier;
@@ -208,6 +210,9 @@ public class PlayerController : TankBase
         // Undoes multipliers on speed and acceleration
         maxSpeed = maxSpeed / speedMultiplier;
         acceleration = acceleration / speedMultiplier;
+
+        // Marks coroutine as null so as to indicate powerup is inactive
+        OilPowerupRoutine = null;
 
         // Ends coroutine
         yield break;
