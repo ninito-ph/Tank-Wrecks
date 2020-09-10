@@ -122,8 +122,8 @@ public class TankBase : MonoBehaviour
     
     
     [SerializeField]
-    [Tooltip("The projectile which the tank fires.")]
-    protected GameObject fireProjectile;
+    [Tooltip("The tankShell which the tank fires.")]
+    protected GameObject tankShell;
     [SerializeField]
     [Tooltip("A list containing, respectively, body, head, cannon, cannon anchor, fire transform, fire transform 2, fire transform 3, cannon 2 and cannon 3 references. ATTENTION! Must be in the aforementioned order!")]
     protected List<GameObject> tankPartList = new List<GameObject>();
@@ -136,7 +136,7 @@ public class TankBase : MonoBehaviour
     [HideInInspector]
     public GameObject FireProjectile
     {
-        get { return fireProjectile; }
+        get { return tankShell; }
     }
 
     #endregion
@@ -203,7 +203,7 @@ public class TankBase : MonoBehaviour
         for (int currentCannon = 1; currentCannon <= cannonAmount; currentCannon++)
         {
             // Creates shell
-            CreateProjectile(currentCannon, currentCannon);
+            CreateProjectile(currentCannon, currentCannon, tankShell);
 
             // Apply recoil to tank body
             string fireTransformKey = "Fire Transform " + currentCannon.ToString();
@@ -224,8 +224,8 @@ public class TankBase : MonoBehaviour
         }
     }
 
-    // Creates a projectile shell
-    protected GameObject CreateProjectile(int fireTransformNumber, int cannonNumber)
+    // Creates a tankShell shell
+    protected GameObject CreateProjectile(int fireTransformNumber, int cannonNumber, GameObject tankShellToFire)
     {
         // These Key strings are one-based
         string fireTransformKey = "Fire Transform " + fireTransformNumber.ToString();
@@ -239,13 +239,13 @@ public class TankBase : MonoBehaviour
         Vector3 ProjectileOrigin = new Vector3(fireTransform.transform.position.x, fireTransform.transform.position.y, fireTransform.transform.position.z);
         Vector3 ProjectileRotation = new Vector3(cannonAnchor.transform.rotation.eulerAngles.x, fireTransform.transform.rotation.eulerAngles.y, cannonAnchor.transform.rotation.eulerAngles.z + 90);
 
-        // Create a projectile and add the cannon who fired it to the collision ignore list (to prevent shells from exploding in the cannon that fired them)
-        GameObject firedProjectile = Instantiate(fireProjectile, ProjectileOrigin, Quaternion.Euler(ProjectileRotation));
-        ProjectileController firedProjectileController = firedProjectile.GetComponent<ProjectileController>();
-        firedProjectileController.FiredFrom = tankParts[cannonKey];
+        // Create a tankShell and add the cannon who fired it to the collision ignore list (to prevent shells from exploding in the cannon that fired them)
+        GameObject firedTankShell = Instantiate(tankShell, ProjectileOrigin, Quaternion.Euler(ProjectileRotation));
+        ProjectileController firedTankShellController = firedTankShell.GetComponent<ProjectileController>();
+        firedTankShellController.FiredFrom = tankParts[cannonKey];
 
-        // Returns a reference to the fired projectile if needed.
-        return firedProjectile;
+        // Returns a reference to the fired tankShell if needed.
+        return firedTankShell;
     }
 
     #endregion
