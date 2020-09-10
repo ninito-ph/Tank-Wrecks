@@ -6,10 +6,6 @@ public class PlayerController : TankBase
 {
     #region Field Declarations
 
-    private Coroutine OilPowerupRoutine;
-    private Coroutine ShieldPowerupRoutine;
-    private Coroutine NukePowerupRoutine;
-
     // Ammunition of the tank
     [SerializeField]
     [Tooltip("Current ammo of the tank.")]
@@ -25,6 +21,23 @@ public class PlayerController : TankBase
     private float bodyHorizontalMovement;
     private float headMovement;
     private float cannonMovement;
+
+    // Powerups
+    private Coroutine OilPowerupRoutine;
+    private Coroutine ShieldPowerupRoutine;
+    private Coroutine NukePowerupRoutine;
+
+    [Header("Powerups")]
+    [SerializeField]
+    [Tooltip("The prefab for the shield powerup dome")]
+    private GameObject forceFieldDome;
+    [SerializeField]
+    [Tooltip("The prefab for the nuke shell powerup")]
+    private GameObject nukeShell;
+
+    // The forcefield powerup instance
+    private GameObject forceField;
+    private int nukeShellAmmo = 0;
 
     #endregion
 
@@ -69,7 +82,12 @@ public class PlayerController : TankBase
 
     private void Start()
     {
+        // Subscribes ActivatePowerup method to ActivatePowerup event
         EventBroker.ActivatePowerup += ActivatePowerup;
+
+        // Creates and disables the shield powerup for future use
+        GameObject forceField = Instantiate(forceFieldDome, transform.position, Quaternion.identity);
+        forceField.SetActive(false);
     }
 
     // Fixed update runs on every fixed update. Good for physics. 
@@ -90,10 +108,32 @@ public class PlayerController : TankBase
         // Checks if ammo is greater than 0
         if (ammo > 0)
         {
-            // Calls base fire method
-            base.TankFire();
+            // Loops through the existing cannons up to the cannon amount, and fires once for every cannon
+            for (int currentCannon = 1; currentCannon <= cannonAmount; currentCannon++)
+            {
+                // Creates shell
+                // If the player has nuke shells, fire them instead
+                if (nukeShellAmmo > 0)
+                {
+                    CreateProjectile(currentCannon, currentCannon, nukeShell);
+                    nukeShellAmmo--;
+                }
+                else
+                {
+                    CreateProjectile(currentCannon, currentCannon, tankShell);
+                }
+
+                // Apply recoil to tank body
+                string fireTransformKey = "Fire Transform " + currentCannon.ToString();
+                bodyRigidbody.AddExplosionForce(shotRecoil, tankParts[fireTransformKey].transform.position, shotRecoilRadius, shotUpwardRecoil, ForceMode.Force);
+            }
+
+            // Activate cooldown and remove ammo
+            fireCooldown = 0;
+
             // Reduces ammo
             ammo--;
+
             // Notifies that the player has shot
             EventBroker.CallShotFired();
         }
@@ -188,7 +228,7 @@ public class PlayerController : TankBase
 
             // Nuke powerup
             case (PowerupTypes.NukeShell):
-                NukePowerupRoutine = StartCoroutine(NukePowerup(powerupAmount));
+                nukeShellAmmo++;
                 break;
         }
     }
@@ -221,12 +261,19 @@ public class PlayerController : TankBase
     // Shield powerup coroutine
     private IEnumerator ShieldPowerup(float duration)
     {
-        yield break;
-    }
+        // Enables the powerup
+        forceField.SetActive(true);
 
-    // Shield powerup coroutine
-    private IEnumerator NukePowerup(int powerupAmount)
-    {
+        // Waits until powerup time is over
+        yield return new WaitForSeconds(duration);
+
+        // Disables the powerup
+        forceField.SetActive(false);
+
+        //  Marks coroutine as null so as to indicate powerup is inactive
+        ShieldPowerupRoutine = null;
+
+        // Ends coroutine
         yield break;
     }
 
