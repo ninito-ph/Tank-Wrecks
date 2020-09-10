@@ -24,7 +24,7 @@ public class TankBase : MonoBehaviour
 
     // How long the tank has to wait to fire again
     // fireCooldown is used internally as a counter variable.
-    // note about fireCooldown: fireCooldown, as a counter, unusually ticks UP instead of down, due to the way UIController functions and uses this variable.
+    // NOTE: fireCooldown, as a counter, unusually ticks UP instead of down, due to the way UIController functions and uses it.
     protected float fireCooldown = 0f;
     [SerializeField]
     [Tooltip("The amount of time the tank must wait between shots.")]
@@ -36,6 +36,7 @@ public class TankBase : MonoBehaviour
     public int Health
     {
         get { return health; }
+        set { health = value; }
     }
 
     [HideInInspector]
@@ -77,7 +78,7 @@ public class TankBase : MonoBehaviour
     [Tooltip("The maximum angle the tank's head can turn either direction.")]
     protected float maxHeadRotation = 120f;
     [SerializeField]
-    [Tooltip("The maximum angle the tank's cannon can incline or decline (respectively)")]
+    [Tooltip("The maximum angle the tank's cannon can decline or incline (respectively)")]
     protected Vector2 maxCannonInclineAngle = new Vector2(20f, -50f);
 
     // The maximum speed and acceleration a tank may have/has
@@ -97,13 +98,20 @@ public class TankBase : MonoBehaviour
     protected Rigidbody bodyRigidbody;
     protected Rigidbody cannonRigidbody;
 
+    [Header("Recoil Values")]
     [SerializeField]
     // The recoil amount applied to different parts of the tank
     [Tooltip("The recoil applied to the tank's body when it fires.")]
-    protected float shotRecoilBody = 3f;
+    protected float shotRecoil = 3f;
     [SerializeField]
     [Tooltip("The recoil of the tank's cannon when it fires.")]
     protected AnimationCurve shotRecoilCannon;
+    [SerializeField]
+    [Tooltip("The radius of the small explosion when a shot is fired")]
+    protected float shotRecoilRadius = 10f;
+    [SerializeField]
+    [Tooltip("The upwards force applied to the bodies within the firing explosion radius")]
+    protected float shotUpwardRecoil = 5f;
 
     #endregion
 
@@ -111,15 +119,17 @@ public class TankBase : MonoBehaviour
 
     [Header("Additional Values")]
     // Other values needed for script functionality.
-    // [SerializeField] Unfortunately, generic dictionaries are not serializable within Unity. We work around this by adding entries to the dictionary using a list.
-    // [Tooltip("A dictionary containing all of the tank's parts.")]
-    protected Dictionary<string, GameObject> tankParts = new Dictionary<string, GameObject>();
-    [SerializeField]
-    [Tooltip("A list containing, respectively, body, head, cannon, cannon anchor, fire transform, fire transform 2, fire transform 3, cannon 2 and cannon 3 references. ATTENTION! Must be in the aforementioned order!")]
-    protected List<GameObject> tankPartList = new List<GameObject>();
+    
+    
     [SerializeField]
     [Tooltip("The projectile which the tank fires.")]
     protected GameObject fireProjectile;
+    [SerializeField]
+    [Tooltip("A list containing, respectively, body, head, cannon, cannon anchor, fire transform, fire transform 2, fire transform 3, cannon 2 and cannon 3 references. ATTENTION! Must be in the aforementioned order!")]
+    protected List<GameObject> tankPartList = new List<GameObject>();
+    // [SerializeField] Unfortunately, generic dictionaries are not serializable within Unity. We work around this by adding entries to the dictionary using a list.
+    // [Tooltip("A dictionary containing all of the tank's parts.")]
+    protected Dictionary<string, GameObject> tankParts = new Dictionary<string, GameObject>();
 
     // Properties
     // properties are being used to preserve encapsulation
@@ -192,12 +202,15 @@ public class TankBase : MonoBehaviour
         // Loops through the existing cannons up to the cannon amount, and fires once for every cannon
         for (int currentCannon = 1; currentCannon <= cannonAmount; currentCannon++)
         {
+            // Creates shell
             CreateProjectile(currentCannon, currentCannon);
-        }
 
+            // Apply recoil to tank body
+            string fireTransformKey = "Fire Transform " + currentCannon.ToString();
+            bodyRigidbody.AddExplosionForce(shotRecoil, tankParts[fireTransformKey].transform.position, shotRecoilRadius, shotUpwardRecoil, ForceMode.Force);
+        }
         // Activate cooldown and remove ammo
         fireCooldown = 0;
-
     }
 
     // Deduces an amount from the player's health

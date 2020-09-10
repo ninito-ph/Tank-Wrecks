@@ -5446,26 +5446,29 @@ MonoBehaviour:
   cannonAmount: 1
   maxFireCooldown: 2.5
   bodyTurnRate: 30
-  headTurnRate: 15
-  cannonInclineRate: 30
+  headTurnRate: 60
+  cannonInclineRate: 60
   maxHeadRotation: 120
   maxCannonInclineAngle: {x: 25, y: 50}
   maxSpeed: 40
   acceleration: 15
-  shotRecoilBody: 3
+  shotRecoil: 3
   shotRecoilCannon:
     serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  shotRecoilRadius: 10
+  shotUpwardRecoil: 5
+  fireProjectile: {fileID: 4172022444014405964, guid: 8b5f864197f5a334cb45bb60a9181947,
+    type: 3}
   tankPartList:
   - {fileID: 1189792678}
   - {fileID: 608645065}
   - {fileID: 739193766}
   - {fileID: 1970480396}
   - {fileID: 240230057}
-  fireProjectile: {fileID: 0}
   ammo: 25
   maxAmmo: 25
 --- !u!1 &1970480396 stripped
