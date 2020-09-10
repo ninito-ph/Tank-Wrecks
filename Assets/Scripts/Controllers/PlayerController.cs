@@ -19,7 +19,7 @@ public class PlayerController : TankBase
     private int maxAmmo = 25;
 
     #region Controls
-    
+
     // Movement
     private float bodyVerticalMovement;
     private float bodyHorizontalMovement;
@@ -59,6 +59,17 @@ public class PlayerController : TankBase
         base.Update();
         // Updates player input
         UpdatePlayerInput();
+        // Checks if player is pressing fire key
+        // NOTE: fireCooldown, as a counter, unusually ticks UP instead of down, due to the way UIController functions and uses it.
+        if (Input.GetKey(KeyCode.Space) && fireCooldown >= maxFireCooldown)
+        {
+            TankFire();
+        }
+    }
+
+    private void Start()
+    {
+        EventBroker.ActivatePowerup += ActivatePowerup;
     }
 
     // Fixed update runs on every fixed update. Good for physics. 
@@ -140,6 +151,7 @@ public class PlayerController : TankBase
         // Stores the absolute value of the cannon's inclination
         float desiredCannonInclination = Mathf.Abs(tankParts["Cannon 1"].transform.localEulerAngles.z + (cannonMovement * cannonInclineRate * Time.deltaTime * -1f));
 
+        // If the desired inclination is within the max cannon incline
         if (desiredCannonInclination <= maxCannonInclineAngle.x || desiredCannonInclination >= 360 - maxCannonInclineAngle.y)
         {
             // Inclines the cannon
@@ -148,6 +160,57 @@ public class PlayerController : TankBase
         }
         Debug.LogFormat("desiredCannonInclination {0}, currentCannonInclination {1}, cannonInclineDelta {2}", desiredCannonInclination, tankParts["Cannon 1"].transform.localEulerAngles.z, (cannonMovement * cannonInclineRate * Time.deltaTime));
     }
+
+    // Enables a powerup
+    private void ActivatePowerup(PowerupTypes powerupTypes, float duration, int powerupAmount, float speedMultiplier)
+    {
+        switch (powerupTypes)
+        {
+            // Ammo powerup
+            case (PowerupTypes.Ammo):
+                Ammo += powerupAmount;
+                break;
+
+            // Health powerup
+            case (PowerupTypes.Wrench):
+                Health += powerupAmount;
+                break;
+
+            case (PowerupTypes.OilBarrel):
+                OilPowerupRoutine = StartCoroutine("OilPowerup");
+                break;
+
+            case (PowerupTypes.Shield):
+                ShieldPowerupRoutine = StartCoroutine("ShieldPowerup");
+                break;
+
+            case (PowerupTypes.NukeShell):
+                NukePowerupRoutine = StartCoroutine("NukePowerup");
+                break;
+        }
+    }
+
+    #region Coroutines
+
+    // Oil powerup coroutine
+    private IEnumerator OilPowerup(float duration, float speedMultiplier)
+    {
+        yield break;
+    }
+
+    // Shield powerup coroutine
+    private IEnumerator ShieldPowerup(float duration)
+    {
+        yield break;
+    }
+
+    // Shield powerup coroutine
+    private IEnumerator NukePowerup(int powerupAmount)
+    {
+        yield break;
+    }
+
+    #endregion
 
     #endregion
 
