@@ -318,8 +318,12 @@ public class GameController : MonoBehaviour
         {
             // Picks a random number in the enemySpawnPoints list to choose the spawn location
             int randomSpawnPointPick = Mathf.RoundToInt(Random.Range(1f, enemySpawnPoints.Count));
+
+            // Makes a layer mask out TankBodies layer to perform physics raycasts
+            LayerMask tankMask = LayerMask.GetMask("TankBodies", "Tanks");
+
             // Defines a sphere to check if the spawn point is being occupied. The radius 5 is the nearest integer radius that can fit an entire tank inside it.
-            var spawnColliderCheck = Physics.OverlapSphere(enemySpawnPoints[randomSpawnPointPick].transform.position, 5, 8);
+            var spawnColliderCheck = Physics.OverlapSphere(enemySpawnPoints[randomSpawnPointPick].transform.position, 5, tankMask.value);
 
 
             // Checks if the spawnpoint is being occupied by something else. If it is, change the spawn point position, update sphere collider and wait 3 seconds before trying again.
