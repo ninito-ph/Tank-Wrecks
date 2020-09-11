@@ -7,9 +7,7 @@ public class PlayerController : TankBase
     #region Field Declarations
 
     // Ammunition of the tank
-    [SerializeField]
-    [Tooltip("Current ammo of the tank.")]
-    private int ammo = 25;
+    private int ammo;
     [SerializeField]
     [Tooltip("Maximum ammo of the tank.")]
     private int maxAmmo = 25;
@@ -82,6 +80,9 @@ public class PlayerController : TankBase
 
     private void Start()
     {
+        // Sets ammo to max ammo
+        ammo = maxAmmo;
+
         // Subscribes ActivatePowerup method to ActivatePowerup event
         EventBroker.ActivatePowerup += ActivatePowerup;
 
@@ -198,7 +199,6 @@ public class PlayerController : TankBase
             // The rotation is multiplied by -1 because we want to rotate the cannon counter-clockwise based on our input
             tankParts["Cannon 1"].transform.Rotate(new Vector3(0f, 0f, cannonMovement * cannonInclineRate * Time.deltaTime * -1f), Space.Self);
         }
-        Debug.LogFormat("desiredCannonInclination {0}, currentCannonInclination {1}, cannonInclineDelta {2}", desiredCannonInclination, tankParts["Cannon 1"].transform.localEulerAngles.z, (cannonMovement * cannonInclineRate * Time.deltaTime));
     }
 
     // Enables a powerup
@@ -233,6 +233,15 @@ public class PlayerController : TankBase
         }
     }
 
+    protected override void DestroyTank()
+    {
+        // Calls the player destroyed event
+        EventBroker.CallPlayerDestroyed();
+
+        // Calls the base's method
+        base.DestroyTank();
+    }
+
     #region Coroutines
 
     // Oil powerup coroutine
@@ -262,6 +271,7 @@ public class PlayerController : TankBase
     private IEnumerator ShieldPowerup(float duration)
     {
         // Enables the powerup
+        forceField.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
         forceField.SetActive(true);
 
         // Waits until powerup time is over

@@ -26,6 +26,9 @@ public static class EventBroker
     // This leviathan of an action passes the powerup type, its duration, its count, and its multiplier.
     public static event Action<PowerupTypes, float, int, float> ActivatePowerup;
 
+    // Notifies that the player has been destroyed
+    public static event Action PlayerDestroyed;
+
     #endregion
 
     #region Call Methods
@@ -70,6 +73,14 @@ public static class EventBroker
         if (ActivatePowerup != null)
         {
             ActivatePowerup(powerupType, powerupDuration, powerupAmount, speedMultiplier);
+        }
+    }
+
+    public static void CallPlayerDestroyed()
+    {
+        if (PlayerDestroyed != null)
+        {
+            PlayerDestroyed();
         }
     }
 

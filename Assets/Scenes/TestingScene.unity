@@ -163,6 +163,31 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 381432557164754591, guid: c75efb55dfb6f644187d3ec7ff30ae73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 921942916517126703, guid: c75efb55dfb6f644187d3ec7ff30ae73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2792188582618703943, guid: c75efb55dfb6f644187d3ec7ff30ae73,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2792188582618703943, guid: c75efb55dfb6f644187d3ec7ff30ae73,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2792188582618703943, guid: c75efb55dfb6f644187d3ec7ff30ae73,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2975746311349325120, guid: c75efb55dfb6f644187d3ec7ff30ae73,
         type: 3}
       propertyPath: m_IsKinematic
@@ -212,6 +237,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Convex
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5843979318491610211, guid: c75efb55dfb6f644187d3ec7ff30ae73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6006706212355137273, guid: c75efb55dfb6f644187d3ec7ff30ae73,
         type: 3}
@@ -268,10 +298,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6823785364718420789, guid: c75efb55dfb6f644187d3ec7ff30ae73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 7279860583100951786, guid: c75efb55dfb6f644187d3ec7ff30ae73,
         type: 3}
       propertyPath: m_Name
       value: Player Tank (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7279860583100951786, guid: c75efb55dfb6f644187d3ec7ff30ae73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7517244726540537071, guid: c75efb55dfb6f644187d3ec7ff30ae73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8376072713328385595, guid: c75efb55dfb6f644187d3ec7ff30ae73,
         type: 3}
@@ -439,7 +484,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!65 &583896666
 BoxCollider:
@@ -593,7 +638,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!199 &1594820529
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -5449,7 +5494,7 @@ MonoBehaviour:
   headTurnRate: 60
   cannonInclineRate: 60
   maxHeadRotation: 120
-  maxCannonInclineAngle: {x: 25, y: 50}
+  maxCannonInclineAngle: {x: 16, y: 50}
   maxSpeed: 40
   acceleration: 15
   shotRecoil: 3
@@ -5461,16 +5506,18 @@ MonoBehaviour:
     m_RotationOrder: 4
   shotRecoilRadius: 10
   shotUpwardRecoil: 5
-  fireProjectile: {fileID: 4172022444014405964, guid: 8b5f864197f5a334cb45bb60a9181947,
+  tankShell: {fileID: 4172022444014405964, guid: 8b5f864197f5a334cb45bb60a9181947,
     type: 3}
+  fireForce: 20
   tankPartList:
   - {fileID: 1189792678}
   - {fileID: 608645065}
   - {fileID: 739193766}
   - {fileID: 1970480396}
   - {fileID: 240230057}
-  ammo: 25
   maxAmmo: 25
+  forceFieldDome: {fileID: 608645065}
+  nukeShell: {fileID: 7279860582638178243}
 --- !u!1 &1970480396 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 381432557164754591, guid: c75efb55dfb6f644187d3ec7ff30ae73,

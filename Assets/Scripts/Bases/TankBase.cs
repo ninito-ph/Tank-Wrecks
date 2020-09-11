@@ -36,7 +36,15 @@ public class TankBase : MonoBehaviour
     public int Health
     {
         get { return health; }
-        set { health = value; }
+        set
+        {
+            health = value;
+            if (health <= 0)
+            {
+                Debug.LogFormat("Health reduced. Currently at {0}", health);
+                DestroyTank();
+            }
+        }
     }
 
     [HideInInspector]
@@ -119,11 +127,12 @@ public class TankBase : MonoBehaviour
 
     [Header("Additional Values")]
     // Other values needed for script functionality.
-    
-    
     [SerializeField]
     [Tooltip("The tankShell which the tank fires.")]
     protected GameObject tankShell;
+    [SerializeField]
+    [Tooltip("The strenght (force) at which the projectile is fired")]
+    protected float fireForce = 20f;
     [SerializeField]
     [Tooltip("A list containing, respectively, body, head, cannon, cannon anchor, fire transform, fire transform 2, fire transform 3, cannon 2 and cannon 3 references. ATTENTION! Must be in the aforementioned order!")]
     protected List<GameObject> tankPartList = new List<GameObject>();
@@ -159,17 +168,17 @@ public class TankBase : MonoBehaviour
         {
             tankParts.Add("Fire Transform 2", tankPartList[5]);
         }
-        
+
         if (tankPartList.Count >= 7)
         {
             tankParts.Add("Fire Transform 3", tankPartList[6]);
         }
-        
+
         if (tankPartList.Count >= 8)
         {
             tankParts.Add("Cannon 2", tankPartList[7]);
         }
-        
+
         if (tankPartList.Count >= 9)
         {
             tankParts.Add("Cannon 3", tankPartList[8]);
@@ -182,7 +191,7 @@ public class TankBase : MonoBehaviour
     protected virtual void Update()
     {
         // Ticks fire cooldown up
-        fireCooldown++;
+        fireCooldown += 1 * Time.deltaTime;
     }
 
     #endregion
@@ -190,10 +199,10 @@ public class TankBase : MonoBehaviour
     #region Custom Methods
 
     // Destroys the tank in a big explosion
-    protected void DestroyTank()
+    protected virtual void DestroyTank()
     {
         // TODO: Add explosion VFX
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 
     // Fires the tank's cannon
@@ -232,16 +241,18 @@ public class TankBase : MonoBehaviour
         string cannonKey = "Cannon " + cannonNumber.ToString();
 
         // Gets references for the cannon anchor and fire transform
-        GameObject cannonAnchor = tankParts["Cannon Anchor"];
         GameObject fireTransform = tankParts[fireTransformKey];
 
         // Creates new Vector3 values for when the fired Projectile is created
         Vector3 ProjectileOrigin = new Vector3(fireTransform.transform.position.x, fireTransform.transform.position.y, fireTransform.transform.position.z);
-        Vector3 ProjectileRotation = new Vector3(cannonAnchor.transform.rotation.eulerAngles.x, fireTransform.transform.rotation.eulerAngles.y, cannonAnchor.transform.rotation.eulerAngles.z + 90);
+        Vector3 ProjectileRotation = new Vector3(fireTransform.transform.rotation.eulerAngles.x, fireTransform.transform.rotation.eulerAngles.y, fireTransform.transform.rotation.eulerAngles.z + 90);
 
         // Create a tankShell and add the cannon who fired it to the collision ignore list (to prevent shells from exploding in the cannon that fired them)
         GameObject firedTankShell = Instantiate(tankShell, ProjectileOrigin, Quaternion.Euler(ProjectileRotation));
         ProjectileController firedTankShellController = firedTankShell.GetComponent<ProjectileController>();
+
+        // Adds impulse to fired projectile
+        firedTankShellController.ProjectileImpulse = fireForce;
         firedTankShellController.FiredFrom = tankParts[cannonKey];
 
         // Returns a reference to the fired tankShell if needed.
