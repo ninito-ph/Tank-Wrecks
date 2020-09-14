@@ -11,26 +11,35 @@ public class GameController : MonoBehaviour
 
     private int wave = 0;
     private float score = 0;
+    [Header("Difficulty")]
     [SerializeField]
     [Tooltip("The difficulty config profile to be used")]
     private GameDifficultySO difficultyConfig;
-    private Queue<GameObject> enemiesToSpawn;
-    private List<GameObject> activeEnemies;
+    private Queue<GameObject> enemiesToSpawn = new Queue<GameObject>();
+    private List<GameObject> activeEnemies = new List<GameObject>();
+    [Header("Spawnpoints and level lists")]
     [SerializeField]
     [Tooltip("A list containing the individual spawn points for enemies")]
-    private List<GameObject> enemySpawnPoints;
+    private List<GameObject> enemySpawnPoints = new List<GameObject>();
     [SerializeField]
     [Tooltip("A list containing the individual spawn points for powerups")]
-    private List<GameObject> powerupSpawnPoints;
+    private List<GameObject> powerupSpawnPoints = new List<GameObject>();
     [SerializeField]
     [Tooltip("A list containing the scenes for each level in the game")]
-    private List<Scene> gameLevels;
-    private List<GameObject> enemySpawnPool;
-    private List<GameObject> powerupSpawnPool;
+    private List<Scene> gameLevels = new List<Scene>();
+    private List<GameObject> enemySpawnPool = new List<GameObject>();
+    private List<GameObject> powerupSpawnPool = new List<GameObject>();
     private Coroutine spawnEnemiesRoutine;
     private Coroutine spawnPowerupsRoutine;
     private Coroutine isWaveOverRoutine;
     private GameObject playerReference;
+
+#if UNITY_EDITOR
+    [Header("Debug")]
+    [SerializeField]
+    [Tooltip("Whether to display a wire sphere indicating the spawn areas for powerups and enemies")]
+    private bool displaySpawnSpheres = false;
+#endif
 
     #endregion
 
@@ -63,17 +72,6 @@ public class GameController : MonoBehaviour
         // Gets a reference of playerController so other classes can access it
         playerReference = FindObjectOfType<GameObject>();
 
-        // Creates instances of used lists
-        gameLevels = new List<Scene>();
-        powerupSpawnPool = new List<GameObject>();
-        enemySpawnPool = new List<GameObject>();
-        enemySpawnPoints = new List<GameObject>();
-        powerupSpawnPoints = new List<GameObject>();
-        activeEnemies = new List<GameObject>();
-
-        // Creates instances of used Queues
-        enemiesToSpawn = new Queue<GameObject>();
-
         // Subscribes RemoveEnemyFromList to EnemyDestroyed event
         // NOTE: We're not sure whether a method actually receives an action's parameters, so this may cause a bug. make sure to debug this.
         EventBroker.EnemyDestroyed += RemoveEnemyFromList;
@@ -82,6 +80,26 @@ public class GameController : MonoBehaviour
         // Starts the game
         StartGame();
     }
+
+#if UNITY_EDITOR
+
+    private void OnDrawGizmos()
+    {
+        // Draws wire sphere on spawn point areas
+        Gizmos.color = Color.cyan;
+        foreach (GameObject powerupSpawnPoint in powerupSpawnPoints)
+        {
+            Gizmos.DrawWireSphere(powerupSpawnPoint.transform.position, 2f);
+        }
+
+        Gizmos.color = Color.magenta;
+        foreach (GameObject enemySpawnPoint in enemySpawnPoints)
+        {
+            Gizmos.DrawWireSphere(enemySpawnPoint.transform.position, 5f);
+        }
+    }
+
+#endif
 
     #endregion
 

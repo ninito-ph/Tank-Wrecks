@@ -112,9 +112,6 @@ public class TankBase : MonoBehaviour
     [Tooltip("The recoil applied to the tank's body when it fires.")]
     protected float shotRecoil = 3f;
     [SerializeField]
-    [Tooltip("The recoil of the tank's cannon when it fires.")]
-    protected AnimationCurve shotRecoilCannon;
-    [SerializeField]
     [Tooltip("The radius of the small explosion when a shot is fired")]
     protected float shotRecoilRadius = 10f;
     [SerializeField]
@@ -188,6 +185,12 @@ public class TankBase : MonoBehaviour
         bodyRigidbody = tankParts["Body"].GetComponent<Rigidbody>();
     }
 
+    protected virtual void Start()
+    {
+        // Starts with the player being able to fire
+        fireCooldown = maxFireCooldown;
+    }
+
     protected virtual void Update()
     {
         // Ticks fire cooldown up
@@ -216,7 +219,7 @@ public class TankBase : MonoBehaviour
 
             // Apply recoil to tank body
             string fireTransformKey = "Fire Transform " + currentCannon.ToString();
-            bodyRigidbody.AddExplosionForce(shotRecoil, tankParts[fireTransformKey].transform.position, shotRecoilRadius, shotUpwardRecoil, ForceMode.Force);
+            bodyRigidbody.AddExplosionForce(shotRecoil, tankParts[fireTransformKey].transform.position, shotRecoilRadius, shotUpwardRecoil, ForceMode.Impulse);
         }
         // Activate cooldown and remove ammo
         fireCooldown = 0;

@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerupBase : MonoBehaviour
+public class PowerupController : MonoBehaviour
 {
     #region Field Declarations
 
-    [Header("Powerup properties")]
+    #region Core Values
+
+    [Header("Generic properties")]
     [SerializeField]
     [Tooltip("The speed at which the powerup rotates")]
     private float rotationSpeed = 15f;
@@ -23,32 +25,52 @@ public class PowerupBase : MonoBehaviour
 
     private Coroutine powerupLifetimeRoutine;
     private Coroutine powerupDestroyRoutine;
+
+    // Individual powerup properties
+    [Header("Individual properties")]
+    [SerializeField]
+    [Tooltip("The type of the powerup")]
     private PowerupTypes powerupType;
+    [SerializeField]
+    [Tooltip("The multiplier of the powerup")]
+    private float speedMultipler;
+    [SerializeField]
+    [Tooltip("The duration of the powerup")]
+    private float powerupDuration;
+    [SerializeField]
+    [Tooltip("The amount of items provided by the powerup")]
+    private int powerupAmount;
+
+    #endregion
 
     #endregion
 
     #region Unity Methods
 
     // Start is called before the first frame update
-    protected virtual void Start()
+    private void Start()
     {
         // Starts the lifetime routine
         powerupLifetimeRoutine = StartCoroutine(PowerupLifetimeRoutine());
     }
 
     // Update is called once per frame
-    protected virtual void Update()
+    private void FixedUpdate()
     {
         // Floats the powerup
         PowerupFloat();
     }
 
-    protected virtual void OnCollisionEnter(Collision other)
+    private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            EventBroker.CallActivatePowerup(powerupType);
+            EventBroker.CallActivatePowerup(powerupType, powerupDuration, powerupAmount, speedMultipler);
         }
+
+        // TODO: Add powerup collect VFX
+
+        Destroy(gameObject);
     }
 
     #endregion
@@ -61,7 +83,7 @@ public class PowerupBase : MonoBehaviour
         // Rotates the Oil Barrel based on the rotation speed around its Y axis
         transform.Rotate(new Vector3(0, rotationSpeed * Time.deltaTime, 0), Space.World);
         // Translates the Oil Barrel based on the height change induced by the accel curve
-        transform.Translate(new Vector3(0, Mathf.Sin(Time.time * floatMagnitude) * Time.deltaTime, 0), Space.World);
+        transform.Translate(new Vector3(0, Mathf.Sin(Time.time) * floatMagnitude * Time.deltaTime, 0), Space.World);
     }
 
     #endregion
@@ -84,7 +106,7 @@ public class PowerupBase : MonoBehaviour
         // Wait 3 seconds
         yield return new WaitForSeconds(3);
         // Destroy powerup
-        Destroy(this);
+        Destroy(gameObject);
         // Ends coroutine
         yield break;
     }

@@ -84,6 +84,19 @@ public class ProjectileController : MonoBehaviour
             ExplodeShell();
         }
     }
+
+#if UNITY_EDITOR
+
+    private void OnDrawGizmos()
+    {
+        if (enableRadiusGizmo == true)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, projectileExplosionRadius);
+        }
+    }
+
+#endif
     #endregion
 
     #region Custom Methods
@@ -98,7 +111,6 @@ public class ProjectileController : MonoBehaviour
 
         // Gathers all entity colliders in the explosion's radius
         Collider[] tanksInRadius = Physics.OverlapSphere(transform.position, projectileExplosionRadius, tankBodyLayer.value);
-        Debug.Log(tanksInRadius.Length);
 
         // Iterates through each of the tanks
         foreach (Collider tank in tanksInRadius)
@@ -120,19 +132,6 @@ public class ProjectileController : MonoBehaviour
         // or destroyed too frequently. Still, the ideal way of doing this performance-wise is through object pooling
         Destroy(gameObject);
     }
-
-#if UNITY_EDITOR
-
-    private void OnDrawGizmos()
-    {
-        if (enableRadiusGizmo == true)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, projectileExplosionRadius);
-        }
-    }
-
-#endif
-
+    
     #endregion
 }

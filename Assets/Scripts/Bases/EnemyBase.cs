@@ -56,7 +56,7 @@ public class EnemyBase : TankBase, IEnemy
 
     #region Unity Methods
 
-    protected void Start()
+    protected override void Start()
     {
         TransitionToState(repositionState);
     }
