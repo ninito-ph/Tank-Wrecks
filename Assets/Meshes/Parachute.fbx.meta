@@ -1,14 +1,14 @@
 fileFormatVersion: 2
-guid: 1b4c51c8ede3cd74dada39d6c20b4d7d
+guid: cbc49fed7de86a04eb64262009e4e937
 ModelImporter:
-  serializedVersion: 19300
+  serializedVersion: 19301
   internalIDToNameTable: []
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: No Name
-    second: {fileID: 2100000, guid: 556fe57f59f21314688c85b6920192d9, type: 2}
+      name: Generic Atlas Material
+    second: {fileID: 2100000, guid: 8e9a83f6871e1cc4984281461fd0f1a4, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -48,6 +48,7 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
