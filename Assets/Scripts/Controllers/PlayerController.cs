@@ -78,8 +78,11 @@ public class PlayerController : TankBase
         }
     }
 
-    private void Start()
+    protected override void Start()
     {
+        // Calls the base's start method
+        base.Start();
+
         // Sets ammo to max ammo
         ammo = maxAmmo;
 
@@ -252,6 +255,7 @@ public class PlayerController : TankBase
         // Multiplies max speed and acceleration
         maxSpeed = maxSpeed * speedMultiplier;
         acceleration = acceleration * speedMultiplier;
+        bodyTurnRate = bodyTurnRate * speedMultiplier;
 
         // Waits until powerup time is over
         yield return new WaitForSeconds(duration);
@@ -259,6 +263,7 @@ public class PlayerController : TankBase
         // Undoes multipliers on speed and acceleration
         maxSpeed = maxSpeed / speedMultiplier;
         acceleration = acceleration / speedMultiplier;
+        bodyTurnRate = bodyTurnRate / speedMultiplier;
 
         // Marks coroutine as null so as to indicate powerup is inactive
         OilPowerupRoutine = null;
