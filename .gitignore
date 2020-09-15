@@ -23,7 +23,10 @@
 [Aa]ssets/Plugins/Editor/JetBrains*
 
 # Paid plugin folders
-[Aa]ssets/Plugins/*
+[Aa]ssets/Plugins
+[Aa]ssets/Ludiq/Ludiq.PeekCore
+[Aa]ssets/Ludiq/Ludiq.Peek
+[Aa]ssets/Ludiq.Generated/Transient
 
 # Visual Studio cache directory
 .vs/
