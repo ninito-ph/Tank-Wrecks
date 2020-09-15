@@ -108,7 +108,7 @@ public class GameController : MonoBehaviour
     // Adds score
     private void AddScore(float scoreAmount)
     {
-        score += scoreAmount * difficultyConfig.DifficultyScoreModifier * wave;
+        score += scoreAmount * difficultyConfig.DifficultyScoreModifier + wave * 20;
     }
 
     // Runs before the first wave in the game
@@ -391,6 +391,9 @@ public class GameController : MonoBehaviour
         {
             // Creates the powerup at the powerup spawn location if it is free
             GameObject spawnedPowerup = Instantiate(PickObject(powerupSpawnPool), powerupSpawnPoints[randomSpawnPointPick].transform.position, Quaternion.identity);
+            // Gives the powerup a reference to the gamecontroller
+            PowerupController powerupController = spawnedPowerup.GetComponent<PowerupController>();
+            powerupController.GameControllerRef = this;
         }
 
         yield return new WaitForSeconds(7);

@@ -41,6 +41,19 @@ public class PowerupController : MonoBehaviour
     [Tooltip("The amount of items provided by the powerup")]
     private int powerupAmount;
 
+    // Private reference to the gamecontroller
+    private GameController gameControllerRef;
+
+    #endregion
+
+    #region Properties
+    
+    public GameController GameControllerRef
+    {
+        get { return gameControllerRef; }
+        set { gameControllerRef = value; }
+    }
+
     #endregion
 
     #endregion
@@ -61,16 +74,19 @@ public class PowerupController : MonoBehaviour
         PowerupFloat();
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            // Sends the action to enable powerups
             EventBroker.CallActivatePowerup(powerupType, powerupDuration, powerupAmount, speedMultipler);
+            // Adds score
+            EventBroker.CallAddScore(powerupScore);
+
+            // TODO: Add powerup collect VFX
+
+            Destroy(gameObject);
         }
-
-        // TODO: Add powerup collect VFX
-
-        Destroy(gameObject);
     }
 
     #endregion

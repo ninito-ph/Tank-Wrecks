@@ -39,9 +39,11 @@ public class TankBase : MonoBehaviour
         set
         {
             health = value;
+            Debug.LogFormat("Health at {0}", health);
+            // Automatically checks whether the tank is still alive
             if (health <= 0)
             {
-                Debug.LogFormat("Health reduced. Currently at {0}", health);
+                Debug.Log("Health at or below 0");
                 DestroyTank();
             }
         }
@@ -206,6 +208,9 @@ public class TankBase : MonoBehaviour
     {
         // TODO: Add explosion VFX
         Destroy(gameObject);
+
+        // Ends all of the tank's associated coroutines
+        StopAllCoroutines();
     }
 
     // Fires the tank's cannon
@@ -225,17 +230,6 @@ public class TankBase : MonoBehaviour
         fireCooldown = 0;
     }
 
-    // Deduces an amount from the player's health
-    protected void TakeDamage(int damageAmount)
-    {
-        // Subtract the health. If it is lesser than 0, destroy the tank.
-        health = health - damageAmount;
-        if (health <= 0)
-        {
-            DestroyTank();
-        }
-    }
-
     // Creates a tankShell shell
     protected GameObject CreateProjectile(int fireTransformNumber, int cannonNumber, GameObject tankShellToFire)
     {
@@ -251,7 +245,7 @@ public class TankBase : MonoBehaviour
         Vector3 ProjectileRotation = new Vector3(fireTransform.transform.rotation.eulerAngles.x, fireTransform.transform.rotation.eulerAngles.y, fireTransform.transform.rotation.eulerAngles.z + 90);
 
         // Create a tankShell and add the cannon who fired it to the collision ignore list (to prevent shells from exploding in the cannon that fired them)
-        GameObject firedTankShell = Instantiate(tankShell, ProjectileOrigin, Quaternion.Euler(ProjectileRotation));
+        GameObject firedTankShell = Instantiate(tankShellToFire, ProjectileOrigin, Quaternion.Euler(ProjectileRotation));
         ProjectileController firedTankShellController = firedTankShell.GetComponent<ProjectileController>();
 
         // Adds impulse to fired projectile
