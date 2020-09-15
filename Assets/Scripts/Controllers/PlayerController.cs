@@ -122,7 +122,6 @@ public class PlayerController : TankBase
                 {
                     CreateProjectile(currentCannon, currentCannon, nukeShell);
                     nukeShellAmmo--;
-                    Debug.Log("Fired nuke shell");
                 }
                 else
                 {
