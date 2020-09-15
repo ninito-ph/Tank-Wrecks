@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2475290985059910450}
   m_Layer: 8
   m_Name: Body
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 5980513579889838664}
   m_Layer: 9
   m_Name: Head
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 7804920253778615672}
   m_Layer: 9
   m_Name: Cannon
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -310,7 +310,7 @@ GameObject:
   - component: {fileID: 7853502142103200053}
   m_Layer: 9
   m_Name: Cannon Anchor
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -342,7 +342,7 @@ GameObject:
   - component: {fileID: 7853502142308591112}
   m_Layer: 0
   m_Name: Tank (Player)
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -388,7 +388,7 @@ MonoBehaviour:
   shotRecoil: 70
   shotRecoilRadius: 3
   shotUpwardRecoil: 10
-  tankShell: {fileID: 4172022444014405964, guid: 8b5f864197f5a334cb45bb60a9181947,
+  tankShell: {fileID: 3475972169881591529, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
     type: 3}
   fireForce: 20
   tankPartList:
@@ -399,7 +399,8 @@ MonoBehaviour:
   - {fileID: 7853502142650405933}
   maxAmmo: 25
   forceFieldDome: {fileID: 5980513579889838665}
-  nukeShell: {fileID: 0}
+  nukeShell: {fileID: 1117820011990862312, guid: 088397e32b842e8469af4968c6909b7e,
+    type: 3}
 --- !u!1 &7853502142650405933
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,7 +412,7 @@ GameObject:
   - component: {fileID: 7853502142650405932}
   m_Layer: 9
   m_Name: Fire Transform
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: -5938655980376293919, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -35,6 +35,7 @@ public class PlayerController : TankBase
 
     // The forcefield powerup instance
     private GameObject forceField;
+    // The ammo for nuke shells
     private int nukeShellAmmo = 0;
 
     #endregion
@@ -90,7 +91,7 @@ public class PlayerController : TankBase
         EventBroker.ActivatePowerup += ActivatePowerup;
 
         // Creates and disables the shield powerup for future use
-        GameObject forceField = Instantiate(forceFieldDome, transform.position, Quaternion.identity);
+        forceField = Instantiate(forceFieldDome, transform.position, Quaternion.identity);
         forceField.SetActive(false);
     }
 
@@ -110,7 +111,7 @@ public class PlayerController : TankBase
     protected override void TankFire()
     {
         // Checks if ammo is greater than 0
-        if (ammo > 0)
+        if (ammo > 0 || nukeShellAmmo > 0)
         {
             // Loops through the existing cannons up to the cannon amount, and fires once for every cannon
             for (int currentCannon = 1; currentCannon <= cannonAmount; currentCannon++)
@@ -121,10 +122,13 @@ public class PlayerController : TankBase
                 {
                     CreateProjectile(currentCannon, currentCannon, nukeShell);
                     nukeShellAmmo--;
+                    Debug.Log("Fired nuke shell");
                 }
                 else
                 {
                     CreateProjectile(currentCannon, currentCannon, tankShell);
+                    // Reduces ammo
+                    ammo--;
                 }
 
                 // Apply recoil to tank body
@@ -134,9 +138,6 @@ public class PlayerController : TankBase
 
             // Activate cooldown and remove ammo
             fireCooldown = 0;
-
-            // Reduces ammo
-            ammo--;
 
             // Notifies that the player has shot
             EventBroker.CallShotFired();
@@ -211,12 +212,27 @@ public class PlayerController : TankBase
         {
             // Ammo powerup
             case (PowerupTypes.Ammo):
-                Ammo += powerupAmount;
+                if (Ammo + powerupAmount > maxAmmo)
+                {
+                    Ammo = maxAmmo;
+                }
+                else
+                {
+                    Ammo += powerupAmount;
+                }
+
                 break;
 
             // Health powerup
             case (PowerupTypes.Wrench):
-                Health += powerupAmount;
+                if (Health + powerupAmount > maxHealth)
+                {
+                    Health = maxHealth;
+                }
+                else
+                {
+                    Health += powerupAmount;
+                }
                 break;
 
             // Speed powerup

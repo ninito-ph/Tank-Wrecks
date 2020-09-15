@@ -42,7 +42,11 @@ public class ProjectileController : MonoBehaviour
 
     #region Properties
 
-    public GameObject FiredFrom { get; set; }
+    public GameObject FiredFrom
+    {
+        get { return firedFrom; }
+        set { firedFrom = value; }
+    }
     public float ProjectileImpulse
     {
         get { return projectileImpulse; }
@@ -61,6 +65,8 @@ public class ProjectileController : MonoBehaviour
         projectileRigidbody = GetComponent<Rigidbody>();
         // Applies force on the projectile
         projectileRigidbody.AddRelativeForce(projectileImpulse * Vector3.up, ForceMode.Impulse);
+        // Ignores collisions with fired from object
+        Physics.IgnoreCollision(projectileRigidbody.GetComponent<Collider>(), firedFrom.GetComponent<Collider>(), true);
     }
 
     // FixedUpdate is called once per fixed frame update
@@ -132,6 +138,6 @@ public class ProjectileController : MonoBehaviour
         // or destroyed too frequently. Still, the ideal way of doing this performance-wise is through object pooling
         Destroy(gameObject);
     }
-    
+
     #endregion
 }
