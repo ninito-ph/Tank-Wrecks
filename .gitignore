@@ -27,6 +27,8 @@
 [Aa]ssets/Ludiq/Ludiq.PeekCore
 [Aa]ssets/Ludiq/Ludiq.Peek
 [Aa]ssets/Ludiq.Generated/Transient
+[Aa]ssets/Plugins/Sirenix/Assemblies/AOT/*
+[Aa]ssets/Plugins/Sirenix/Demos/*
 
 # Visual Studio cache directory
 .vs/
