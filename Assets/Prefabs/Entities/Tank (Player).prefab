@@ -355,7 +355,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7853502142308591113}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.77, y: 0.84, z: -4.17}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2959375840779524494}
@@ -397,6 +397,7 @@ MonoBehaviour:
   - {fileID: 7804920253778615673}
   - {fileID: 7853502142103200054}
   - {fileID: 7853502142650405933}
+  velocityThreshold: 1
   maxAmmo: 25
   forceFieldDome: {fileID: 5980513579889838665}
   nukeShell: {fileID: 1117820011990862312, guid: 088397e32b842e8469af4968c6909b7e,

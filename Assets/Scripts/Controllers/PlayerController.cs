@@ -152,6 +152,7 @@ public class PlayerController : TankBase
         // Get player input for arrow keys
         cannonMovement = System.Convert.ToSingle((Input.GetKey(KeyCode.UpArrow))) + (System.Convert.ToSingle((Input.GetKey(KeyCode.DownArrow))) * -1f);
         headMovement = System.Convert.ToSingle((Input.GetKey(KeyCode.RightArrow))) + (System.Convert.ToSingle((Input.GetKey(KeyCode.LeftArrow))) * -1f);
+        headMovement = Input.GetAxis("HorizontalSecondary");
     }
 
     // Moves the tank's body accourding to input
