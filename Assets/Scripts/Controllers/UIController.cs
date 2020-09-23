@@ -11,8 +11,15 @@ public class UIController : MonoBehaviour
 
     // Text and other variables used for display in the UI
     private int displayedScore;
+    [Header("Text")]
+    [SerializeField]
+    [Tooltip("Wave counter text")]
     private Text waveCountText;
+    [SerializeField]
+    [Tooltip("Ammo counter text")]
     private Text ammoCountText;
+    [SerializeField]
+    [Tooltip("Score counter text")]
     private Text scoreText;
     [Header("Icons")]
     [SerializeField]
@@ -20,11 +27,11 @@ public class UIController : MonoBehaviour
     private Image fireCooldownIcon;
     [SerializeField]
     [Tooltip("Heart fill icon sprite")]
-    private Image heartIcons;
+    private Image[] heartIcons;
     [Header("Linear interpolation speeds")]
     [SerializeField]
     [Tooltip("The linear interpolation speed at which the score number is updated")]
-    private float scoreLerpSpeed;
+    private float scoreLerpSpeed = 13f;
     [Tooltip("The linear interpolation speed at which the health fill is updated")]
     [SerializeField]
     private float healthLerpSpeed = 13f;
@@ -51,9 +58,12 @@ public class UIController : MonoBehaviour
         EventBroker.WaveStarted += UpdateWave;
     }
 
-    private void Start() 
+    private void Start()
     {
+        // Caches reference to the gamecontroller
         gameController = FindObjectOfType<GameController>();
+
+        // Retrieves the player reference from the gamecontroller
         playerController = gameController.PlayerReference.GetComponent<PlayerController>();
     }
 
@@ -61,22 +71,21 @@ public class UIController : MonoBehaviour
     private void Update()
     {
         // Compares a float to a int using Approximately to prevent floating point comparison imprecision error
-        // Checks if a change in the value has occurred to prevent the expensive lerp operation from running all the time
-        
+        // Checks if a change in the value has occurred to prevent the expensive lerp operations from running all the time
         if (!Mathf.Approximately(displayedScore, gameController.Score))
         {
             UpdateScore();
         }
-        
+
         if (!Mathf.Approximately(fireCooldownIcon.fillAmount, playerController.FireCooldown / playerController.MaxFireCooldown))
         {
             UpdateFireCooldown();
         }
-        
-        if (!Mathf.Approximately(heartIcons.fillAmount, playerController.Health))
-        {
-            UpdateHealth();
-        }
+
+        /*  if (!Mathf.Approximately(heartIcons.fillAmount, playerController.Health))
+         {
+             UpdateHealth();
+         } */
     }
 
     #endregion
@@ -96,7 +105,8 @@ public class UIController : MonoBehaviour
     // Increases and decreases heart icon fill
     private void UpdateHealth()
     {
-        heartIcons.fillAmount = Mathf.Lerp(heartIcons.fillAmount, playerController.Health / playerController.MaxHealth, Time.deltaTime * healthLerpSpeed);
+
+        //heartIcons.fillAmount = Mathf.Lerp(heartIcons.fillAmount, playerController.Health / playerController.MaxHealth, Time.deltaTime * healthLerpSpeed);
     }
 
     // Updates ammo count text
