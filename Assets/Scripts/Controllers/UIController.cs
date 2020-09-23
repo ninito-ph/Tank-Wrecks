@@ -61,7 +61,7 @@ public class UIController : MonoBehaviour
     private void Start()
     {
         // Caches reference to the gamecontroller
-        gameController = FindObjectOfType<GameController>();
+        gameController = GameObject.Find("Game Controller").GetComponent<GameController>();
 
         // Retrieves the player reference from the gamecontroller
         playerController = gameController.PlayerReference.GetComponent<PlayerController>();
