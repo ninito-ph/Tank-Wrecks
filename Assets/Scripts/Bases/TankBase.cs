@@ -106,13 +106,6 @@ public class TankBase : MonoBehaviour
     // Internal reference to the body rigidbody
     protected Rigidbody bodyRigidbody;
 
-    // Internal references to the charactercontrollers
-    protected CharacterController bodyCharacterController;
-    protected CharacterController headCharacterController;
-    protected CharacterController cannon1CharacterController;
-    protected CharacterController cannon2CharacterController;
-    protected CharacterController cannon3CharacterController;
-
     [Header("Recoil Values")]
     [SerializeField]
     // The recoil amount applied to different parts of the tank
@@ -147,9 +140,6 @@ public class TankBase : MonoBehaviour
     [SerializeField]
     [Tooltip("The velocity and angular velocity threshold at which the rigidbody is put to sleep")]
     protected float velocityThreshold = 1f;
-
-    // Coroutines
-    private Coroutine physicsRoutine;
 
     // Properties
     // properties are being used to preserve encapsulation
@@ -188,28 +178,15 @@ public class TankBase : MonoBehaviour
         if (tankPartList.Count >= 8)
         {
             tankParts.Add("Cannon 2", tankPartList[7]);
-            cannon2CharacterController = tankParts["Cannon 2"].GetComponent<CharacterController>();
         }
 
         if (tankPartList.Count >= 9)
         {
             tankParts.Add("Cannon 3", tankPartList[8]);
-            cannon3CharacterController = tankParts["Cannon 3"].GetComponent<CharacterController>();
         }
 
         // Gets references for the body rigidbody
         bodyRigidbody = tankParts["Body"].GetComponent<Rigidbody>();
-
-        // Gets reference for the body charactercontrollers
-        bodyCharacterController = tankParts["Body"].GetComponent<CharacterController>();
-        headCharacterController = tankParts["Head"].GetComponent<CharacterController>();
-        cannon1CharacterController = tankParts["Cannon 1"].GetComponent<CharacterController>();
-
-        // Sets the rigidbody asleep, to kinematic & disables collision detection
-        // This increases performance and removes undesired physics effects, given we're using character controllers
-        bodyRigidbody.isKinematic = true;
-        bodyRigidbody.detectCollisions = false;
-        bodyRigidbody.Sleep();
     }
 
     protected virtual void Start()
@@ -249,7 +226,6 @@ public class TankBase : MonoBehaviour
 
             // Apply recoil to tank body
             string fireTransformKey = "Fire Transform " + currentCannon.ToString();
-            physicsRoutine = StartCoroutine(RunPhysics(velocityThreshold));
             bodyRigidbody.AddExplosionForce(shotRecoil, tankParts[fireTransformKey].transform.position, shotRecoilRadius, shotUpwardRecoil, ForceMode.Impulse);
         }
         // Activate cooldown and remove ammo
@@ -281,47 +257,6 @@ public class TankBase : MonoBehaviour
         // Returns a reference to the fired tankShell if needed.
         return firedTankShell;
     }
-
-    #region Coroutines
-
-    // Uses rigidbody physics
-    protected IEnumerator RunPhysics(float velocityThreshold)
-    {
-        // Disables the kinematic property
-        bodyRigidbody.isKinematic = false;
-        bodyRigidbody.detectCollisions = true;
-
-        // Wait one second before checking
-        yield return new WaitForSeconds(1f);
-
-        // NOTE: Test whether simply disabling collision detection and then setting it asleep works
-
-        // While the rigidbody is receiving forces
-        while (bodyRigidbody.isKinematic == false)
-        {
-            // If the velocity is below the threshold
-            if (bodyRigidbody.velocity.magnitude < velocityThreshold && bodyRigidbody.angularVelocity.magnitude < velocityThreshold)
-            {
-                // Set the rigidbody to kinematic
-                bodyRigidbody.isKinematic = true;
-                // Sleeps the rigidbody & disables collision detection to preserve resources
-                bodyRigidbody.detectCollisions = false;
-                bodyRigidbody.Sleep();
-            }
-            else
-            {
-                // Waits one second before checking again
-                yield return new WaitForSeconds(1f);
-            }
-        }
-
-        // Sets the reference to null
-        physicsRoutine = null;
-        // Ends the coroutine
-        yield break;
-    }
-
-    #endregion
 
     #endregion
 }

@@ -15,8 +15,8 @@ public class PlayerController : TankBase
     #region Controls
 
     // Movement
-    private float bodyVerticalMovement;
-    private float bodyHorizontalMovement;
+    private float bodyFrontalMovement;
+    private float bodyLateralMovement;
     private float headMovement;
     private float cannonMovement;
 
@@ -69,8 +69,12 @@ public class PlayerController : TankBase
     {
         // Calls the base class' update
         base.Update();
-        // Updates player input
-        UpdatePlayerInput();
+
+        Debug.Log("Horizontal: " + Input.GetAxis("Horizontal"));
+        Debug.Log("Vertical: " + Input.GetAxis("Vertical"));
+        Debug.Log("Horizontal Secondary: " + Input.GetAxis("HorizontalSecondary"));
+        Debug.Log("Vertical Secondary: " + Input.GetAxis("VerticalSecondary"));
+
         // Checks if player is pressing fire key
         // NOTE: fireCooldown, as a counter, unusually ticks UP instead of down, due to the way UIController functions and uses it.
         if (Input.GetKey(KeyCode.Space) && fireCooldown >= maxFireCooldown)
@@ -108,6 +112,7 @@ public class PlayerController : TankBase
 
     #region Custom Methods
 
+    // Fires a tank cannon
     protected override void TankFire()
     {
         // Checks if ammo is greater than 0
@@ -143,35 +148,23 @@ public class PlayerController : TankBase
         }
     }
 
-    // Updates player input
-    private void UpdatePlayerInput()
-    {
-        // Get player input for WASD
-        bodyVerticalMovement = System.Convert.ToSingle((Input.GetKey(KeyCode.W))) + (System.Convert.ToSingle((Input.GetKey(KeyCode.S))) * -1f);
-        bodyHorizontalMovement = System.Convert.ToSingle((Input.GetKey(KeyCode.D))) + (System.Convert.ToSingle((Input.GetKey(KeyCode.A))) * -1f);
-        // Get player input for arrow keys
-        cannonMovement = System.Convert.ToSingle((Input.GetKey(KeyCode.UpArrow))) + (System.Convert.ToSingle((Input.GetKey(KeyCode.DownArrow))) * -1f);
-        headMovement = System.Convert.ToSingle((Input.GetKey(KeyCode.RightArrow))) + (System.Convert.ToSingle((Input.GetKey(KeyCode.LeftArrow))) * -1f);
-        headMovement = Input.GetAxis("HorizontalSecondary");
-    }
-
     // Moves the tank's body accourding to input
     private void TankBodyMovement()
     {
         // Moves the body
-        // If the rigidbody's velocity is below max speed
-        if (Mathf.Abs(bodyRigidbody.velocity.magnitude) <= maxSpeed)
+        // If the magnitude of the velocity is lesser than the max speed, and the speed is not 0
+        if (Mathf.Abs(bodyRigidbody.velocity.magnitude) <= maxSpeed && !Mathf.Equals(Input.GetAxis("Vertical"), 0f))
         {
             // Accelerates rigidbody
-            // FIXME: The tank's model X axis is inverted. For this reason, the X component is being multiplied by -1.
-            bodyRigidbody.AddRelativeForce(new Vector3(bodyVerticalMovement * acceleration * -1f, 0f, 0f));
+            bodyRigidbody.AddRelativeForce(new Vector3(Input.GetAxis("Vertical") * acceleration, 0f, 0f));
         }
 
         // Turns the body
-        if (Mathf.Abs(bodyRigidbody.velocity.magnitude) > 0f)
+        if (Mathf.Abs(bodyRigidbody.velocity.x) > 0f)
         {
             // FIXME: The tank turns left faster than it turns right, for some reason
-            bodyRigidbody.AddRelativeTorque(new Vector3(0f, bodyHorizontalMovement * bodyTurnRate, 0f));
+            tankParts["Body"].transform.Rotate(new Vector3(0f, Input.GetAxis("Horizontal") * bodyTurnRate * (Mathf.Sign(bodyRigidbody.velocity.x) * -1f) * Time.deltaTime, 0f));
+            //bodyRigidbody.AddRelativeTorque(new Vector3(0f, Input.GetAxis("Horizontal") * bodyTurnRate, 0f));
         }
     }
 
@@ -180,12 +173,12 @@ public class PlayerController : TankBase
     {
         // Turns the head
         // Stores the absolute value of the desired head rotation
-        float desiredHeadRotation = Mathf.Abs(tankParts["Head"].transform.localEulerAngles.y + (headMovement * headTurnRate * Time.deltaTime));
+        float desiredHeadRotation = Mathf.Abs(tankParts["Head"].transform.localEulerAngles.y + (Input.GetAxis("HorizontalSecondary") * headTurnRate * Time.deltaTime));
 
         // Checks if the value of the desired head movement is within the max head turn angle range
         if (desiredHeadRotation <= maxHeadRotation || desiredHeadRotation >= 360 - maxHeadRotation)
         {
-            tankParts["Head"].transform.Rotate(new Vector3(0f, headMovement * headTurnRate * Time.deltaTime, 0f), Space.Self);
+            tankParts["Head"].transform.Rotate(new Vector3(0f, Input.GetAxis("HorizontalSecondary") * headTurnRate * Time.deltaTime, 0f), Space.Self);
         }
     }
 
@@ -194,14 +187,14 @@ public class PlayerController : TankBase
     {
         // Inclines the cannon
         // Stores the absolute value of the cannon's inclination
-        float desiredCannonInclination = Mathf.Abs(tankParts["Cannon 1"].transform.localEulerAngles.z + (cannonMovement * cannonInclineRate * Time.deltaTime * -1f));
+        float desiredCannonInclination = Mathf.Abs(tankParts["Cannon 1"].transform.localEulerAngles.z + (Input.GetAxis("VerticalSecondary") * cannonInclineRate * Time.deltaTime * -1f));
 
         // If the desired inclination is within the max cannon incline
         if (desiredCannonInclination <= maxCannonInclineAngle.x || desiredCannonInclination >= 360 - maxCannonInclineAngle.y)
         {
             // Inclines the cannon
             // The rotation is multiplied by -1 because we want to rotate the cannon counter-clockwise based on our input
-            tankParts["Cannon 1"].transform.Rotate(new Vector3(0f, 0f, cannonMovement * cannonInclineRate * Time.deltaTime * -1f), Space.Self);
+            tankParts["Cannon 1"].transform.Rotate(new Vector3(0f, 0f, Input.GetAxis("VerticalSecondary") * cannonInclineRate * Time.deltaTime * -1f), Space.Self);
         }
     }
 
