@@ -137,10 +137,6 @@ public class TankBase : MonoBehaviour
     // [Tooltip("A dictionary containing all of the tank's parts.")]
     protected Dictionary<string, GameObject> tankParts = new Dictionary<string, GameObject>();
 
-    [SerializeField]
-    [Tooltip("The velocity and angular velocity threshold at which the rigidbody is put to sleep")]
-    protected float velocityThreshold = 1f;
-
     // Properties
     // properties are being used to preserve encapsulation
     [HideInInspector]
