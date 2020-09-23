@@ -397,7 +397,6 @@ MonoBehaviour:
   - {fileID: 7804920253778615673}
   - {fileID: 7853502142103200054}
   - {fileID: 7853502142650405933}
-  velocityThreshold: 1
   maxAmmo: 25
   forceFieldDome: {fileID: 5980513579889838665}
   nukeShell: {fileID: 1117820011990862312, guid: 088397e32b842e8469af4968c6909b7e,
