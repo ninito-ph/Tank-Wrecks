@@ -70,11 +70,6 @@ public class PlayerController : TankBase
         // Calls the base class' update
         base.Update();
 
-        Debug.Log("Horizontal: " + Input.GetAxis("Horizontal"));
-        Debug.Log("Vertical: " + Input.GetAxis("Vertical"));
-        Debug.Log("Horizontal Secondary: " + Input.GetAxis("HorizontalSecondary"));
-        Debug.Log("Vertical Secondary: " + Input.GetAxis("VerticalSecondary"));
-
         // Checks if player is pressing fire key
         // NOTE: fireCooldown, as a counter, unusually ticks UP instead of down, due to the way UIController functions and uses it.
         if (Input.GetKey(KeyCode.Space) && fireCooldown >= maxFireCooldown)
@@ -102,7 +97,6 @@ public class PlayerController : TankBase
     // Fixed update runs on every fixed update. Good for physics. 
     private void FixedUpdate()
     {
-        // Moves the tank
         TankBodyMovement();
         TankHeadMovement();
         TankCannonMovement();
@@ -160,11 +154,10 @@ public class PlayerController : TankBase
         }
 
         // Turns the body
-        if (Mathf.Abs(bodyRigidbody.velocity.x) > 0f)
+        if (Mathf.Abs(bodyRigidbody.velocity.x) > 0f && !Mathf.Equals(Input.GetAxis("Horizontal"), 0f))
         {
-            // FIXME: The tank turns left faster than it turns right, for some reason
-            tankParts["Body"].transform.Rotate(new Vector3(0f, Input.GetAxis("Horizontal") * bodyTurnRate * (Mathf.Sign(bodyRigidbody.velocity.x) * -1f) * Time.deltaTime, 0f));
-            //bodyRigidbody.AddRelativeTorque(new Vector3(0f, Input.GetAxis("Horizontal") * bodyTurnRate, 0f));
+            // Rotates the tank based on the direction the player is pressing. When in reverse, the directions are inverted.
+            tankParts["Body"].transform.Rotate(new Vector3(0f, Input.GetAxis("Horizontal") * bodyTurnRate * Time.deltaTime, 0f));
         }
     }
 

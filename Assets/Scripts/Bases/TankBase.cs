@@ -185,7 +185,7 @@ public class TankBase : MonoBehaviour
             tankParts.Add("Cannon 3", tankPartList[8]);
         }
 
-        // Gets references for the body rigidbody
+        // Caches reference for the body rigidbody
         bodyRigidbody = tankParts["Body"].GetComponent<Rigidbody>();
     }
 
