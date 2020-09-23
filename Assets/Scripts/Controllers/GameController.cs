@@ -24,21 +24,29 @@ public class GameController : MonoBehaviour
     [SerializeField]
     [Tooltip("A list containing the individual spawn points for powerups")]
     private List<GameObject> powerupSpawnPoints = new List<GameObject>();
+
+    // 
     [SerializeField]
     [Tooltip("A list containing the scenes for each level in the game")]
     private List<Scene> gameLevels = new List<Scene>();
     private List<GameObject> enemySpawnPool = new List<GameObject>();
     private List<GameObject> powerupSpawnPool = new List<GameObject>();
+
+    // Coroutines for spawning and checking wave status
     private Coroutine spawnEnemiesRoutine;
     private Coroutine spawnPowerupsRoutine;
     private Coroutine isWaveOverRoutine;
+
+    // Caches a player reference
     private GameObject playerReference;
 
 #if UNITY_EDITOR
+
     [Header("Debug")]
     [SerializeField]
     [Tooltip("Whether to display a wire sphere indicating the spawn areas for powerups and enemies")]
     private bool displaySpawnSpheres = false;
+
 #endif
 
     #endregion
@@ -70,7 +78,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         // Gets a reference of playerController so other classes can access it
-        playerReference = FindObjectOfType<GameObject>();
+        playerReference = GameObject.Find("Tank (Player)");
 
         // Subscribes RemoveEnemyFromList to EnemyDestroyed event
         // NOTE: We're not sure whether a method actually receives an action's parameters, so this may cause a bug. make sure to debug this.
@@ -85,17 +93,21 @@ public class GameController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        // Draws wire sphere on spawn point areas
-        Gizmos.color = Color.cyan;
-        foreach (GameObject powerupSpawnPoint in powerupSpawnPoints)
+        // If the debug option has been turned on
+        if (displaySpawnSpheres == true)
         {
-            Gizmos.DrawWireSphere(powerupSpawnPoint.transform.position, 2f);
-        }
+            // Draws wire sphere on spawn point areas
+            Gizmos.color = Color.cyan;
+            foreach (GameObject powerupSpawnPoint in powerupSpawnPoints)
+            {
+                Gizmos.DrawWireSphere(powerupSpawnPoint.transform.position, 2f);
+            }
 
-        Gizmos.color = Color.magenta;
-        foreach (GameObject enemySpawnPoint in enemySpawnPoints)
-        {
-            Gizmos.DrawWireSphere(enemySpawnPoint.transform.position, 5f);
+            Gizmos.color = Color.magenta;
+            foreach (GameObject enemySpawnPoint in enemySpawnPoints)
+            {
+                Gizmos.DrawWireSphere(enemySpawnPoint.transform.position, 5f);
+            }
         }
     }
 
@@ -332,7 +344,7 @@ public class GameController : MonoBehaviour
         }
 
         // Spawns enemies until queue is empty
-        while (enemiesToSpawn.Count > 0)
+        while (enemiesToSpawn.Count >= 0)
         {
             // Picks a random number in the enemySpawnPoints list to choose the spawn location
             int randomSpawnPointPick = Mathf.RoundToInt(Random.Range(1f, enemySpawnPoints.Count));

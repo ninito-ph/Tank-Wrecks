@@ -147,14 +147,16 @@ public class PlayerController : TankBase
     {
         // Moves the body
         // If the magnitude of the velocity is lesser than the max speed, and the speed is not 0
-        if (Mathf.Abs(bodyRigidbody.velocity.magnitude) <= maxSpeed && !Mathf.Equals(Input.GetAxis("Vertical"), 0f))
+        // Uses approximately to check if there is any input due to floating point innacuraccy
+        if (Mathf.Abs(bodyRigidbody.velocity.magnitude) <= maxSpeed && !Mathf.Approximately(Input.GetAxis("Vertical"), 0f))
         {
             // Accelerates rigidbody
             bodyRigidbody.AddRelativeForce(new Vector3(Input.GetAxis("Vertical") * acceleration, 0f, 0f));
         }
 
         // Turns the body
-        if (Mathf.Abs(bodyRigidbody.velocity.x) > 0f && !Mathf.Equals(Input.GetAxis("Horizontal"), 0f))
+        // Uses approximately to check if there is any input due to floating point innacuraccy
+        if (Mathf.Abs(bodyRigidbody.velocity.x) > 0f && !Mathf.Approximately(Input.GetAxis("Horizontal"), 0f))
         {
             // Rotates the tank based on the direction the player is pressing. When in reverse, the directions are inverted.
             tankParts["Body"].transform.Rotate(new Vector3(0f, Input.GetAxis("Horizontal") * bodyTurnRate * Time.deltaTime, 0f));

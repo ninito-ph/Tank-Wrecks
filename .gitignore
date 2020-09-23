@@ -29,6 +29,7 @@
 [Aa]ssets/Ludiq.Generated/Transient
 [Aa]ssets/Plugins/Sirenix/Assemblies/AOT/*
 [Aa]ssets/Plugins/Sirenix/Demos/*
+[Aa]ssets/ConsolePro
 
 # Visual Studio cache directory
 .vs/
