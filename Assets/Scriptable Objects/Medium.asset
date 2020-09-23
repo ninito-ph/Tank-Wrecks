@@ -17,11 +17,16 @@ MonoBehaviour:
   wrenchChance: 20
   ammoChance: 30
   nukeShellChance: 10
-  oilBarrelPowerup: {fileID: 0}
-  shieldPowerup: {fileID: 0}
-  wrenchPowerup: {fileID: 0}
-  ammoPowerup: {fileID: 0}
-  nukeShellPowerup: {fileID: 0}
+  oilBarrelPowerup: {fileID: 1882780295976016320, guid: dd390f7aa107b89469012601a50a6c6c,
+    type: 3}
+  shieldPowerup: {fileID: 3552752275440300221, guid: aeda92499de848843bf2992e5c284ca4,
+    type: 3}
+  wrenchPowerup: {fileID: 4833907545851943040, guid: 45fb3054572b1d54998615700a88c69a,
+    type: 3}
+  ammoPowerup: {fileID: 8361984706794311539, guid: fa4319f40abc78b4192e1a1717eab4ac,
+    type: 3}
+  nukeShellPowerup: {fileID: 3873084885385344414, guid: 58f892af4672c2145ae7ad3c1c562edc,
+    type: 3}
   rollerTankChance: 40
   speederTankChance: 25
   smasherTankChance: 25
