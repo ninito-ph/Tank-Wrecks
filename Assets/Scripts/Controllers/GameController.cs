@@ -74,12 +74,14 @@ public class GameController : MonoBehaviour
 
     #region Unity Methods
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         // Gets a reference of playerController so other classes can access it
         playerReference = GameObject.Find("Tank (Player)");
+    }
 
+    void Start()
+    {
         // Subscribes RemoveEnemyFromList to EnemyDestroyed event
         // NOTE: We're not sure whether a method actually receives an action's parameters, so this may cause a bug. make sure to debug this.
         EventBroker.EnemyDestroyed += RemoveEnemyFromList;
@@ -344,10 +346,10 @@ public class GameController : MonoBehaviour
         }
 
         // Spawns enemies until queue is empty
-        while (enemiesToSpawn.Count >= 0)
+        while (enemiesToSpawn.Count > 0)
         {
             // Picks a random number in the enemySpawnPoints list to choose the spawn location
-            int randomSpawnPointPick = Mathf.RoundToInt(Random.Range(1f, enemySpawnPoints.Count));
+            int randomSpawnPointPick = Random.Range(0, enemySpawnPoints.Count - 1);
 
             // Makes a layer mask out TankBodies layer to perform physics raycasts
             LayerMask tankMask = LayerMask.GetMask("TankBodies", "Tanks");
@@ -359,7 +361,7 @@ public class GameController : MonoBehaviour
             // Checks if the spawnpoint is being occupied by something else. If it is, change the spawn point position, update sphere collider and wait 3 seconds before trying again.
             while (spawnColliderCheck.Length > 0)
             {
-                randomSpawnPointPick = Mathf.RoundToInt(Random.Range(1f, enemySpawnPoints.Count));
+                randomSpawnPointPick = Mathf.RoundToInt(Random.Range(0f, enemySpawnPoints.Count));
                 spawnColliderCheck = Physics.OverlapSphere(enemySpawnPoints[randomSpawnPointPick].transform.position, 2, 8);
                 yield return new WaitForSeconds(3);
             }
@@ -384,14 +386,14 @@ public class GameController : MonoBehaviour
     private IEnumerator SpawnPowerup()
     {
         // Picks a random number in the powerupSpawnPoints list to choose the spawn location
-        int randomSpawnPointPick = Mathf.RoundToInt(Random.Range(1f, powerupSpawnPoints.Count));
+        int randomSpawnPointPick = Random.Range(0, powerupSpawnPoints.Count - 1);
         // Defines a sphere to check if the spawn point is being occupied
         var spawnColliderCheck = Physics.OverlapSphere(enemySpawnPoints[randomSpawnPointPick].transform.position, 2, 8);
 
         // Checks if the spawnpoint is being occupied by something else. If it is, change the spawn point position, update sphere collider and wait 2 seconds before trying again.
         while (spawnColliderCheck.Length > 0)
         {
-            randomSpawnPointPick = Mathf.RoundToInt(Random.Range(1f, powerupSpawnPoints.Count));
+            randomSpawnPointPick = Mathf.RoundToInt(Random.Range(0f, powerupSpawnPoints.Count));
             spawnColliderCheck = Physics.OverlapSphere(powerupSpawnPoints[randomSpawnPointPick].transform.position, 2, 8);
             yield return new WaitForSeconds(2);
         }
