@@ -315,6 +315,7 @@ MonoBehaviour:
   - {fileID: 3732940086659141204}
   - {fileID: 4268089435205772460}
   - {fileID: 6112286552202115112}
+  scoreReward: 150
 --- !u!1 &9116887035467615418
 GameObject:
   m_ObjectHideFlags: 0

@@ -120,7 +120,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2071824304508582824}
   serializedVersion: 2
-  m_Mass: 1.05
+  m_Mass: 3.1
   m_Drag: 0.4
   m_AngularDrag: 0.7
   m_UseGravity: 1
@@ -586,6 +586,7 @@ MonoBehaviour:
   - {fileID: 6637639223052690244}
   - {fileID: 5124986907867464905}
   - {fileID: 8205601616428467497}
+  scoreReward: 1500
 --- !u!1 &8205601616428467497
 GameObject:
   m_ObjectHideFlags: 0

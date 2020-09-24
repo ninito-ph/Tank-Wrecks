@@ -74,7 +74,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5783f2cf0abdd574989cacdacc1ae557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 3
   maxHealth: 3
   cannonAmount: 1
   maxFireCooldown: 2.5
@@ -97,6 +96,7 @@ MonoBehaviour:
   - {fileID: 2992349800868085935}
   - {fileID: 1072153185245239925}
   - {fileID: 221509157161950485}
+  scoreReward: 400
 --- !u!1 &1072153185245239925
 GameObject:
   m_ObjectHideFlags: 0
