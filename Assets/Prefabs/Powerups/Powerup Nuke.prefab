@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 3368422449384019019}
   - component: {fileID: 9171955746412068692}
   - component: {fileID: 8189501108205149699}
-  m_Layer: 0
-  m_Name: Tank Shell Green
+  m_Layer: 10
+  m_Name: Powerup Nuke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -374,12 +374,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d6d1f5e2f127ff41a25c5d81cf06906, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 3
   maxHealth: 3
   cannonAmount: 1
   maxFireCooldown: 2.5
   bodyTurnRate: 30
-  headTurnRate: 60
+  headTurnRate: 75
   cannonInclineRate: 60
   maxHeadRotation: 120
   maxCannonInclineAngle: {x: 16, y: 50}

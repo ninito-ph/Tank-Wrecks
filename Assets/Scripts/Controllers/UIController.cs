@@ -85,10 +85,7 @@ public class UIController : MonoBehaviour
             UpdateFireCooldown();
         }
 
-        /*  if (!Mathf.Approximately(heartIcons.fillAmount, playerController.Health))
-         {
-             UpdateHealth();
-         } */
+        UpdateHealth();
     }
 
     #endregion
@@ -110,7 +107,39 @@ public class UIController : MonoBehaviour
     private void UpdateHealth()
     {
 
-        //heartIcons.fillAmount = Mathf.Lerp(heartIcons.fillAmount, playerController.Health / playerController.MaxHealth, Time.deltaTime * healthLerpSpeed);
+        // FIXME: This code is so abominably bad it hurts to look at. Make a more elegant solution later.
+        // If the player health is 2, and the third heart's fill amount is not 0
+        if (playerController.Health == 3)
+        {
+            foreach (Image heart in heartIcons)
+            {
+                if (!Mathf.Approximately(heart.fillAmount, 1f))
+                {
+                    heart.fillAmount = Mathf.Lerp(heart.fillAmount, 1, Time.deltaTime * healthLerpSpeed);
+                }
+            }
+        }
+
+        // If the player health is 2, and the third heart's fill amount is not 0
+        if (playerController.Health <= 2 && !Mathf.Approximately(heartIcons[2].fillAmount, 0f))
+        {
+            // Linearly interpolate the fill amount of the third heart down to 0
+            heartIcons[2].fillAmount = Mathf.Lerp(heartIcons[2].fillAmount, 0, Time.deltaTime * healthLerpSpeed);
+        }
+
+        // If the player health is 1, and the second heart's fill amount is not 0
+        if (playerController.Health <= 1 && !Mathf.Approximately(heartIcons[1].fillAmount, 0f))
+        {
+            // Linearly interpolate the fill amount of the second heart down to 0
+            heartIcons[1].fillAmount = Mathf.Lerp(heartIcons[1].fillAmount, 0, Time.deltaTime * healthLerpSpeed);
+        }
+
+        // If the player health is 0, and the first heart's fill amount is not 0
+        if (playerController.Health <= 0 && !Mathf.Approximately(heartIcons[0].fillAmount, 0f))
+        {
+            // Linearly interpolate the fill amount of the first heart down to 0
+            heartIcons[0].fillAmount = Mathf.Lerp(heartIcons[0].fillAmount, 0, Time.deltaTime * healthLerpSpeed);
+        }
     }
 
     // Updates ammo count text
