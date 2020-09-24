@@ -56,17 +56,23 @@ public class EnemyBase : TankBase, IEnemy
 
     #region Unity Methods
 
-    protected override void Start()
+    /* protected override void Start()
     {
+        // Calls the base class start
+        base.Start();
+
+        // Transitions to the initial repositioning state
         TransitionToState(repositionState);
     }
 
     protected override void Update()
     {
+        // Calls the base class update
         base.Update();
+
         // Runs the update from the current state of the machine
         currentState.Update(this);
-    }
+    } */
 
     // Destroy runs before the GameObject is destroyed
     private void OnDestroy()

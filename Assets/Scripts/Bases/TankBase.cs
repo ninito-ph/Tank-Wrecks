@@ -10,9 +10,7 @@ public class TankBase : MonoBehaviour
 
     [Header("Core Values")]
     // Health of the tank
-    [SerializeField]
-    [Tooltip("Current health of the tank.")]
-    protected int health = 3;
+    protected int health;
     [SerializeField]
     [Tooltip("Maximum health of the tank.")]
     protected int maxHealth = 3;
@@ -187,6 +185,9 @@ public class TankBase : MonoBehaviour
 
     protected virtual void Start()
     {
+        // Sets health to maxHealth at start
+        health = maxHealth;
+
         // Starts with the player being able to fire
         fireCooldown = maxFireCooldown;
     }
