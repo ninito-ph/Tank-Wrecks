@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 8001560329338678950}
   - component: {fileID: 3678181302906760248}
   - component: {fileID: 4692973984422594506}
-  m_Layer: 0
-  m_Name: Tank Shell Red
+  m_Layer: 10
+  m_Name: Powerup Ammo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

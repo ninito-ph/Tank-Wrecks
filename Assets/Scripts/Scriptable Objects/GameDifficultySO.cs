@@ -26,11 +26,6 @@ public class GameDifficultySO : ScriptableObject
     [Tooltip("The spawn chance of this type of powerup in percentage. The percentages must add up to 100.")]
     private int nukeShellChance = 10;
 
-    [Header("Powerup frequency")]
-    [Tooltip("The percentage chance that a powerup will in fact spawn. Only after a powerup in fact spawns, will its type be decided.")]
-    [Range(0f, 1f)]
-    private float powerupChance = 0.33f;
-
     [Header("Powerups")]
     [SerializeField]
     [Tooltip("The Oil Barrel powerup prefab")]
@@ -155,12 +150,6 @@ public class GameDifficultySO : ScriptableObject
             nukeShellChance = value;
             PowerupSpawnChanceValidity();
         }
-    }
-
-    // Powerup spawn chance
-    public float PowerupChance
-    {
-        get { return powerupChance; }
     }
 
     // Powerup spawn chance

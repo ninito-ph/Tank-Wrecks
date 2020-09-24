@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6347121350808336725}
   - component: {fileID: 5752245287754547423}
   - component: {fileID: 5752245287754547411}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Powerup Wrench
   m_TagString: Untagged
   m_Icon: {fileID: 0}

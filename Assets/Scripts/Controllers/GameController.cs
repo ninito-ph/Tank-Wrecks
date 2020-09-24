@@ -166,7 +166,7 @@ public class GameController : MonoBehaviour
         // Stops powerups and enemies from spawning
         StopCoroutine(spawnPowerupsRoutine);
         StopCoroutine(spawnEnemiesRoutine);
-        // TODO: Add a grace period inbetween waves
+
         // Starts next wave
         BeginWave();
         // Checks if the wave is a multiple of ten. If so, change the level
@@ -333,7 +333,7 @@ public class GameController : MonoBehaviour
         activeEnemies.Remove(enemyReference);
 
         // Checks if all enemies are dead
-        if (activeEnemies.Count == 0)
+        if (activeEnemies.Count == 0 && enemiesToSpawn.Count == 0)
         {
             // Ends wave
             EndWave();
@@ -345,6 +345,8 @@ public class GameController : MonoBehaviour
     // Coroutine for periodically spawning enemies. Ends itself once it finishes spawning things.
     private IEnumerator SpawnEnemy()
     {
+        yield return new WaitForSeconds(5);
+
         // Enqueues enemies to spawn
         for (int queueEntries = 0; queueEntries < difficultyConfig.EnemyAmount; queueEntries++)
         {
@@ -361,7 +363,7 @@ public class GameController : MonoBehaviour
             LayerMask tankMask = LayerMask.GetMask("TankBodies", "Tanks");
 
             // Defines a sphere to check if the spawn point is being occupied. The radius 5 is the nearest integer radius that can fit an entire tank inside it.
-            Collider[] spawnColliderCheck = Physics.OverlapSphere(enemySpawnPoints[randomSpawnPointPick].transform.position, 5, tankMask.value);
+            Collider[] spawnColliderCheck = Physics.OverlapSphere(enemySpawnPoints[randomSpawnPointPick].transform.position, 4, tankMask.value);
 
             // Checks if the spawnpoint is being occupied by something else. If it is, change the spawn point position, update sphere collider and wait 3 seconds before trying again.
             while (spawnColliderCheck.Length > 0)
@@ -370,7 +372,7 @@ public class GameController : MonoBehaviour
                 randomSpawnPointPick = Random.Range(0, enemySpawnPoints.Count - 1);
 
                 // Checks if anything is in the collision sphere
-                spawnColliderCheck = Physics.OverlapSphere(enemySpawnPoints[randomSpawnPointPick].transform.position, 2, tankMask.value);
+                spawnColliderCheck = Physics.OverlapSphere(enemySpawnPoints[randomSpawnPointPick].transform.position, 4, tankMask.value);
 
                 // Waits before trying again
                 yield return new WaitForSeconds(3);
@@ -391,34 +393,44 @@ public class GameController : MonoBehaviour
     // Coroutine for periodically spawning powerups. Loops.
     private IEnumerator SpawnPowerup()
     {
-        // FIXME: The spawnpowerup routine does not use layermasks properly.
-
-        // Picks a random number in the powerupSpawnPoints list to choose the spawn location
-        int randomSpawnPointPick = Random.Range(0, powerupSpawnPoints.Count - 1);
-        // Defines a sphere to check if the spawn point is being occupied
-        var spawnColliderCheck = Physics.OverlapSphere(enemySpawnPoints[randomSpawnPointPick].transform.position, 2, 8);
-
-        // Checks if the spawnpoint is being occupied by something else. If it is, change the spawn point position, update sphere collider and wait 2 seconds before trying again.
-        while (spawnColliderCheck.Length > 0)
+        // Runs the powerup routine cyclically, until it is stopped
+        while (true)
         {
-            randomSpawnPointPick = Mathf.RoundToInt(Random.Range(0f, powerupSpawnPoints.Count));
-            spawnColliderCheck = Physics.OverlapSphere(powerupSpawnPoints[randomSpawnPointPick].transform.position, 2, 8);
-            yield return new WaitForSeconds(2);
-        }
+            // Picks a random number in the powerupSpawnPoints list to choose the spawn location
+            int randomSpawnPointPick = Random.Range(0, powerupSpawnPoints.Count - 1);
 
-        // Chooses a random number to compare to the spawn chance. If it is greater or equal, the powerup will spawn.
-        float powerupSpawnRoll = Random.Range(0f, 1f);
+            // Makes a layer mask out TankBodies layer to perform physics raycasts
+            LayerMask powerupMask = LayerMask.GetMask("Powerups");
 
-        if (powerupSpawnRoll >= difficultyConfig.PowerupChance)
-        {
+            // Defines a sphere to check if the spawn point is being occupied
+            Collider[] spawnColliderCheck = Physics.OverlapSphere(enemySpawnPoints[randomSpawnPointPick].transform.position, 2, powerupMask.value, QueryTriggerInteraction.Collide);
+
+            // Checks if the spawnpoint is being occupied by something else. If it is, change the spawn point position, update sphere collider and wait 2 seconds before trying again.
+            while (spawnColliderCheck.Length > 0)
+            {
+                Debug.Log("Powerup spawn point is blocked!");
+
+                // Tries for a new spawn point
+                randomSpawnPointPick = Random.Range(0, powerupSpawnPoints.Count - 1);
+
+                // Checks if anything is in the collision sphere
+                spawnColliderCheck = Physics.OverlapSphere(powerupSpawnPoints[randomSpawnPointPick].transform.position, 2, powerupMask.value, QueryTriggerInteraction.Collide);
+
+                // Waits before trying again
+                yield return new WaitForSeconds(2);
+            }
+
             // Creates the powerup at the powerup spawn location if it is free
-            GameObject spawnedPowerup = Instantiate(PickObject(powerupSpawnPool), powerupSpawnPoints[randomSpawnPointPick].transform.position, Quaternion.identity);
+            GameObject spawnedPowerup = Instantiate(PickObject(powerupSpawnPool), powerupSpawnPoints[randomSpawnPointPick].transform.position, Quaternion.Euler(0f, 0f, -24f));
+
+            Debug.Log("Tried to spawn powerup.");
             // Gives the powerup a reference to the gamecontroller
             PowerupController powerupController = spawnedPowerup.GetComponent<PowerupController>();
             powerupController.GameControllerRef = this;
+
+            yield return new WaitForSeconds(35f);
         }
 
-        yield return new WaitForSeconds(7);
     }
 
     #endregion

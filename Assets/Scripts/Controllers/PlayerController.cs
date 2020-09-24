@@ -203,6 +203,8 @@ public class PlayerController : TankBase
                 if (Ammo + powerupAmount > maxAmmo)
                 {
                     Ammo = maxAmmo;
+                    // Calls the shotFired event to make the UI update its ammo count
+                    EventBroker.CallShotFired();
                 }
                 else
                 {
