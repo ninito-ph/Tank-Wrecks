@@ -121,12 +121,13 @@ public class ProjectileController : MonoBehaviour
         // Iterates through each of the tanks
         foreach (Collider tank in tanksInRadius)
         {
+
             // FIXME: Realistically, this won't cause performance drops, as a tank shell will rarely hit more than 2
             // gameobjects at a time, but using GetComponent in this manner is not optimal performance-wise.
-            TankBase tankController = tank.transform.parent.gameObject.GetComponent<TankBase>();
+            TankBase tankController = tank.transform.root.gameObject.GetComponent<TankBase>();
 
             // Adds explosion impact
-            Rigidbody tankRigidbody = tank.gameObject.GetComponent<Rigidbody>();
+            Rigidbody tankRigidbody = tank.transform.root.GetChild(0).gameObject.GetComponent<Rigidbody>();
             tankRigidbody.AddExplosionForce(projectileExplosionForce, transform.position, projectileExplosionRadius, projectileExplosionUpwards, ForceMode.Impulse);
 
             // Subtracts from the tank's health
