@@ -80,7 +80,7 @@ public class GameController : MonoBehaviour
         playerReference = GameObject.Find("Tank (Player)");
     }
 
-    void Start()
+    private void Start()
     {
         // Subscribes RemoveEnemyFromList to EnemyDestroyed event
         // NOTE: We're not sure whether a method actually receives an action's parameters, so this may cause a bug. make sure to debug this.
@@ -147,8 +147,13 @@ public class GameController : MonoBehaviour
         // Spawns enemies & powerups
         spawnEnemiesRoutine = StartCoroutine(SpawnEnemy());
         spawnPowerupsRoutine = StartCoroutine(SpawnPowerup());
-        // Adds to score based on previous wave
-        AddScore(difficultyConfig.WaveCompleteBonus);
+
+        // Adds to score based on previous wave. Does not happen on the first wave
+        if (wave != 1)
+        {
+            AddScore(difficultyConfig.WaveCompleteBonus);
+        }
+
         // Increases wave
         wave++;
         // Calls WaveOver event
@@ -158,8 +163,9 @@ public class GameController : MonoBehaviour
     // Ends current wave
     private void EndWave()
     {
-        // Stops powerups from spawning
+        // Stops powerups and enemies from spawning
         StopCoroutine(spawnPowerupsRoutine);
+        StopCoroutine(spawnEnemiesRoutine);
         // TODO: Add a grace period inbetween waves
         // Starts next wave
         BeginWave();
@@ -203,7 +209,7 @@ public class GameController : MonoBehaviour
     private GameObject PickObject(List<GameObject> spawnPool)
     {
         // Picks a random number to pick from the index
-        int randomIndexPick = Mathf.RoundToInt(Random.Range(1f, 100f));
+        int randomIndexPick = Random.Range(0, 99);
 
         // Randomly draw enemy type from spawnable enemy pool
         GameObject objectToSpawn = spawnPool[randomIndexPick];
@@ -348,21 +354,25 @@ public class GameController : MonoBehaviour
         // Spawns enemies until queue is empty
         while (enemiesToSpawn.Count > 0)
         {
-            // Picks a random number in the enemySpawnPoints list to choose the spawn location
+            // Picks a random number in the enemySpawnPoints list to choose the spawn locations
             int randomSpawnPointPick = Random.Range(0, enemySpawnPoints.Count - 1);
 
             // Makes a layer mask out TankBodies layer to perform physics raycasts
             LayerMask tankMask = LayerMask.GetMask("TankBodies", "Tanks");
 
             // Defines a sphere to check if the spawn point is being occupied. The radius 5 is the nearest integer radius that can fit an entire tank inside it.
-            var spawnColliderCheck = Physics.OverlapSphere(enemySpawnPoints[randomSpawnPointPick].transform.position, 5, tankMask.value);
-
+            Collider[] spawnColliderCheck = Physics.OverlapSphere(enemySpawnPoints[randomSpawnPointPick].transform.position, 5, tankMask.value);
 
             // Checks if the spawnpoint is being occupied by something else. If it is, change the spawn point position, update sphere collider and wait 3 seconds before trying again.
             while (spawnColliderCheck.Length > 0)
             {
-                randomSpawnPointPick = Mathf.RoundToInt(Random.Range(0f, enemySpawnPoints.Count));
-                spawnColliderCheck = Physics.OverlapSphere(enemySpawnPoints[randomSpawnPointPick].transform.position, 2, 8);
+                // Tries for a new spawn point
+                randomSpawnPointPick = Random.Range(0, enemySpawnPoints.Count - 1);
+
+                // Checks if anything is in the collision sphere
+                spawnColliderCheck = Physics.OverlapSphere(enemySpawnPoints[randomSpawnPointPick].transform.position, 2, tankMask.value);
+
+                // Waits before trying again
                 yield return new WaitForSeconds(3);
             }
 
@@ -375,16 +385,14 @@ public class GameController : MonoBehaviour
             activeEnemies.Add(spawnedEnemy);
         }
 
-        // NOTE: The coroutine is already yielding break. Is setting itself to null really necessary?
-        // The spawnEnemy coroutine marks itself as null to signal it has finished spawning enemies 
-        spawnEnemiesRoutine = null;
-
         yield break;
     }
 
     // Coroutine for periodically spawning powerups. Loops.
     private IEnumerator SpawnPowerup()
     {
+        // FIXME: The spawnpowerup routine does not use layermasks properly.
+
         // Picks a random number in the powerupSpawnPoints list to choose the spawn location
         int randomSpawnPointPick = Random.Range(0, powerupSpawnPoints.Count - 1);
         // Defines a sphere to check if the spawn point is being occupied
