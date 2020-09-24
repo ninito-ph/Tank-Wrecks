@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1252302018469963791}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Fire Transform
   m_TagString: Untagged
   m_Icon: {fileID: -5938655980376293919, guid: 0000000000000000d000000000000000, type: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 3760934249638759972}
   - component: {fileID: 6025345585481381821}
   - component: {fileID: 6183141698596744444}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 1725597411005210736}
   - component: {fileID: 3982889168492397785}
   - component: {fileID: 2582361063534877627}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -301,6 +301,7 @@ MonoBehaviour:
   - {fileID: 7079018784266968000}
   - {fileID: 6895645706586674240}
   - {fileID: 1200132436514057471}
+  scoreReward: 200
 --- !u!1 &6895645706586674240
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,7 +311,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7470238270149604727}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cannon Anchor
   m_TagString: Untagged
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
@@ -344,7 +345,7 @@ GameObject:
   - component: {fileID: 4331825357265248942}
   - component: {fileID: 690795544478106124}
   - component: {fileID: 6385624626948140685}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

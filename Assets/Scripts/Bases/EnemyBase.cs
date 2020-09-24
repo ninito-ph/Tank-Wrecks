@@ -20,6 +20,10 @@ public class EnemyBase : TankBase, IEnemy
     protected FireState fireState = new FireState();
     protected RushState rushState = new RushState();
 
+    [SerializeField]
+    [Tooltip("The reward in score for defeating the enemy")]
+    private float scoreReward;
+
     #endregion
 
     #region Properties
@@ -77,6 +81,9 @@ public class EnemyBase : TankBase, IEnemy
     // Destroy runs before the GameObject is destroyed
     private void OnDestroy()
     {
+        // Awards the player with points
+        EventBroker.CallAddScore(scoreReward);
+
         // Notifies event broker the enemy has been destroyed.
         EventBroker.CallEnemyDestroyed(assignedReference);
     }
