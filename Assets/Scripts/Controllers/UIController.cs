@@ -10,7 +10,7 @@ public class UIController : MonoBehaviour
     #region Core Values
 
     // Text and other variables used for display in the UI
-    private int displayedScore;
+    private int displayedScore = 1;
     [Header("Text")]
     [SerializeField]
     [Tooltip("Wave counter text")]
@@ -31,7 +31,8 @@ public class UIController : MonoBehaviour
     [Header("Linear interpolation speeds")]
     [SerializeField]
     [Tooltip("The linear interpolation speed at which the score number is updated")]
-    private float scoreLerpSpeed = 13f;
+    [Range(0f, 1f)]
+    private float scoreLerpSpeed = 0.5f;
     [Tooltip("The linear interpolation speed at which the health fill is updated")]
     [SerializeField]
     private float healthLerpSpeed = 13f;
@@ -72,6 +73,8 @@ public class UIController : MonoBehaviour
     {
         // Compares a float to a int using Approximately to prevent floating point comparison imprecision error
         // Checks if a change in the value has occurred to prevent the expensive lerp operations from running all the time
+        
+        
         if (!Mathf.Approximately(displayedScore, gameController.Score))
         {
             UpdateScore();
@@ -96,9 +99,10 @@ public class UIController : MonoBehaviour
     private void UpdateScore()
     {
         // The score number is linearly interpolated for a crisp score increase effect
-        float interpolatedScore = Mathf.Lerp(displayedScore, gameController.Score, Time.deltaTime * scoreLerpSpeed);
-        // The displayed number is then rounded to an integer, so that no decimal scores may appear
-        displayedScore = Mathf.RoundToInt(interpolatedScore);
+        float interpolatedScore = Mathf.Lerp(displayedScore, gameController.Score, scoreLerpSpeed);
+
+        // The displayed number is then ceiled to an integer, so that no decimal scores may appear
+        displayedScore = Mathf.CeilToInt(interpolatedScore);
         scoreText.text = displayedScore.ToString();
     }
 
@@ -124,7 +128,6 @@ public class UIController : MonoBehaviour
     // Updates fire cooldown fill
     private void UpdateFireCooldown()
     {
-        // Time.deltaTime is multiplied by 13 - a number reached through testing.
         fireCooldownIcon.fillAmount = Mathf.Lerp(fireCooldownIcon.fillAmount, playerController.FireCooldown / playerController.MaxFireCooldown, Time.deltaTime * fireCooldownLerpSpeed);
     }
 
