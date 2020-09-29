@@ -38,6 +38,9 @@ public class ProjectileController : MonoBehaviour
     // The cannon that fired the shell
     private GameObject firedFrom;
 
+    // The default rotation that the projectile requires to point forward
+    private Vector3 defaultRotation = new Vector3(90f, 0f, 0f);
+
     #endregion
 
     #region Properties
@@ -73,10 +76,10 @@ public class ProjectileController : MonoBehaviour
     private void FixedUpdate()
     {
         // Checks if the rotation vector is 0
-        if (projectileRigidbody.velocity != new Vector3(0f, 0f, 0f))
+        if (projectileRigidbody.velocity.magnitude != 0)
         {
             // Rotates the shell so that it points towards its velocity
-            Vector3 orientation = Quaternion.LookRotation(projectileRigidbody.velocity).eulerAngles + new Vector3(90f, 0f, 0f);
+            Vector3 orientation = Quaternion.LookRotation(projectileRigidbody.velocity).eulerAngles + defaultRotation;
             projectileRigidbody.MoveRotation(Quaternion.Euler(orientation));
         }
     }
