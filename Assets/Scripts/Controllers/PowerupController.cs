@@ -44,10 +44,15 @@ public class PowerupController : MonoBehaviour
     // Private reference to the gamecontroller
     private GameController gameControllerRef;
 
+    // Deltas for the movement and rotation of the powerup
+    // These are being declared in this manner to reduce heap memory usage (garbage generation)
+    private Vector3 rotationDelta = new Vector3(0f, 0f, 0f);
+    private Vector3 movementDelta = new Vector3(0f, 0f, 0f);
+
     #endregion
 
     #region Properties
-    
+
     public GameController GameControllerRef
     {
         get { return gameControllerRef; }
@@ -89,6 +94,11 @@ public class PowerupController : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
+
     #endregion
 
     #region Custom Methods
@@ -96,10 +106,23 @@ public class PowerupController : MonoBehaviour
     // Animates the powerup with a float-like effect
     private void PowerupFloat()
     {
+        // Calls an update to the delta
+        UpdateDeltas();
+
         // Rotates the Oil Barrel based on the rotation speed around its Y axis
-        transform.Rotate(new Vector3(0, rotationSpeed * Time.deltaTime, 0), Space.World);
+        transform.Rotate(rotationDelta, Space.World);
         // Translates the Oil Barrel based on the height change induced by the accel curve
-        transform.Translate(new Vector3(0, Mathf.Sin(Time.time) * floatMagnitude * Time.deltaTime, 0), Space.World);
+        transform.Translate(movementDelta, Space.World);
+    }
+
+    // Updates the values in the rotation and movement deltas
+    private void UpdateDeltas()
+    {
+        // Updates the movement delta
+        movementDelta.Set(0f, Mathf.Sin(Time.time) * floatMagnitude * Time.deltaTime, 0f);
+
+        // Updates the rotation delta
+        rotationDelta.Set(0f, rotationSpeed * Time.deltaTime, 0f);
     }
 
     #endregion

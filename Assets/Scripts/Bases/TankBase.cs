@@ -37,11 +37,8 @@ public class TankBase : MonoBehaviour
         set
         {
             health = value;
-            Debug.LogFormat("Health at {0}", health);
-            // Automatically checks whether the tank is still alive
             if (health <= 0)
             {
-                Debug.Log("Health at or below 0");
                 DestroyTank();
             }
         }
