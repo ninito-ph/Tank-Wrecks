@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1865888619355771557}
   - component: {fileID: 4467571490991498863}
   - component: {fileID: 5911516592284947126}
+  - component: {fileID: 8693904548227380728}
   m_Layer: 0
   m_Name: Cliff B
   m_TagString: Untagged
@@ -91,5 +92,19 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 6.9513016, y: 10.072673, z: 7.040428}
-  m_Center: {x: -0.1935749, y: 5.03254, z: 0.038220882}
+  m_Size: {x: 6.9513016, y: 2.7285938, z: 7.040428}
+  m_Center: {x: -0.1935749, y: 8.704579, z: 0.038220882}
+--- !u!136 &8693904548227380728
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2666409060946560954}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 3.5863657
+  m_Height: 13.118253
+  m_Direction: 1
+  m_Center: {x: 0.036911964, y: 3.50975, z: -0.06506586}

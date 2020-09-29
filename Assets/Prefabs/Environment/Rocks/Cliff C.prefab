@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 741705608970208298}
   - component: {fileID: 4459912487329500047}
   - component: {fileID: 1873565129284157253}
-  - component: {fileID: 7201117043482063512}
+  - component: {fileID: 4635709755563101608}
+  - component: {fileID: 6449969353214918996}
   m_Layer: 0
   m_Name: Cliff C
   m_TagString: Untagged
@@ -80,7 +81,21 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &7201117043482063512
+--- !u!136 &4635709755563101608
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72270894128815760}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 4.006072
+  m_Height: 12.919063
+  m_Direction: 1
+  m_Center: {x: -0.1058588, y: 2.899468, z: -0.085384846}
+--- !u!65 &6449969353214918996
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,5 +106,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 7.4037495, y: 10.077124, z: 7.572736}
-  m_Center: {x: -0.12299633, y: 5.038515, z: 0.064311504}
+  m_Size: {x: 6.971115, y: 2.763424, z: 6.8842506}
+  m_Center: {x: -0.03881836, y: 8.695364, z: 0.20852661}
