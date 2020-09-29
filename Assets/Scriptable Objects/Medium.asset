@@ -27,6 +27,7 @@ MonoBehaviour:
     type: 3}
   nukeShellPowerup: {fileID: 3873084885385344414, guid: 58f892af4672c2145ae7ad3c1c562edc,
     type: 3}
+  powerupSpawnCooldown: 30
   rollerTankChance: 40
   speederTankChance: 25
   smasherTankChance: 25

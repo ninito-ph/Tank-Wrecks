@@ -42,6 +42,9 @@ public class GameDifficultySO : ScriptableObject
     [SerializeField]
     [Tooltip("The Nuke Shell powerup prefab")]
     private GameObject nukeShellPowerup;
+    [SerializeField]
+    [Tooltip("The interval between powerup spawns")]
+    private float powerupSpawnCooldown;
 
     [Header("Enemy spawn chances in percentile")]
     [SerializeField]
@@ -176,6 +179,11 @@ public class GameDifficultySO : ScriptableObject
     public GameObject NukeShellPowerup
     {
         get { return nukeShellPowerup; }
+    }
+
+    public float PowerupSpawnCooldown
+    {
+        get { return powerupSpawnCooldown; }
     }
 
     #endregion
