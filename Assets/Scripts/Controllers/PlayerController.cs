@@ -66,15 +66,24 @@ public class PlayerController : TankBase
 
     #region Unity Methods
 
+    protected override void Awake()
+    {
+        // Calls the base's awake method
+        base.Awake();
+
+        // Gets a reference for the gameController
+        gameController = GameObject.Find("Game Controller").GetComponent<GameController>();
+    }
+
     // Update runs every frame
     protected override void Update()
     {
         // Calls the base class' update
         base.Update();
 
-        // Checks if player is pressing fire key
+        // Checks if player is pressing fire key, if the cooldown is off and the game is unpaused
         // NOTE: fireCooldown, as a counter, unusually ticks UP instead of down, due to the way UIController functions and uses it.
-        if (Input.GetKey(KeyCode.Space) && fireCooldown >= maxFireCooldown)
+        if (Input.GetKey(KeyCode.Space) && fireCooldown >= maxFireCooldown && gameController.IsPaused == false)
         {
             TankFire();
         }
@@ -223,6 +232,8 @@ public class PlayerController : TankBase
                 else
                 {
                     Ammo += powerupAmount;
+                    // Calls the shotFired event to make the UI update its ammo count
+                    EventBroker.CallShotFired();
                 }
 
                 break;

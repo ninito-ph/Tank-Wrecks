@@ -44,6 +44,9 @@ public class PowerupController : MonoBehaviour
     // Private reference to the gamecontroller
     private GameController gameControllerRef;
 
+    // Reference to the renderer component
+    private Renderer powerupRenderer;
+
     // Deltas for the movement and rotation of the powerup
     // These are being declared in this manner to reduce heap memory usage (garbage generation)
     private Vector3 rotationDelta = new Vector3(0f, 0f, 0f);
@@ -70,13 +73,18 @@ public class PowerupController : MonoBehaviour
     {
         // Starts the lifetime routine
         powerupLifetimeRoutine = StartCoroutine(PowerupLifetimeRoutine());
+        powerupRenderer = gameObject.GetComponent<Renderer>();
     }
 
     // Update is called once per frame
     private void FixedUpdate()
     {
         // Floats the powerup
-        PowerupFloat();
+        if (powerupRenderer.isVisible == true)
+        {
+            PowerupFloat();
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -134,7 +142,11 @@ public class PowerupController : MonoBehaviour
         // Waits the lifetime of the powerup
         yield return new WaitForSeconds(powerupLifetime);
         // Start powerup destroy section
-        powerupDestroyRoutine = StartCoroutine(PowerupDestroyRoutine());
+        // TODO: Switch to dissolve shader
+        // Wait 3 seconds
+        yield return new WaitForSeconds(3);
+        // Destroy powerup
+        Destroy(gameObject);
         // Ends coroutine
         yield break;
     }

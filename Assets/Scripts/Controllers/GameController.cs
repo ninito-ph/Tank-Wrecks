@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
 
     #region  Core Values
 
+    private bool isPaused = false;
     private int wave = 0;
     private float score = 0;
     [Header("Difficulty")]
@@ -36,7 +37,7 @@ public class GameController : MonoBehaviour
     // Coroutines for spawning and checking wave status
     private Coroutine spawnEnemiesRoutine;
     private Coroutine spawnPowerupsRoutine;
-    private Coroutine isWaveOverRoutine;
+    private Coroutine garbageCollectorRoutine;
 
     // Caches a player reference
     private GameObject playerReference;
@@ -69,6 +70,24 @@ public class GameController : MonoBehaviour
         get { return playerReference; }
     }
 
+    public bool IsPaused
+    {
+        get { return isPaused; }
+        set
+        {
+            // Only perform actions if the pause value provided is different to the one provided
+            if (isPaused != value)
+            {
+                // Equals the pause value to the one provided
+                isPaused = value;
+                // Notifies the game has been paused
+                EventBroker.CallPauseToggled();
+                // Pauses the game
+                PauseGame();
+            }
+        }
+    }
+
     #endregion
 
     #endregion
@@ -90,6 +109,9 @@ public class GameController : MonoBehaviour
 
         // Starts the game
         StartGame();
+
+        // Invokes the garbage cleaner repeatedly
+
     }
 
 #if UNITY_EDITOR
@@ -116,6 +138,11 @@ public class GameController : MonoBehaviour
 
 #endif
 
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
+
     #endregion
 
     #region Custom Methods
@@ -134,12 +161,27 @@ public class GameController : MonoBehaviour
         PopulatePowerupSpawnpool();
         // Begins the first wave
         BeginWave();
+        // Starts the manual garbage collector
+        garbageCollectorRoutine = StartCoroutine(CollectGarbage());
     }
 
     // Runs after the player dies
-    private void EndGame()
+    public void EndGame(string sceneName = "MenuScene")
     {
+        // Ends the forced garbage collector routine
+        StopCoroutine(garbageCollectorRoutine);
+
         // TODO: Add game end effects, save game metrics and return to main menu
+
+        // Goes to requested screen
+
+
+        // HACK: This is merely for testing purposes, please add a transition to the proper scene once they are developed
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 
     // Begins next wave
@@ -167,9 +209,6 @@ public class GameController : MonoBehaviour
         // Stops powerups and enemies from spawning
         StopCoroutine(spawnPowerupsRoutine);
         StopCoroutine(spawnEnemiesRoutine);
-
-        // Gives 8 ms for the incremental garbagecollector to clean up the memory inbetween waves
-        GarbageCollector.CollectIncremental(8000000);
 
         // Starts next wave
         BeginWave();
@@ -344,6 +383,23 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void PauseGame()
+    {
+        // If the game is paused
+        if (isPaused == true)
+        {
+            // Freeze time and suspend audio
+            Time.timeScale = 0f;
+            AudioListener.pause = true;
+        }
+        else // If the game is resumed
+        {
+            // Set timescale to 1 and unpause it
+            Time.timeScale = 1f;
+            AudioListener.pause = false;
+        }
+    }
+
     #region Coroutines
 
     // Coroutine for periodically spawning enemies. Ends itself once it finishes spawning things.
@@ -390,9 +446,12 @@ public class GameController : MonoBehaviour
 
             // Instantiates the enemy at the front of the queue
             GameObject spawnedEnemy = Instantiate(enemiesToSpawn.Dequeue(), enemySpawnPoints[randomSpawnPointPick].transform.position, Quaternion.identity);
-            // Passes the spawnedEnemy its reference.
+
+            // Passes the spawnedEnemy its reference and the gameController reference.
             IEnemy spawnedEnemyBase = spawnedEnemy.GetComponent<EnemyBase>();
             spawnedEnemyBase.AssignedReference = spawnedEnemy;
+            spawnedEnemyBase.GameController = this;
+
             // Adds the spawnedEnemy to the activeEnemy list
             activeEnemies.Add(spawnedEnemy);
         }
@@ -444,6 +503,27 @@ public class GameController : MonoBehaviour
             powerupController.GameControllerRef = this;
 
             yield return spawnCooldown;
+        }
+    }
+
+    // Collects garbage periodically
+    private IEnumerator CollectGarbage()
+    {
+        // Collect garbage every 1.5 seconds
+        WaitForSecondsRealtime collectInterval = new WaitForSecondsRealtime(1.5f);
+        bool needsMoreCollection = true;
+
+        // Loops periodically
+        while (true)
+        {
+            // Collects the garbage incrementally
+            while (needsMoreCollection)
+            {
+                needsMoreCollection = GarbageCollector.CollectIncremental(2000000);
+            }
+
+            // Waits for next interval
+            yield return collectInterval;
         }
     }
 

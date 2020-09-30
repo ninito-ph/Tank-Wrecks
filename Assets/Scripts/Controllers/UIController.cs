@@ -40,9 +40,17 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private float fireCooldownLerpSpeed = 13f;
 
-    // Useful object references
+    // Necessary object references
     private GameController gameController;
     private PlayerController playerController;
+
+    // UI object object references
+    [SerializeField]
+    [Tooltip("The empty gameObject containing the HUD UI elements")]
+    private GameObject hudUIGroup;
+    [SerializeField]
+    [Tooltip("The empty gameObject containing the Pause Menu UI elements")]
+    private GameObject pauseMenuUIGroup;
 
     #endregion
 
@@ -57,6 +65,8 @@ public class UIController : MonoBehaviour
         EventBroker.ShotFired += UpdateAmmo;
         // Subscribes wave update to wave over event
         EventBroker.WaveStarted += UpdateWave;
+        // Subscribes hide UI components to game pause toggle event
+        EventBroker.PauseToggled += HideUIComponents;
     }
 
     private void Start()
@@ -71,21 +81,17 @@ public class UIController : MonoBehaviour
     // Update runs every frame
     private void Update()
     {
-        // Compares a float to a int using Approximately to prevent floating point comparison imprecision error
-        // Checks if a change in the value has occurred to prevent the expensive lerp operations from running all the time
-        
-        
-        if (!Mathf.Approximately(displayedScore, gameController.Score))
-        {
-            UpdateScore();
-        }
-
-        if (!Mathf.Approximately(fireCooldownIcon.fillAmount, playerController.FireCooldown / playerController.MaxFireCooldown))
-        {
-            UpdateFireCooldown();
-        }
-
+        // Updates UI values
+        UpdateScore();
+        UpdateFireCooldown();
         UpdateHealth();
+
+        // Checks for pause Input
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            // Pauses/Resumes game
+            TogglePause();
+        }
     }
 
     #endregion
@@ -95,12 +101,15 @@ public class UIController : MonoBehaviour
     // Updates score number with a crisp lerped effect
     private void UpdateScore()
     {
-        // The score number is linearly interpolated for a crisp score increase effect
-        float interpolatedScore = Mathf.Lerp(displayedScore, gameController.Score, scoreLerpSpeed);
+        if (!Mathf.Approximately(fireCooldownIcon.fillAmount, playerController.FireCooldown / playerController.MaxFireCooldown))
+        {
+            // The score number is linearly interpolated for a crisp score increase effect
+            float interpolatedScore = Mathf.Lerp(displayedScore, gameController.Score, scoreLerpSpeed);
 
-        // The displayed number is then ceiled to an integer, so that no decimal scores may appear
-        displayedScore = Mathf.CeilToInt(interpolatedScore);
-        scoreText.text = displayedScore.ToString();
+            // The displayed number is then ceiled to an integer, so that no decimal scores may appear
+            displayedScore = Mathf.CeilToInt(interpolatedScore);
+            scoreText.text = displayedScore.ToString();
+        }
     }
 
     // Increases and decreases heart icon fill
@@ -157,7 +166,44 @@ public class UIController : MonoBehaviour
     // Updates fire cooldown fill
     private void UpdateFireCooldown()
     {
-        fireCooldownIcon.fillAmount = Mathf.Lerp(fireCooldownIcon.fillAmount, playerController.FireCooldown / playerController.MaxFireCooldown, Time.deltaTime * fireCooldownLerpSpeed);
+        if (!Mathf.Approximately(fireCooldownIcon.fillAmount, playerController.FireCooldown / playerController.MaxFireCooldown))
+        {
+            fireCooldownIcon.fillAmount = Mathf.Lerp(fireCooldownIcon.fillAmount, playerController.FireCooldown / playerController.MaxFireCooldown, Time.deltaTime * fireCooldownLerpSpeed);
+        }
+    }
+
+    private void HideUIComponents()
+    {
+        // Checks if the game is paused, to decide whether to show the UI or the Pause Menu
+        if (gameController.IsPaused == true)
+        {
+            // Disables the HUD UI group
+            hudUIGroup.SetActive(false);
+            // Enables the Pause Menu UI group
+            pauseMenuUIGroup.SetActive(true);
+
+            // Unlocks the cursor and makes it visible;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            // Enables the HUD UI group
+            hudUIGroup.SetActive(true);
+            // Enables the Pause Menu UI group
+            pauseMenuUIGroup.SetActive(false);
+
+            // Unlocks the cursor and makes it visible;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+
+    // Toggles the game pause state
+    // This exists as a method because Unity requires a method for a button to toggle
+    public void TogglePause()
+    {
+        gameController.IsPaused = !gameController.IsPaused;
     }
 
     #endregion
