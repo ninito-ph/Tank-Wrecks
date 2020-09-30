@@ -7,4 +7,10 @@ public interface IEnemy
         get;
         set;
     }
+
+    GameController GameController
+    {
+        get;
+        set;
+    }
 }

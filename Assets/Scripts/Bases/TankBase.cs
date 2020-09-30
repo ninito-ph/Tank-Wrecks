@@ -132,12 +132,20 @@ public class TankBase : MonoBehaviour
     // [Tooltip("A dictionary containing all of the tank's parts.")]
     protected Dictionary<string, GameObject> tankParts = new Dictionary<string, GameObject>();
 
+    // Keeps a reference to the GameController object
+    protected GameController gameController;
+
     // Properties
     // properties are being used to preserve encapsulation
-    [HideInInspector]
     public GameObject FireProjectile
     {
         get { return tankShell; }
+    }
+
+    public GameController GameController
+    {
+        get { return gameController; }
+        set { gameController = value; }
     }
 
     #endregion

@@ -29,6 +29,9 @@ public static class EventBroker
     // Notifies that the player has been destroyed
     public static event Action PlayerDestroyed;
 
+    // Notifies the game has been paused
+    public static event Action PauseToggled;
+
     #endregion
 
     #region Call Methods
@@ -81,6 +84,14 @@ public static class EventBroker
         if (PlayerDestroyed != null)
         {
             PlayerDestroyed();
+        }
+    }
+
+    public static void CallPauseToggled()
+    {
+        if (PauseToggled != null)
+        {
+            PauseToggled();
         }
     }
 
