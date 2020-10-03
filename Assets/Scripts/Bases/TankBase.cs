@@ -22,7 +22,7 @@ public class TankBase : MonoBehaviour
 
     // How long the tank has to wait to fire again
     // fireCooldown is used internally as a counter variable.
-    // NOTE: fireCooldown, as a counter, unusually ticks UP instead of down, due to the way UIController functions and uses it.
+    // NOTE: fireCooldown, as a counter, unusually ticks UP instead of down, due to the way HUDController functions and uses it.
     protected float fireCooldown = 0f;
     [SerializeField]
     [Tooltip("The amount of time the tank must wait between shots.")]
@@ -115,6 +115,26 @@ public class TankBase : MonoBehaviour
 
     #endregion
 
+    #region Audio Values
+
+    [Header("Audio Values")]
+    [SerializeField]
+    [Tooltip("The active engine sound effect")]
+    protected AudioClip engineActiveSFX;
+    [SerializeField]
+    [Tooltip("The inactive engine sound effect")]
+    protected AudioClip engineInactiveSFX;
+    [SerializeField]
+    [Tooltip("The audio clips for cannon fire")]
+    protected AudioClip[] cannonFireSFX;
+
+    // The audio source for the tank engine
+    protected AudioSource engineSoundSource;
+    // Uses an array of sound sources for cannons, so that it is compatible with multiple cannons
+    protected AudioSource[] cannonSoundSources;
+
+    #endregion
+
     #region Additional Values
 
     [Header("Additional Values")]
@@ -174,18 +194,29 @@ public class TankBase : MonoBehaviour
             tankParts.Add("Fire Transform 3", tankPartList[6]);
         }
 
-        if (tankPartList.Count >= 8)
+        // Initializes cannon sound source array
+        cannonSoundSources = new AudioSource[cannonAmount];
+
+        if (tankPartList.Count >= 8 && cannonAmount >= 2)
         {
             tankParts.Add("Cannon 2", tankPartList[7]);
+            // Gets sound source component
+            cannonSoundSources[1] = tankParts["Cannon 2"].GetComponent<AudioSource>();
         }
 
-        if (tankPartList.Count >= 9)
+        if (tankPartList.Count >= 9 && cannonAmount >= 3)
         {
             tankParts.Add("Cannon 3", tankPartList[8]);
+            // Gets sound source component
+            cannonSoundSources[2] = tankParts["Cannon 3"].GetComponent<AudioSource>();
         }
 
         // Caches reference for the body rigidbody
         bodyRigidbody = tankParts["Body"].GetComponent<Rigidbody>();
+
+        // Caches references to the audio sources on the body and the cannon
+        engineSoundSource = tankParts["Body"].GetComponent<AudioSource>();
+        cannonSoundSources[0] = tankParts["Cannon 1"].GetComponent<AudioSource>();
     }
 
     protected virtual void Start()
@@ -206,6 +237,33 @@ public class TankBase : MonoBehaviour
     #endregion
 
     #region Custom Methods
+
+    // Updates tank engine sound effect
+    protected virtual void UpdateEngineSound(float currentMovement, float maxMovement)
+    {
+        // If the engine is inactive
+        if (engineSoundSource.clip == engineInactiveSFX)
+        {
+            // Check if the engine is now active
+            if (currentMovement >= 0.1f)
+            {
+                // Change the sound to active
+                engineSoundSource.clip = engineActiveSFX;
+            }
+        }
+        else // If the engine is active
+        {
+            // Check if the engine is now inactive
+            if (currentMovement <= 0.1f)
+            {
+                // Change the sound to inactive
+                engineSoundSource.clip = engineInactiveSFX;
+            }
+
+            // Update engine sound pitch
+            engineSoundSource.pitch = (currentMovement / maxMovement);
+        }
+    }
 
     // Destroys the tank in a big explosion
     protected virtual void DestroyTank()
@@ -229,6 +287,14 @@ public class TankBase : MonoBehaviour
             // Apply recoil to tank body
             string fireTransformKey = "Fire Transform " + currentCannon.ToString();
             bodyRigidbody.AddExplosionForce(shotRecoil, tankParts[fireTransformKey].transform.position, shotRecoilRadius, shotUpwardRecoil, ForceMode.Impulse);
+
+            // TODO: Add VFX to firing cannon
+
+            // Sound effects
+            // Picks a random fire cannon sound effect from the array and assigns it to the sound source
+            cannonSoundSources[currentCannon - 1].clip = cannonFireSFX[Random.Range(0, cannonFireSFX.Length - 1)];
+            // Makes the sound source play its sound
+            cannonSoundSources[currentCannon - 1].Play();
         }
         // Activate cooldown and remove ammo
         fireCooldown = 0;
@@ -251,10 +317,10 @@ public class TankBase : MonoBehaviour
         // Create a tankShell and add the cannon who fired it to the collision ignore list (to prevent shells from exploding in the cannon that fired them)
         GameObject firedTankShell = Instantiate(tankShellToFire, ProjectileOrigin, Quaternion.Euler(ProjectileRotation));
         ProjectileController firedTankShellController = firedTankShell.GetComponent<ProjectileController>();
+        firedTankShellController.FiredFrom = tankParts[cannonKey];
 
         // Adds impulse to fired projectile
         firedTankShellController.ProjectileImpulse = fireForce;
-        firedTankShellController.FiredFrom = tankParts[cannonKey];
 
         // Returns a reference to the fired tankShell if needed.
         return firedTankShell;
