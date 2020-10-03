@@ -177,11 +177,7 @@ public class GameController : MonoBehaviour
 
 
         // HACK: This is merely for testing purposes, please add a transition to the proper scene once they are developed
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+
     }
 
     // Begins next wave
@@ -215,37 +211,47 @@ public class GameController : MonoBehaviour
         // Checks if the wave is a multiple of ten. If so, change the level
         if (wave % 10 == 0)
         {
-            NextLevel();
+            ChangeLevel();
         }
     }
 
     // Loads the next level in the game
-    private void NextLevel()
+    private void ChangeLevel(bool gotoMenu = false)
     {
-        //TODO: Add a transition between scenes
-        //TODO: Evaluate whether the scenes take long enough to load to the point where they would need a loading screen
-
-        // Gets the current scene and its index on the list
-        Scene currentScene = SceneManager.GetActiveScene();
-        int levelIndex = gameLevels.FindIndex(Scene => Scene == currentScene);
-
-        // Stores the index of the next scene to be loaded
-        int levelToLoadIndex;
-
-        // Checks to see if there actually is a next level, or whether the game should reset back to the first level
-        if (levelIndex + 1 > gameLevels.Count)
+        // If we must go to the menu
+        if (gotoMenu == true)
         {
-            // Sends the player back to the first level
-            levelToLoadIndex = 0;
+            LoadData.SceneToLoad = "MenuScene";
+            SceneManager.LoadScene("LoadingScene");
         }
-        else
+        else // Otherwise, simply load the next level of the game
         {
-            // Sends the player to the next level
-            levelToLoadIndex = levelIndex + 1;
+            //TODO: Add a transition between scenes
+
+            // Gets the current scene and its index on the list
+            Scene currentScene = SceneManager.GetActiveScene();
+            int levelIndex = gameLevels.FindIndex(Scene => Scene == currentScene);
+
+            // Stores the index of the next scene to be loaded
+            int levelToLoadIndex;
+
+            // Checks to see if there actually is a next level, or whether the game should reset back to the first level
+            if (levelIndex + 1 > gameLevels.Count)
+            {
+                // Sends the player back to the first level
+                levelToLoadIndex = 0;
+            }
+            else
+            {
+                // Sends the player to the next level
+                levelToLoadIndex = levelIndex + 1;
+            }
+
+            // Loads the next level
+            LoadData.SceneToLoad = gameLevels[levelToLoadIndex].name;
+            SceneManager.LoadScene("LoadingScene");
         }
 
-        // Loads the next level
-        SceneManager.LoadScene(gameLevels[levelToLoadIndex].name);
     }
 
     // Picks an object from a list of spawnables
