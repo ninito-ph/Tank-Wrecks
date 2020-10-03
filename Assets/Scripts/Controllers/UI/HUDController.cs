@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIController : MonoBehaviour
+public class HUDController : MenuBase
 {
     #region Field Declarations
 
@@ -44,14 +44,6 @@ public class UIController : MonoBehaviour
     private GameController gameController;
     private PlayerController playerController;
 
-    // UI object object references
-    [SerializeField]
-    [Tooltip("The empty gameObject containing the HUD UI elements")]
-    private GameObject hudUIGroup;
-    [SerializeField]
-    [Tooltip("The empty gameObject containing the Pause Menu UI elements")]
-    private GameObject pauseMenuUIGroup;
-
     #endregion
 
     #endregion
@@ -65,8 +57,6 @@ public class UIController : MonoBehaviour
         EventBroker.ShotFired += UpdateAmmo;
         // Subscribes wave update to wave over event
         EventBroker.WaveStarted += UpdateWave;
-        // Subscribes hide UI components to game pause toggle event
-        EventBroker.PauseToggled += HideUIComponents;
     }
 
     private void Start()
@@ -172,38 +162,24 @@ public class UIController : MonoBehaviour
         }
     }
 
-    private void HideUIComponents()
-    {
-        // Checks if the game is paused, to decide whether to show the UI or the Pause Menu
-        if (gameController.IsPaused == true)
-        {
-            // Disables the HUD UI group
-            hudUIGroup.SetActive(false);
-            // Enables the Pause Menu UI group
-            pauseMenuUIGroup.SetActive(true);
-
-            // Unlocks the cursor and makes it visible;
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-        else
-        {
-            // Enables the HUD UI group
-            hudUIGroup.SetActive(true);
-            // Enables the Pause Menu UI group
-            pauseMenuUIGroup.SetActive(false);
-
-            // Unlocks the cursor and makes it visible;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-    }
-
     // Toggles the game pause state
     // This exists as a method because Unity requires a method for a button to toggle
     public void TogglePause()
     {
+        // Pauses/resumes the game
         gameController.IsPaused = !gameController.IsPaused;
+
+        // Checks if the game is paused, to decide whether to show the HUD or the Pause Menu
+        if (gameController.IsPaused == true)
+        {
+            // Switches to pause menu
+            SwitchToMenu("Pause Menu");
+        }
+        else
+        {
+            // Switches to HUD
+            SwitchToMenu("HUD", false);
+        }
     }
 
     #endregion
