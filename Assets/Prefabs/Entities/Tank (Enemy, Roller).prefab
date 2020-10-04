@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 1725597411005210736}
   - component: {fileID: 3982889168492397785}
   - component: {fileID: 2582361063534877627}
+  - component: {fileID: 1443266854810409421}
   m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
@@ -235,6 +236,102 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.8316636, y: 1.3724382, z: 3.223396}
   m_Center: {x: -0.0460186, y: -0.13601017, z: -0.0011942387}
+--- !u!82 &1443266854810409421
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3890670900313683417}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &6384227525816115837
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,9 +376,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 464ada366bc79d24fa297862fe3c0804, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 0
+    SerializedBytes: 010109000000740061006e006b00500061007200740073002f00000000017d000000530079007300740065006d002e0043006f006c006c0065006300740069006f006e0073002e00470065006e0065007200690063002e00440069006300740069006f006e00610072007900600032005b005b00530079007300740065006d002e0053007400720069006e0067002c0020006d00730063006f0072006c00690062005d002c005b0055006e0069007400790045006e00670069006e0065002e00470061006d0065004f0062006a006500630074002c00200055006e0069007400790045006e00670069006e0065002e0043006f00720065004d006f00640075006c0065005d005d002c0020006d00730063006f0072006c00690062000000000001010800000063006f006d00700061007200650072002f010000000159000000530079007300740065006d002e0043006f006c006c0065006300740069006f006e0073002e00470065006e0065007200690063002e00470065006e00650072006900630045007100750061006c0069007400790043006f006d0070006100720065007200600031005b005b00530079007300740065006d002e0053007400720069006e0067002c0020006d00730063006f0072006c00690062005d005d002c0020006d00730063006f0072006c00690062000100000005060500000000000000042e27010200000024006b00010400000042006f00640079000b0102000000240076000000000005042e27010200000024006b00010400000048006500610064000b0102000000240076000100000005042e27010200000024006b00010d000000430061006e006e006f006e00200041006e00630068006f0072000b0102000000240076000200000005042e27010200000024006b000108000000430061006e006e006f006e00200031000b0102000000240076000300000005042e27010200000024006b000110000000460069007200650020005400720061006e00730066006f0072006d00200031000b01020000002400760004000000050705
+    ReferencedUnityObjects:
+    - {fileID: 3890670900313683417}
+    - {fileID: 3877674155497495736}
+    - {fileID: 6895645706586674240}
+    - {fileID: 7079018784266968000}
+    - {fileID: 1200132436514057471}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   maxHealth: 2
   cannonAmount: 1
   maxFireCooldown: 2.5
+  loadingTip: Rollers are the canon fodder of the enemy. Not particularly strong,
+    agressive or fast. Beware, however, as they will overwhelm you when in sufficient
+    number!
   bodyTurnRate: 30
   headTurnRate: 30
   cannonInclineRate: 30
@@ -292,15 +406,10 @@ MonoBehaviour:
   shotRecoil: 3
   shotRecoilRadius: 10
   shotUpwardRecoil: 5
+  cannonFireSFX: []
   tankShell: {fileID: 3475972169881591529, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
     type: 3}
   fireForce: 20
-  tankPartList:
-  - {fileID: 3890670900313683417}
-  - {fileID: 3877674155497495736}
-  - {fileID: 7079018784266968000}
-  - {fileID: 6895645706586674240}
-  - {fileID: 1200132436514057471}
   scoreReward: 200
 --- !u!1 &6895645706586674240
 GameObject:

@@ -1,16 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
-public class TankBase : MonoBehaviour
+// I don't usually enjoy using replacements to monobehaviour, but Odin Inspector is a proven tool used in very large-scale games.
+public class TankBase : SerializedMonoBehaviour
 {
     #region Field Declarations
 
     #region Core Values
-
-    [Header("Core Values")]
+    
     // Health of the tank
     protected int health;
+
+    [Header("Core Values")]
     [SerializeField]
     [Tooltip("Maximum health of the tank.")]
     protected int maxHealth = 3;
@@ -27,6 +30,13 @@ public class TankBase : MonoBehaviour
     [SerializeField]
     [Tooltip("The amount of time the tank must wait between shots.")]
     protected float maxFireCooldown = 2.5f;
+
+    // The tip used in the loading screen
+    [Space]
+    [SerializeField]
+    [Tooltip("The tooltip displayed during the loading screen for this tank")]
+    [Multiline(3)]
+    protected string loadingTip;
 
     // Properties
     // properties are being used to preserve encapsulation
@@ -60,6 +70,11 @@ public class TankBase : MonoBehaviour
     public float MaxFireCooldown
     {
         get { return maxFireCooldown; }
+    }
+
+    public string LoadingTip
+    {
+        get { return loadingTip; }
     }
 
     #endregion
@@ -119,12 +134,6 @@ public class TankBase : MonoBehaviour
 
     [Header("Audio Values")]
     [SerializeField]
-    [Tooltip("The active engine sound effect")]
-    protected AudioClip engineActiveSFX;
-    [SerializeField]
-    [Tooltip("The inactive engine sound effect")]
-    protected AudioClip engineInactiveSFX;
-    [SerializeField]
     [Tooltip("The audio clips for cannon fire")]
     protected AudioClip[] cannonFireSFX;
 
@@ -146,10 +155,8 @@ public class TankBase : MonoBehaviour
     [Tooltip("The strenght (force) at which the projectile is fired")]
     protected float fireForce = 20f;
     [SerializeField]
-    [Tooltip("A list containing, respectively, body, head, cannon, cannon anchor, fire transform, fire transform 2, fire transform 3, cannon 2 and cannon 3 references. ATTENTION! Must be in the aforementioned order!")]
-    protected List<GameObject> tankPartList = new List<GameObject>();
-    // [SerializeField] Unfortunately, generic dictionaries are not serializable within Unity. We work around this by adding entries to the dictionary using a list.
-    // [Tooltip("A dictionary containing all of the tank's parts.")]
+    [Tooltip("The dictionary containing the Body, Head, Cannon 1, Cannon Anchor, Fire Transform 1, Fire Transform 2, Fire Transform 3, Cannon 2 and Cannon 3 gameObjects. They ")]
+    [DictionaryDrawerSettings(KeyLabel = "Tank Part Name", ValueLabel = "Tank Part GameObject")]
     protected Dictionary<string, GameObject> tankParts = new Dictionary<string, GameObject>();
 
     // Keeps a reference to the GameController object
@@ -176,47 +183,33 @@ public class TankBase : MonoBehaviour
 
     protected virtual void Awake()
     {
-        // Populates dictionary with tankPartList entries
-        tankParts.Add("Body", tankPartList[0]);
-        tankParts.Add("Head", tankPartList[1]);
-        tankParts.Add("Cannon 1", tankPartList[2]);
-        tankParts.Add("Cannon Anchor", tankPartList[3]);
-        tankParts.Add("Fire Transform 1", tankPartList[4]);
-
-        // Populate the list with optional elements, if they exist
-        if (tankPartList.Count >= 6)
-        {
-            tankParts.Add("Fire Transform 2", tankPartList[5]);
-        }
-
-        if (tankPartList.Count >= 7)
-        {
-            tankParts.Add("Fire Transform 3", tankPartList[6]);
-        }
-
         // Initializes cannon sound source array
         cannonSoundSources = new AudioSource[cannonAmount];
-
-        if (tankPartList.Count >= 8 && cannonAmount >= 2)
-        {
-            tankParts.Add("Cannon 2", tankPartList[7]);
-            // Gets sound source component
-            cannonSoundSources[1] = tankParts["Cannon 2"].GetComponent<AudioSource>();
-        }
-
-        if (tankPartList.Count >= 9 && cannonAmount >= 3)
-        {
-            tankParts.Add("Cannon 3", tankPartList[8]);
-            // Gets sound source component
-            cannonSoundSources[2] = tankParts["Cannon 3"].GetComponent<AudioSource>();
-        }
 
         // Caches reference for the body rigidbody
         bodyRigidbody = tankParts["Body"].GetComponent<Rigidbody>();
 
         // Caches references to the audio sources on the body and the cannon
         engineSoundSource = tankParts["Body"].GetComponent<AudioSource>();
+        Debug.Log(engineSoundSource);
+
+        // Caches references to cannon sound sources
         cannonSoundSources[0] = tankParts["Cannon 1"].GetComponent<AudioSource>();
+
+        // Checks if a second cannon exists
+        if (tankParts.ContainsKey("Cannon 2"))
+        {
+            // Adds it to sound sources
+            cannonSoundSources[1] = tankParts["Cannon 2"].GetComponent<AudioSource>();
+        }
+
+        // Checks if a third cannon exists
+        if (tankParts.ContainsKey("Cannon 3"))
+        {
+            // Adds it to sound sources
+            cannonSoundSources[2] = tankParts["Cannon 3"].GetComponent<AudioSource>();
+        }
+
     }
 
     protected virtual void Start()
@@ -232,6 +225,9 @@ public class TankBase : MonoBehaviour
     {
         // Ticks fire cooldown up
         fireCooldown += 1 * Time.deltaTime;
+
+        // Updates engine sounds
+        UpdateEngineSound();
     }
 
     #endregion
@@ -239,30 +235,14 @@ public class TankBase : MonoBehaviour
     #region Custom Methods
 
     // Updates tank engine sound effect
-    protected virtual void UpdateEngineSound(float currentMovement, float maxMovement)
+    protected virtual void UpdateEngineSound()
     {
-        // If the engine is inactive
-        if (engineSoundSource.clip == engineInactiveSFX)
-        {
-            // Check if the engine is now active
-            if (currentMovement >= 0.1f)
+            // Update engine sound volume
+            float engineVolume = Mathf.Clamp01((bodyRigidbody.velocity.magnitude / maxSpeed) + 0.35f);
+            if (engineVolume != engineSoundSource.volume)
             {
-                // Change the sound to active
-                engineSoundSource.clip = engineActiveSFX;
+                engineSoundSource.volume = engineVolume;
             }
-        }
-        else // If the engine is active
-        {
-            // Check if the engine is now inactive
-            if (currentMovement <= 0.1f)
-            {
-                // Change the sound to inactive
-                engineSoundSource.clip = engineInactiveSFX;
-            }
-
-            // Update engine sound pitch
-            engineSoundSource.pitch = (currentMovement / maxMovement);
-        }
     }
 
     // Destroys the tank in a big explosion
@@ -292,7 +272,9 @@ public class TankBase : MonoBehaviour
 
             // Sound effects
             // Picks a random fire cannon sound effect from the array and assigns it to the sound source
-            cannonSoundSources[currentCannon - 1].clip = cannonFireSFX[Random.Range(0, cannonFireSFX.Length - 1)];
+            cannonSoundSources[currentCannon - 1].clip = cannonFireSFX[Random.Range(0, cannonFireSFX.Length)];
+            // Randomizes pitch to increase sound variance
+            cannonSoundSources[currentCannon - 1].pitch = Random.Range(1.2f, 1.5f);
             // Makes the sound source play its sound
             cannonSoundSources[currentCannon - 1].Play();
         }
