@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &8667197544224002854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5188905840659832184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 413f220d9bf9b29439770d2ba0247e2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingTip: The usual suspect found in tank battles - the Boom Shell. Constructed
+    using top level explosives. Explodes on contact!
+--- !u!1001 &8664802654252499857
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3475972169881591529, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
+        type: 3}
+      propertyPath: m_Name
+      value: Normal Shell Display
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284879178976707667, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284879178976707667, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284879178976707667, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284879178976707667, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284879178976707667, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284879178976707667, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.2588191
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284879178976707667, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9659258
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284879178976707667, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284879178976707667, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284879178976707667, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284879178976707667, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284879178976707667, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284879178976707667, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284879178976707667, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.7
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8973245887266645736, guid: c4a7796ff4cc84d4baa5e1e0cea874e9, type: 3}
+    - {fileID: 1541388692575844848, guid: c4a7796ff4cc84d4baa5e1e0cea874e9, type: 3}
+    - {fileID: 2644977664526834937, guid: c4a7796ff4cc84d4baa5e1e0cea874e9, type: 3}
+    - {fileID: 7916753711359227576, guid: c4a7796ff4cc84d4baa5e1e0cea874e9, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: c4a7796ff4cc84d4baa5e1e0cea874e9, type: 3}
+--- !u!1 &5188905840659832184 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3475972169881591529, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
+    type: 3}
+  m_PrefabInstance: {fileID: 8664802654252499857}
+  m_PrefabAsset: {fileID: 0}
