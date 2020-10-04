@@ -8,6 +8,7 @@ public class PlayerController : TankBase
 
     // Ammunition of the tank
     private int ammo;
+
     [SerializeField]
     [Tooltip("Maximum ammo of the tank.")]
     private int maxAmmo = 25;
@@ -131,6 +132,7 @@ public class PlayerController : TankBase
                 if (nukeShellAmmo > 0)
                 {
                     CreateProjectile(currentCannon, currentCannon, nukeShell);
+                    // Reduces nuke shell ammo
                     nukeShellAmmo--;
                 }
                 else
@@ -143,6 +145,14 @@ public class PlayerController : TankBase
                 // Apply recoil to tank body
                 string fireTransformKey = "Fire Transform " + currentCannon.ToString();
                 bodyRigidbody.AddExplosionForce(shotRecoil, tankParts[fireTransformKey].transform.position, shotRecoilRadius, shotUpwardRecoil, ForceMode.Force);
+
+                // Sound effects
+                // Picks a random fire cannon sound effect from the array and assigns it to the sound source
+                cannonSoundSources[currentCannon - 1].clip = cannonFireSFX[Random.Range(0, cannonFireSFX.Length)];
+                // Randomizes pitch to increase sound variance
+                cannonSoundSources[currentCannon - 1].pitch = Random.Range(1.2f, 1.5f);
+                // Makes the sound source play its sound
+                cannonSoundSources[currentCannon - 1].Play();
             }
 
             // Activate cooldown and remove ammo
@@ -170,10 +180,10 @@ public class PlayerController : TankBase
 
         // Turns the body
         // Uses approximately to check if there is any input due to floating point innacuraccy
-        if (Mathf.Abs(bodyRigidbody.velocity.x) > 0.01f && !Mathf.Approximately(Input.GetAxis("Horizontal"), 0f))
+        if (Mathf.Abs(bodyRigidbody.velocity.x) > 0.001f && !Mathf.Approximately(Input.GetAxis("Horizontal"), 0f))
         {
-            // Sets the movement vector instead of creating a new one, to reduce heap memory usage
-            bodyLateralMovement.Set(0f, Input.GetAxis("Horizontal") * bodyTurnRate * Time.deltaTime, 0f);
+            // Sets the movement vector instead of creating a new one, to reduce heap memory usage (doesn't actually make a difference, Vector3 is a struct anyways)
+            bodyLateralMovement.Set(0f, Input.GetAxis("Horizontal") * bodyTurnRate * (Mathf.Clamp01(bodyRigidbody.velocity.magnitude / maxSpeed)) * Time.deltaTime, 0f);
 
             // Rotates the tank based on the direction the player is pressing. When in reverse, the directions are inverted.
             tankParts["Body"].transform.Rotate(bodyLateralMovement);
