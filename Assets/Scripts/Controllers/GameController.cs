@@ -165,7 +165,7 @@ public class GameController : MonoBehaviour
         garbageCollectorRoutine = StartCoroutine(CollectGarbage());
     }
 
-    // Runs after the player dies
+    // Runs after the player dies, handles the end of the game
     public void EndGame(string sceneName = "MenuScene")
     {
         // Ends the forced garbage collector routine
@@ -174,9 +174,10 @@ public class GameController : MonoBehaviour
         // TODO: Add game end effects, save game metrics and return to main menu
 
         // Goes to requested screen
-
-
-        // HACK: This is merely for testing purposes, please add a transition to the proper scene once they are developed
+                    // Set the scene to load data to the desired scene
+            LoadData.SceneToLoad = sceneName;
+            // Load the loading screen scene
+            SceneManager.LoadScene("LoadingScene");
 
     }
 
