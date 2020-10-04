@@ -19,14 +19,9 @@ public class MainMenuController : MenuBase
 
     // Base class methods are re-implemented because Unity's button component
     // does not see inherited methods for the OnClick() event
-    public override void SwitchToMenu(string desiredMenu, bool mouseEnabled = false)
+    public void PlayButton()
     {
-        base.SwitchToMenu(desiredMenu, mouseEnabled);
-    }
-
-    public override void SwitchToScene(string sceneName, bool useLoadingScreen)
-    {
-        base.SwitchToScene(sceneName, true);
+        SwitchToScene("GrisForest", true);
     }
 
     #endregion
