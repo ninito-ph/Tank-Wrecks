@@ -84,8 +84,12 @@ public class EnemyBase : TankBase, IEnemy
         // Awards the player with points
         EventBroker.CallAddScore(scoreReward);
 
-        // Notifies event broker the enemy has been destroyed.
-        EventBroker.CallEnemyDestroyed(assignedReference);
+        // Checks is gameController is null first to prevent missing reference exceptions
+        if (gameController != null)
+        {
+            // Notifies event broker the enemy has been destroyed.
+            EventBroker.CallEnemyDestroyed(assignedReference);
+        }
     }
 
     #endregion
