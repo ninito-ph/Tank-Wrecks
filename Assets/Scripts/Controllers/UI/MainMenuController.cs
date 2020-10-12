@@ -17,11 +17,29 @@ public class MainMenuController : MenuBase
 #endif
     }
 
-    // Base class methods are re-implemented because Unity's button component
-    // does not see inherited methods for the OnClick() event
+    // Methods visible for Unity button API
+    // Play button functionality
     public void PlayButton()
     {
         SwitchToScene("GrisForest", true);
+    }
+
+    // Credits button functionality
+    public void CreditsButton()
+    {
+        SwitchToMenu("Credits Menu");
+    }
+
+    // Options button functionalty
+    public void OptionsButton()
+    {
+        SwitchToMenu("Options Menu");
+    }
+
+    // Back to main menu button
+    public void BackToMainMenu()
+    {
+        SwitchToMenu("Main Menu");
     }
 
     #endregion
