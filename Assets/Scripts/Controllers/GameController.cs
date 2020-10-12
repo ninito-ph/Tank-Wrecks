@@ -98,6 +98,10 @@ public class GameController : MonoBehaviour
     {
         // Gets a reference of playerController so other classes can access it
         playerReference = GameObject.Find("Tank (Player)");
+
+        //HACK: For some reason, when returning to the game scene from the menu, the TimeScale starts at 0
+        // Setting it to 1 works, but ideally we should find what is setting it to 0 in the first place
+        Time.timeScale = 1;
     }
 
     private void Start()
@@ -169,15 +173,19 @@ public class GameController : MonoBehaviour
     public void EndGame(string sceneName = "MenuScene")
     {
         // Ends the forced garbage collector routine
-        StopCoroutine(garbageCollectorRoutine);
+        // Checks if it is null to prevent null reference exceptions
+        if (garbageCollectorRoutine != null)
+        {
+            StopCoroutine(garbageCollectorRoutine);
+        }
 
         // TODO: Add game end effects, save game metrics and return to main menu
 
         // Goes to requested screen
-                    // Set the scene to load data to the desired scene
-            LoadData.SceneToLoad = sceneName;
-            // Load the loading screen scene
-            SceneManager.LoadScene("LoadingScene");
+        // Set the scene to load data to the desired scene
+        LoadData.SceneToLoad = sceneName;
+        // Load the loading screen scene
+        SceneManager.LoadScene("LoadingScene");
 
     }
 
@@ -203,9 +211,14 @@ public class GameController : MonoBehaviour
     // Ends current wave
     private void EndWave()
     {
-        // Stops powerups and enemies from spawning
-        StopCoroutine(spawnPowerupsRoutine);
-        StopCoroutine(spawnEnemiesRoutine);
+        // Checks if gameobject is null first to prevent null reference
+        // exceptions
+        if (gameObject != null)
+        {
+            // Stops powerups and enemies from spawning
+            StopCoroutine(spawnPowerupsRoutine);
+            StopCoroutine(spawnEnemiesRoutine);
+        }
 
         // Starts next wave
         BeginWave();
@@ -457,6 +470,8 @@ public class GameController : MonoBehaviour
             // Passes the spawnedEnemy its reference and the gameController reference.
             IEnemy spawnedEnemyBase = spawnedEnemy.GetComponent<EnemyBase>();
             spawnedEnemyBase.AssignedReference = spawnedEnemy;
+
+            // Gives GameController reference and PlayerReference references
             spawnedEnemyBase.GameController = this;
 
             // Adds the spawnedEnemy to the activeEnemy list
