@@ -13,4 +13,10 @@ public interface IEnemy
         get;
         set;
     }
+
+    GameObject PlayerReference
+    {
+        get;
+        set;
+    }
 }

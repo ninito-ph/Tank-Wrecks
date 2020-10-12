@@ -31,13 +31,6 @@ public class TankBase : SerializedMonoBehaviour
     [Tooltip("The amount of time the tank must wait between shots.")]
     protected float maxFireCooldown = 2.5f;
 
-    // The tip used in the loading screen
-    [Space]
-    [SerializeField]
-    [Tooltip("The tooltip displayed during the loading screen for this tank")]
-    [Multiline(3)]
-    protected string loadingTip;
-
     // Properties
     // properties are being used to preserve encapsulation
     [HideInInspector]
@@ -70,11 +63,6 @@ public class TankBase : SerializedMonoBehaviour
     public float MaxFireCooldown
     {
         get { return maxFireCooldown; }
-    }
-
-    public string LoadingTip
-    {
-        get { return loadingTip; }
     }
 
     #endregion
@@ -173,6 +161,11 @@ public class TankBase : SerializedMonoBehaviour
     {
         get { return gameController; }
         set { gameController = value; }
+    }
+
+    public Vector3 bodyPosition
+    {
+        get { return tankParts["Body"].transform.position; }
     }
 
     #endregion
