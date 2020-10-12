@@ -55,11 +55,6 @@ public class LoadingScreenController : MonoBehaviour
             // Starts the loading process and unloads previous scene
             loadScene = SceneManager.LoadSceneAsync(LoadData.SceneToLoad, LoadSceneMode.Single);
         }
-        else
-        {
-            // Returns to the menu as a failsafe
-            loadScene = SceneManager.LoadSceneAsync(0);
-        }
 
         // Randomly picks an object and its correlated tip
         int randomPick = Random.Range(0, displayableObjects.Length);
@@ -73,7 +68,7 @@ public class LoadingScreenController : MonoBehaviour
         mainCamera = Camera.main;
 
         // Sets up display texture
-        SetupRenderTexture(512);
+        SetupRenderTexture(1024);
 
         // Clears LoadData SceneToLoad
         LoadData.SceneToLoad = null;
@@ -98,6 +93,7 @@ public class LoadingScreenController : MonoBehaviour
 
     #region Custom Methods
 
+    // Sets up the camera to render the render texture
     private void SetupRenderTexture(int textureSize)
     {
         // Initializes texture

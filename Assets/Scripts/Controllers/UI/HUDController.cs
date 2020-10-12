@@ -182,5 +182,17 @@ public class HUDController : MenuBase
         }
     }
 
+    // Switches to the options menu
+    public void GotoOptions()
+    {
+        SwitchToMenu("Options Menu");
+    }
+
+    // Switches to the pause menu
+    public void GotoPauseMenu()
+    {
+        SwitchToMenu("Pause Menu");
+    }
+
     #endregion
 }
