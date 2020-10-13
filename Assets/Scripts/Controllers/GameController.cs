@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -107,15 +107,22 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         // Subscribes RemoveEnemyFromList to EnemyDestroyed event
-        // NOTE: We're not sure whether a method actually receives an action's parameters, so this may cause a bug. make sure to debug this.
         EventBroker.EnemyDestroyed += RemoveEnemyFromList;
         EventBroker.AddScore += AddScore;
 
         // Starts the game
         StartGame();
+    }
 
-        // Invokes the garbage cleaner repeatedly
+    // OnDestroy runs once before the gameObject is destroyed
+    private void OnDestroy()
+    {
+        // Unsubscribes from events to prevent memory leaks and other behaviours
+        EventBroker.EnemyDestroyed -= RemoveEnemyFromList;
+        EventBroker.AddScore -= AddScore;
 
+        // Stops all coroutines
+        StopAllCoroutines();
     }
 
 #if UNITY_EDITOR

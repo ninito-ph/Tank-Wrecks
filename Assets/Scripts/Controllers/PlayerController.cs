@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -112,6 +112,13 @@ public class PlayerController : TankBase
         TankBodyMovement();
         TankHeadMovement();
         TankCannonMovement();
+    }
+
+    // OnDestroy runs once gameobject is destroyed
+    private void OnDestroy()
+    {
+        // Unsubscribes from event to prevent memory leaks and odd behaviour
+        EventBroker.ActivatePowerup -= ActivatePowerup;
     }
 
     #endregion
