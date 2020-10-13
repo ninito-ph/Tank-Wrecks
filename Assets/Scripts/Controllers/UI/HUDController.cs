@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -50,17 +50,15 @@ public class HUDController : MenuBase
 
     #region Unity Methods
 
-    // Awake runs before the first frame
-    private void Awake()
+    private void Start()
     {
         // Subscribes ammo update to shot fired by player event
         EventBroker.ShotFired += UpdateAmmo;
         // Subscribes wave update to wave over event
         EventBroker.WaveStarted += UpdateWave;
-    }
+        // Subscribes goto game over screen to player destroyed event
+        EventBroker.PlayerDestroyed += GotoGameOverScreen;
 
-    private void Start()
-    {
         // Caches reference to the gamecontroller
         gameController = GameObject.Find("Game Controller").GetComponent<GameController>();
 
@@ -205,6 +203,12 @@ public class HUDController : MenuBase
     public void GotoPauseMenu()
     {
         SwitchToMenu("Pause Menu");
+    }
+
+    // Switches to the game over screen
+    public void GotoGameOverScreen()
+    {
+        SwitchToMenu("Game Over Screen");
     }
 
     #endregion

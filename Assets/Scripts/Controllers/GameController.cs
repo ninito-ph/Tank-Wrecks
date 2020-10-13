@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -149,11 +149,6 @@ public class GameController : MonoBehaviour
 
 #endif
 
-    private void OnDestroy()
-    {
-        StopAllCoroutines();
-    }
-
     #endregion
 
     #region Custom Methods
@@ -179,12 +174,8 @@ public class GameController : MonoBehaviour
     // Runs after the player dies, handles the end of the game
     public void EndGame(string sceneName = "MenuScene")
     {
-        // Ends the forced garbage collector routine
-        // Checks if it is null to prevent null reference exceptions
-        if (garbageCollectorRoutine != null)
-        {
-            StopCoroutine(garbageCollectorRoutine);
-        }
+        // Stops all coroutines
+        StopAllCoroutines();
 
         // TODO: Add game end effects, save game metrics and return to main menu
 
@@ -220,7 +211,7 @@ public class GameController : MonoBehaviour
     {
         // Checks if gameobject is null first to prevent null reference
         // exceptions
-        if (gameObject != null)
+        if (this != null)
         {
             // Stops powerups and enemies from spawning
             StopCoroutine(spawnPowerupsRoutine);

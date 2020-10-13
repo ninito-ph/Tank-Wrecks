@@ -128,8 +128,6 @@ public class OptionsMenuController : MenuBase
         // Saves the resolution to player prefs
         PlayerPrefs.SetInt("Resolution Width", resolution.width);
         PlayerPrefs.SetInt("Resolution Height", resolution.height);
-
-        Debug.Log(PlayerPrefs.GetInt("Resolution Width"));
     }
 
     // Sets the volume of the master mixer
