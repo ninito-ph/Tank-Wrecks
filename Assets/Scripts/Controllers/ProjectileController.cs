@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -149,8 +149,6 @@ public class ProjectileController : MonoBehaviour
         explosionSoundSource.pitch = Random.Range(1.1f, 1.4f);
         // Makes the sound source play its sound
         explosionSoundSource.Play();
-
-        Debug.Log(explosionSoundSource.clip);
 
         // Makes a layer into a layermask so that it may be used in physics raycasts
         LayerMask tankBodyLayer = LayerMask.GetMask("TankBodies");

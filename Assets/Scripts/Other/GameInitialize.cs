@@ -14,8 +14,6 @@ public class GameInitialize : MonoBehaviour
     {
         CreatePreferences();
         LoadPreferences();
-
-        Debug.Log(PlayerPrefs.GetInt("Resolution Width"));
     }
 
     // Creates preferences for the first time if they don't already exist
