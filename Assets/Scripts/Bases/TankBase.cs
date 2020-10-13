@@ -184,7 +184,6 @@ public class TankBase : SerializedMonoBehaviour
 
         // Caches references to the audio sources on the body and the cannon
         engineSoundSource = tankParts["Body"].GetComponent<AudioSource>();
-        Debug.Log(engineSoundSource);
 
         // Caches references to cannon sound sources
         cannonSoundSources[0] = tankParts["Cannon 1"].GetComponent<AudioSource>();
