@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -82,6 +82,19 @@ public class HUDController : MenuBase
             // Pauses/Resumes game
             TogglePause();
         }
+    }
+
+    // Runs once object is destroyed
+    private void OnDestroy()
+    {
+        // Unsubscribes from all subscribed events to prevent memory leaks and other odd behaviour
+        // Unsubscribes ammo update to shot fired by player event
+        EventBroker.ShotFired -= UpdateAmmo;
+        // Unsubscribes wave update to wave over event
+        EventBroker.WaveStarted -= UpdateWave;
+        // Unsubscribes goto game over screen to player destroyed event
+        EventBroker.PlayerDestroyed -= GotoGameOverScreen;
+
     }
 
     #endregion
