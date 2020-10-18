@@ -27,7 +27,6 @@ public class GameController : MonoBehaviour
     [Tooltip("A list containing the individual spawn points for powerups")]
     private List<GameObject> powerupSpawnPoints = new List<GameObject>();
 
-    // 
     [SerializeField]
     [Tooltip("A list containing the scenes for each level in the game")]
     private List<Scene> gameLevels = new List<Scene>();
@@ -133,13 +132,13 @@ public class GameController : MonoBehaviour
         if (displaySpawnSpheres == true)
         {
             // Draws wire sphere on spawn point areas
-            Gizmos.color = Color.cyan;
+            Gizmos.color = Color.green;
             foreach (GameObject powerupSpawnPoint in powerupSpawnPoints)
             {
                 Gizmos.DrawWireSphere(powerupSpawnPoint.transform.position, 2f);
             }
 
-            Gizmos.color = Color.magenta;
+            Gizmos.color = Color.red;
             foreach (GameObject enemySpawnPoint in enemySpawnPoints)
             {
                 Gizmos.DrawWireSphere(enemySpawnPoint.transform.position, 5f);
@@ -177,11 +176,14 @@ public class GameController : MonoBehaviour
         // Stops all coroutines
         StopAllCoroutines();
 
+        // Unpauses the game
+        Time.timeScale = 1;
+
         // TODO: Add game end effects, save game metrics and return to main menu
 
         // Goes to requested screen
         // Set the scene to load data to the desired scene
-        LoadData.SceneToLoad = sceneName;
+        GlobalData.SceneToLoad = sceneName;
         // Load the loading screen scene
         SceneManager.LoadScene("LoadingScene");
 
@@ -233,7 +235,7 @@ public class GameController : MonoBehaviour
         // If we must go to the menu
         if (gotoMenu == true)
         {
-            LoadData.SceneToLoad = "MenuScene";
+            GlobalData.SceneToLoad = "MenuScene";
             SceneManager.LoadScene("LoadingScene");
         }
         else // Otherwise, simply load the next level of the game
@@ -260,7 +262,7 @@ public class GameController : MonoBehaviour
             }
 
             // Loads the next level
-            LoadData.SceneToLoad = gameLevels[levelToLoadIndex].name;
+            GlobalData.SceneToLoad = gameLevels[levelToLoadIndex].name;
             SceneManager.LoadScene("LoadingScene");
         }
 
@@ -548,6 +550,5 @@ public class GameController : MonoBehaviour
     }
 
     #endregion
-
     #endregion
 }
