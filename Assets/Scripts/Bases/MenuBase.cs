@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 using Sirenix.OdinInspector;
 
 // I don't usually enjoy using replacements to monobehaviour, but Odin Inspector is a proven tool used in very large-scale games.
@@ -13,6 +14,17 @@ public class MenuBase : SerializedMonoBehaviour
     [SerializeField]
     [DictionaryDrawerSettings(KeyLabel = "Menu Name", ValueLabel = "Menu Parent GameObject")]
     private Dictionary<string, GameObject> menus;
+    [SerializeField]
+    [Tooltip("The click sound that happens on the UI")]
+    private AudioClip clickSound;
+    [SerializeField]
+    [Tooltip("The audio mixer used for sound effect")]
+    protected AudioMixer mainMixer;
+
+    // The cache of the camera's position
+    [SerializeField]
+    [Tooltip("The transform of the main camera so that sounds can be played exactly where the audio listener is.")]
+    private Transform cameraTransform;
 
     #endregion
 
@@ -49,6 +61,8 @@ public class MenuBase : SerializedMonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
+
+        PlayClickSound();
     }
 
     // Switches to a new scene
@@ -58,7 +72,7 @@ public class MenuBase : SerializedMonoBehaviour
         if (useLoadingScreen == true)
         {
             // Set the scene to load data to the desired scene
-            LoadData.SceneToLoad = sceneName;
+            GlobalData.SceneToLoad = sceneName;
             // Load the loading screen scene
             SceneManager.LoadScene("LoadingScene");
         }
@@ -67,6 +81,17 @@ public class MenuBase : SerializedMonoBehaviour
             // Load the desired scene directly
             SceneManager.LoadScene(sceneName);
         }
+
+        PlayClickSound();
+    }
+
+    // Gets UI volume and plays sound
+    private void PlayClickSound()
+    {
+        float clickVolume;
+        mainMixer.GetFloat("soundEffectsVolume", out clickVolume);
+        AudioSource.PlayClipAtPoint(clickSound, cameraTransform.position, 1f);
+        Debug.Log(clickVolume);
     }
 
     #endregion
