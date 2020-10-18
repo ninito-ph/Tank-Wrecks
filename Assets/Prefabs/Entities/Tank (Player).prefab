@@ -664,12 +664,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  deathExplosion: {fileID: 8300000, guid: 01f2bffd25faa254b8dee6fdc1d19857, type: 3}
   maxHealth: 3
   cannonAmount: 1
   maxFireCooldown: 2.5
-  loadingTip: The Striker model tank. Equipped with a versatile cannon capable of
-    firing many different shells, a forcefield module and the latest technology in
-    instant repair.
   bodyTurnRate: 50
   headTurnRate: 75
   cannonInclineRate: 60
@@ -688,7 +686,7 @@ MonoBehaviour:
   fireForce: 20
   maxAmmo: 25
   forceFieldDome: {fileID: 5980513579889838665}
-  nukeShell: {fileID: 1117820011990862312, guid: 088397e32b842e8469af4968c6909b7e,
+  nukeShell: {fileID: 2144414025666665918, guid: e4b9784550df4214cb7847a94fcd2c40,
     type: 3}
 --- !u!1 &7853502142650405933
 GameObject:

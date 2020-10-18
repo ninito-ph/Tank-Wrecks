@@ -168,12 +168,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  deathExplosion: {fileID: 8300000, guid: 855703cdf48498a4ba993f74e84eb088, type: 3}
   maxHealth: 3
   cannonAmount: 1
   maxFireCooldown: 2.5
-  loadingTip: "Smasher tanks will rush \x03you without hesitation, while firing their
-    large cannon. They are extremely aggressive and will destroy you if not dealt
-    with quickly!"
   bodyTurnRate: 30
   headTurnRate: 30
   cannonInclineRate: 30
