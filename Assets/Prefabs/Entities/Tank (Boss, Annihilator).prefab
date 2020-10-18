@@ -804,12 +804,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  deathExplosion: {fileID: 8300000, guid: 54a7a5d5c7522ff419e308925706d332, type: 3}
   maxHealth: 5
   cannonAmount: 3
   maxFireCooldown: 2.5
-  loadingTip: Annihilators are merciless machines of destruction! They will rush
-    your position while firing their three cannons in short succession. Mantain your
-    distance and fire back!
   bodyTurnRate: 30
   headTurnRate: 30
   cannonInclineRate: 30

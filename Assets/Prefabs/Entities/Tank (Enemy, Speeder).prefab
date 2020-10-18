@@ -387,11 +387,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  deathExplosion: {fileID: 8300000, guid: 23e6854a91bbcca4c971a8f5feea4a7a, type: 3}
   maxHealth: 1
   cannonAmount: 1
   maxFireCooldown: 2.5
-  loadingTip: Speeders are fragile and agile tanks. They will rush and flank your
-    position, and their superior speed means there's no getting away!
   bodyTurnRate: 30
   headTurnRate: 30
   cannonInclineRate: 30
