@@ -9,7 +9,10 @@ public class TankBase : SerializedMonoBehaviour
     #region Field Declarations
 
     #region Core Values
-    
+
+    // The explosion clip
+    public AudioClip deathExplosion;
+
     // Health of the tank
     protected int health;
 
@@ -242,6 +245,9 @@ public class TankBase : SerializedMonoBehaviour
     {
         // TODO: Add explosion VFX
         Destroy(gameObject);
+
+        // HACK: This is only for the audio project. The SFX shoul be in the actual explosion
+        AudioSource.PlayClipAtPoint(deathExplosion, transform.position);
 
         // Ends all of the tank's associated coroutines
         StopAllCoroutines();
