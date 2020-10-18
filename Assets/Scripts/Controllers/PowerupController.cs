@@ -40,6 +40,9 @@ public class PowerupController : MonoBehaviour
     [SerializeField]
     [Tooltip("The amount of items provided by the powerup")]
     private int powerupAmount;
+    [SerializeField]
+    [Tooltip("The sound effect played when the powerup is picked up")]
+    private AudioClip powerupClip;
 
     // Private reference to the gamecontroller
     private GameController gameControllerRef;
@@ -105,6 +108,11 @@ public class PowerupController : MonoBehaviour
     private void OnDestroy()
     {
         StopAllCoroutines();
+
+        // Plays clip at pickup point
+        AudioSource.PlayClipAtPoint(powerupClip, transform.position);
+
+        // TODO: Add pickup VFX
     }
 
     #endregion

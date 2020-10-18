@@ -50,10 +50,10 @@ public class LoadingScreenController : MonoBehaviour
     {
 
         // TODO: Remove this null check once testing is done
-        if (LoadData.SceneToLoad != null)
+        if (GlobalData.SceneToLoad != null)
         {
             // Starts the loading process and unloads previous scene
-            loadScene = SceneManager.LoadSceneAsync(LoadData.SceneToLoad, LoadSceneMode.Single);
+            loadScene = SceneManager.LoadSceneAsync(GlobalData.SceneToLoad, LoadSceneMode.Single);
         }
 
         // Randomly picks an object and its correlated tip
@@ -70,8 +70,8 @@ public class LoadingScreenController : MonoBehaviour
         // Sets up display texture
         SetupRenderTexture(1024);
 
-        // Clears LoadData SceneToLoad
-        LoadData.SceneToLoad = null;
+        // Clears GlobalData SceneToLoad
+        GlobalData.SceneToLoad = null;
     }
 
     private void Update()

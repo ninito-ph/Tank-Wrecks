@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // A class that carries data through scenes
-public static class LoadData
+public static class GlobalData
 {
     #region Field Declarations
     // The next scene to load
     private static string sceneToLoad = null;
+    // The game's difficulty
+    private static GameDifficultySO gameDifficulty;
 
     #region Properties
 
@@ -15,6 +17,12 @@ public static class LoadData
     {
         get { return sceneToLoad; }
         set { sceneToLoad = value; }
+    }
+
+    public static GameDifficultySO GameDifficulty
+    {
+        get { return gameDifficulty; }
+        set { gameDifficulty = value; }
     }
 
     #endregion

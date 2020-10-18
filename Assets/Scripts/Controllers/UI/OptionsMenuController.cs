@@ -9,9 +9,6 @@ public class OptionsMenuController : MenuBase
     #region Core Values
 
     [Header("Internal")]
-    [Tooltip("The main audio mixer of the game")]
-    [SerializeField]
-    private AudioMixer mainMixer;
     // The array containing screen resolutions
     private Resolution[] resolutions;
     [Header("UI Objects")]
