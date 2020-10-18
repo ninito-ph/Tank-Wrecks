@@ -114,3 +114,4 @@ MonoBehaviour:
   speedMultipler: 0
   powerupDuration: 0
   powerupAmount: 2
+  powerupClip: {fileID: 8300000, guid: 4e1ff8faed12a475eba9be0e46072269, type: 3}

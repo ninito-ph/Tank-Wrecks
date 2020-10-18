@@ -101,6 +101,7 @@ MonoBehaviour:
   speedMultipler: 0
   powerupDuration: 10
   powerupAmount: 0
+  powerupClip: {fileID: 8300000, guid: 4e1ff8faed12a475eba9be0e46072269, type: 3}
 --- !u!65 &5371174359544157327
 BoxCollider:
   m_ObjectHideFlags: 0
