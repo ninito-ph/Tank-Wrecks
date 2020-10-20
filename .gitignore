@@ -23,14 +23,14 @@
 [Aa]ssets/Plugins/Editor/JetBrains*
 
 # Paid plugin folders
-[Aa]ssets/Plugins
-[Aa]ssets/Ludiq/Ludiq.PeekCore
-[Aa]ssets/Ludiq/Ludiq.Peek
-[Aa]ssets/Ludiq.Generated/Transient
 [Aa]ssets/Plugins/Sirenix/Assemblies/AOT/*
 [Aa]ssets/Plugins/Sirenix/Demos/*
 [Aa]ssets/ConsolePro/*
-[Aa]ssets/nTools/*
+[Aa]ssets/CodeStage/*
+[Aa]ssets/Debugging Essentials/*
+
+# Do not ignore NavMesh folder
+![Aa]ssets/Plugins/NavMeshComponents
 
 # Visual Studio cache directory
 .vs/
