@@ -21,7 +21,7 @@ public class MainMenuController : MenuBase
     // Play button functionality
     public void PlayButton()
     {
-        SwitchToScene("GrisForest", true);
+        SwitchToScene("GreatForest", true);
     }
 
     // Credits button functionality
