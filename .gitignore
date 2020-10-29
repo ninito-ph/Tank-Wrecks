@@ -31,7 +31,7 @@
 /[Aa]ssets/Debugging Essentials/*
 
 # Do not ignore NavMesh folder
-!/[Aa]ssets/Plugins/NavMeshComponents/*
+!/[Aa]ssets/Plugins/NavMeshComponents
 
 # Visual Studio cache directory
 .vs/

@@ -17,7 +17,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GreatForest.unity
     guid: 9df1abe5dd4a09b439749dade5f8a97f
-  - enabled: 1
-    path: Assets/Scenes/GrisForest.unity
-    guid: 1b03bef203e59754aa4504c7045d0315
   m_configObjects: {}
