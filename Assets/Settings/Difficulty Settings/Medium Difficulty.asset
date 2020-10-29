@@ -33,13 +33,13 @@ MonoBehaviour:
   smasherTankChance: 25
   annihilatorTankChance: 10
   enemyAmount: 4
-  rollerTank: {fileID: 6384227525816115837, guid: 7ae8873b49d98a64cb7ba550dd0f3d44,
+  rollerTank: {fileID: 3812850298496911797, guid: ad36334a5b79f414b82c2ad400748f0e,
     type: 3}
-  speederTank: {fileID: 7571774432721448466, guid: bacf4c1f9ec0e2d488c0f5eb0dee5943,
+  speederTank: {fileID: 5547885572492086858, guid: 89e934a371d443e4081a8d041f8c4466,
     type: 3}
-  smasherTank: {fileID: 718570312057792047, guid: 99373c8141a16cc4f8fb983157f4c13b,
+  smasherTank: {fileID: 292291347057366468, guid: 5decc2f8fe6a4c64bb191a80f62c6b88,
     type: 3}
-  annihilatorTank: {fileID: 6693079332667035767, guid: 6eba08fbe817f1f4aa0677ed8d84c83a,
+  annihilatorTank: {fileID: 6854343284140351752, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
     type: 3}
   waveCompleteBonus: 50
   difficultyScoreModifier: 1
