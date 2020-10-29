@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -182,13 +182,13 @@ public class PlayerController : TankBase
     #region Custom Methods
 
     // Fires a tank cannon
-    protected override void TankFire()
+    public override void TankFire()
     {
         // Checks if ammo is greater than 0
         if (ammo > 0 || nukeShellAmmo > 0)
         {
             // Loops through the existing cannons up to the cannon amount, and fires once for every cannon
-            for (int currentCannon = 1; currentCannon <= cannonAmount; currentCannon++)
+            for (int currentCannon = 1; currentCannon <= CannonAmount; currentCannon++)
             {
                 // Creates shell
                 // If the player has nuke shells, fire them instead
@@ -207,7 +207,6 @@ public class PlayerController : TankBase
 
                 // Apply recoil to tank body
                 string fireTransformKey = "Fire Transform " + currentCannon.ToString();
-                bodyRigidbody.AddExplosionForce(shotRecoil, tankParts[fireTransformKey].transform.position, shotRecoilRadius, shotUpwardRecoil, ForceMode.Force);
 
                 // Sound effects
                 // Picks a random fire cannon sound effect from the array and assigns it to the sound source
