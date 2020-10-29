@@ -91,7 +91,6 @@ public class MenuBase : SerializedMonoBehaviour
         float clickVolume;
         mainMixer.GetFloat("soundEffectsVolume", out clickVolume);
         AudioSource.PlayClipAtPoint(clickSound, cameraTransform.position, 1f);
-        Debug.Log(clickVolume);
     }
 
     #endregion
