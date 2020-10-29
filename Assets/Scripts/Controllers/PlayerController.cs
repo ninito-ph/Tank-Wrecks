@@ -23,6 +23,9 @@ public class PlayerController : TankBase
     private Vector3 headMovement = new Vector3(0f, 0f, 0f);
     private Vector3 cannonMovement = new Vector3(0f, 0f, 0f);
 
+    #endregion
+    #region Powerups
+
     // Powerup coroutines
     private Coroutine OilPowerupRoutine;
     private Coroutine ShieldPowerupRoutine;
@@ -42,6 +45,21 @@ public class PlayerController : TankBase
     private int nukeShellAmmo = 0;
 
     #endregion
+    #region AI interface
+
+    [Header("AI Interface")]
+    [SerializeField]
+    [Tooltip("The radius of the fire area. Enemy AI will stop aiming and reposition if they leave this area. Shown in yellow. The safe fire area is shown in green.")]
+    private float fireAreaRadius = 10f;
+    [SerializeField]
+    [Tooltip("Whether to show fire areas in the scene view")]
+    private bool showFireAreas = false;
+
+    // Hidden areas (areas that are based on the radius of the fire area)
+    private float safeFireAreaRadius;
+    private float rushFireAreaRadius;
+
+    #endregion
 
     #region Properties
 
@@ -59,6 +77,21 @@ public class PlayerController : TankBase
                 ammo += value;
             }
         }
+    }
+
+    public float FireAreaRadius
+    {
+        get { return fireAreaRadius; }
+    }
+
+    public float SafeFireAreaRadius
+    {
+        get { return safeFireAreaRadius; }
+    }
+
+    public float RushAreaFireRadius
+    {
+        get { return rushFireAreaRadius; }
     }
 
     #endregion
@@ -95,6 +128,10 @@ public class PlayerController : TankBase
         // Calls the base's start method
         base.Start();
 
+        // Sets the radius of the other fire areas
+        safeFireAreaRadius = fireAreaRadius * 0.75f;
+        rushFireAreaRadius = fireAreaRadius * 0.33f;
+
         // Sets ammo to max ammo
         ammo = maxAmmo;
 
@@ -119,6 +156,25 @@ public class PlayerController : TankBase
     {
         // Unsubscribes from event to prevent memory leaks and odd behaviour
         EventBroker.ActivatePowerup -= ActivatePowerup;
+    }
+
+    // Runs when the editor draws scene gizmos
+    private void OnDrawGizmos()
+    {
+        // If showing fire areas has been enabled
+        if (showFireAreas == true)
+        {
+            // Draws a yellow sphere to show the fire area
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, fireAreaRadius);
+
+            // Draws a green sphere to show the safe fire area
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(transform.position, fireAreaRadius * 0.75f);
+
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawWireSphere(transform.position, fireAreaRadius * 0.33f);
+        }
     }
 
     #endregion
