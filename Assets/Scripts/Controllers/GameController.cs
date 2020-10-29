@@ -447,10 +447,14 @@ public class GameController : MonoBehaviour
             LayerMask tankMask = LayerMask.GetMask("TankBodies", "Tanks");
 
             // FIXME: This generates a considerable amount of garbage and runs frequently enought to be a problem
-            // Defines a sphere to check if the spawn point is being occupied. The radius 5 is the nearest integer radius that can fit an entire tank inside it.
+            // Defines a sphere to check if the spawn point is being occupied.
+            // The radius 5 is the nearest integer radius that can fit an entire
+            // tank inside it.
             Collider[] spawnColliderCheck = Physics.OverlapSphere(enemySpawnPoints[randomSpawnPointPick].transform.position, 4, tankMask.value);
 
-            // Checks if the spawnpoint is being occupied by something else. If it is, change the spawn point position, update sphere collider and wait 3 seconds before trying again.
+            // Checks if the spawnpoint is being occupied by something else. If
+            // it is, change the spawn point position, update sphere collider
+            // and wait 3 seconds before trying again.
             while (spawnColliderCheck.Length > 0)
             {
                 // Tries for a new spawn point
@@ -499,13 +503,11 @@ public class GameController : MonoBehaviour
 
             // Defines a sphere to check if the spawn point is being occupied
             // FIXME: This generates a considerable amount of garbage and runs frequently enought to be a problem
-            Collider[] spawnColliderCheck = Physics.OverlapSphere(enemySpawnPoints[randomSpawnPointPick].transform.position, 2, powerupMask.value, QueryTriggerInteraction.Collide);
+            Collider[] spawnColliderCheck = Physics.OverlapSphere(powerupSpawnPoints[randomSpawnPointPick].transform.position, 2, powerupMask.value, QueryTriggerInteraction.Collide);
 
             // Checks if the spawnpoint is being occupied by something else. If it is, change the spawn point position, update sphere collider and wait 2 seconds before trying again.
             while (spawnColliderCheck.Length > 0)
             {
-                Debug.Log("Powerup spawn point is blocked!");
-
                 // Tries for a new spawn point
                 randomSpawnPointPick = Random.Range(0, powerupSpawnPoints.Count);
 
