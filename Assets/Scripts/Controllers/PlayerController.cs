@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -84,7 +84,7 @@ public class PlayerController : TankBase
 
         // Checks if player is pressing fire key, if the cooldown is off and the game is unpaused
         // NOTE: fireCooldown, as a counter, unusually ticks UP instead of down, due to the way HUDController functions and uses it.
-        if (Input.GetKey(KeyCode.Space) && fireCooldown >= maxFireCooldown && gameController.IsPaused == false)
+        if (Input.GetKeyDown(KeyCode.Space) && fireCooldown >= maxFireCooldown && gameController.IsPaused == false)
         {
             TankFire();
         }
@@ -178,8 +178,8 @@ public class PlayerController : TankBase
         // Uses approximately to check if there is any input due to floating point innacuraccy
         if (Mathf.Abs(bodyRigidbody.velocity.magnitude) <= maxSpeed && !Mathf.Approximately(Input.GetAxis("Vertical"), 0f))
         {
-            // Sets the movement vector instead of creating a new one, to reduce heap memory usage
-            bodyFrontalMovement.Set(Input.GetAxis("Vertical") * acceleration, 0f, 0f);
+            // Sets the movement vector instead of creating a new one, to reduce heap memory usage (doesn't actually make a difference, Vector3 is a struct anyways)
+            bodyFrontalMovement.Set(0f, 0f, Input.GetAxis("Vertical") * acceleration * -1f);
 
             // Accelerates rigidbody
             bodyRigidbody.AddRelativeForce(bodyFrontalMovement);
@@ -187,13 +187,13 @@ public class PlayerController : TankBase
 
         // Turns the body
         // Uses approximately to check if there is any input due to floating point innacuraccy
-        if (Mathf.Abs(bodyRigidbody.velocity.x) > 0.001f && !Mathf.Approximately(Input.GetAxis("Horizontal"), 0f))
+        if (Mathf.Abs(bodyRigidbody.velocity.z) > 0.001f && !Mathf.Approximately(Input.GetAxis("Horizontal"), 0f))
         {
             // Sets the movement vector instead of creating a new one, to reduce heap memory usage (doesn't actually make a difference, Vector3 is a struct anyways)
             bodyLateralMovement.Set(0f, Input.GetAxis("Horizontal") * bodyTurnRate * (Mathf.Clamp01(bodyRigidbody.velocity.magnitude / maxSpeed)) * Time.deltaTime, 0f);
 
             // Rotates the tank based on the direction the player is pressing. When in reverse, the directions are inverted.
-            tankParts["Body"].transform.Rotate(bodyLateralMovement);
+            TankParts["Body"].transform.Rotate(bodyLateralMovement);
         }
     }
 
@@ -202,7 +202,7 @@ public class PlayerController : TankBase
     {
         // Turns the head
         // Stores the absolute value of the desired head rotation
-        float desiredHeadRotation = Mathf.Abs(tankParts["Head"].transform.localEulerAngles.y + (Input.GetAxis("HorizontalSecondary") * headTurnRate * Time.deltaTime));
+        float desiredHeadRotation = Mathf.Abs(TankParts["Head"].transform.localEulerAngles.y + (Input.GetAxis("HorizontalSecondary") * headTurnRate * Time.deltaTime));
 
         // Checks if the value of the desired head movement is within the max head turn angle range
         if (desiredHeadRotation <= maxHeadRotation || desiredHeadRotation >= 360 - maxHeadRotation)
@@ -210,7 +210,7 @@ public class PlayerController : TankBase
             // Sets the movement vector instead of creating a new one, to reduce heap memory usage
             headMovement.Set(0f, Input.GetAxis("HorizontalSecondary") * headTurnRate * Time.deltaTime, 0f);
 
-            tankParts["Head"].transform.Rotate(headMovement, Space.Self);
+            TankParts["Head"].transform.Rotate(headMovement, Space.Self);
         }
     }
 
@@ -219,17 +219,17 @@ public class PlayerController : TankBase
     {
         // Inclines the cannon
         // Stores the absolute value of the cannon's inclination
-        float desiredCannonInclination = Mathf.Abs(tankParts["Cannon 1"].transform.localEulerAngles.z + (Input.GetAxis("VerticalSecondary") * cannonInclineRate * Time.deltaTime * -1f));
+        float desiredCannonInclination = Mathf.Abs(TankParts["Cannon 1"].transform.localEulerAngles.x + (Input.GetAxis("VerticalSecondary") * cannonInclineRate * Time.deltaTime * -1f));
 
         // If the desired inclination is within the max cannon incline
         if (desiredCannonInclination <= maxCannonInclineAngle.x || desiredCannonInclination >= 360 - maxCannonInclineAngle.y)
         {
             // Sets the movement vector instead of creating a new one, to reduce heap memory usage
-            cannonMovement.Set(0f, 0f, Input.GetAxis("VerticalSecondary") * cannonInclineRate * Time.deltaTime * -1f);
+            cannonMovement.Set(Input.GetAxis("VerticalSecondary") * cannonInclineRate * Time.deltaTime * -1f, 0f, 0f);
 
             // Inclines the cannon
             // The rotation is multiplied by -1 because we want to rotate the cannon counter-clockwise based on our input
-            tankParts["Cannon 1"].transform.Rotate(cannonMovement, Space.Self);
+            TankParts["Cannon 1"].transform.Rotate(cannonMovement, Space.Self);
         }
     }
 
