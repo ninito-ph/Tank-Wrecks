@@ -26,51 +26,14 @@ public class TankBase : SerializedMonoBehaviour
     [Tooltip("The amount of cannons the tank has.")]
     protected int cannonAmount = 1;
 
-    // How long the tank has to wait to fire again
-    // fireCooldown is used internally as a counter variable.
-    // NOTE: fireCooldown, as a counter, unusually ticks UP instead of down, due to the way HUDController functions and uses it.
+    // How long the tank has to wait to fire again fireCooldown is used
+    // internally as a counter variable. NOTE: fireCooldown, as a counter,
+    // unusually ticks UP instead of down, due to the way HUDController
+    // functions and uses it.
     protected float fireCooldown = 0f;
     [SerializeField]
     [Tooltip("The amount of time the tank must wait between shots.")]
     protected float maxFireCooldown = 2.5f;
-
-    // Properties
-    // properties are being used to preserve encapsulation
-    [HideInInspector]
-    public int Health
-    {
-        get { return health; }
-        set
-        {
-            health = value;
-            if (health <= 0)
-            {
-                DestroyTank();
-            }
-        }
-    }
-
-    [HideInInspector]
-    public int MaxHealth
-    {
-        get { return maxHealth; }
-    }
-
-    [HideInInspector]
-    public float FireCooldown
-    {
-        get { return fireCooldown; }
-    }
-
-    [HideInInspector]
-    public float MaxFireCooldown
-    {
-        get { return maxFireCooldown; }
-    }
-
-    #endregion
-
-    #region Movement Values
 
     [Header("Movement values")]
     // Tank part turn/incline speeds.
@@ -106,18 +69,6 @@ public class TankBase : SerializedMonoBehaviour
 
     // Internal reference to the body rigidbody
     protected Rigidbody bodyRigidbody;
-
-    [Header("Recoil Values")]
-    [SerializeField]
-    // The recoil amount applied to different parts of the tank
-    [Tooltip("The recoil applied to the tank's body when it fires.")]
-    protected float shotRecoil = 3f;
-    [SerializeField]
-    [Tooltip("The radius of the small explosion when a shot is fired")]
-    protected float shotRecoilRadius = 10f;
-    [SerializeField]
-    [Tooltip("The upwards force applied to the bodies within the firing explosion radius")]
-    protected float shotUpwardRecoil = 5f;
 
     #endregion
 
@@ -166,10 +117,58 @@ public class TankBase : SerializedMonoBehaviour
         set { gameController = value; }
     }
 
-    public Vector3 bodyPosition
+    public int Health
     {
-        get { return tankParts["Body"].transform.position; }
+        get { return health; }
+        set
+        {
+            health = value;
+            if (health <= 0)
+            {
+                DestroyTank();
+            }
+        }
     }
+
+    public int MaxHealth
+    {
+        get { return maxHealth; }
+    }
+
+    public float FireCooldown
+    {
+        get { return fireCooldown; }
+        set { fireCooldown = value; }
+    }
+
+    public float MaxFireCooldown
+    {
+        get { return maxFireCooldown; }
+    }
+
+    public ProjectileLaunchData LaunchData
+    {
+        get
+        {
+
+            // Retrieves the launch angle and launch height
+            float launchAngle = TankParts["Cannon 1"].transform.eulerAngles.x;
+            float launchHeight = TankParts["Fire Transform 1"].transform.position.y;
+
+            // Calculates the forces of the launch
+            Vector3 launchVelocity = new Vector3(fireForce * Mathf.Cos(launchAngle * Mathf.Deg2Rad), fireForce * Mathf.Sin(launchAngle * Mathf.Deg2Rad), 0f);
+
+            // Stores information into the launch data struct
+            ProjectileLaunchData launchInfo = new ProjectileLaunchData(launchVelocity, Physics.gravity.magnitude, launchAngle, launchHeight);
+
+            // Returns the info
+            return launchInfo;
+        }
+    }
+
+    public Dictionary<string, GameObject> TankParts { get => tankParts; }
+
+    public int CannonAmount { get => cannonAmount; }
 
     #endregion
 
@@ -180,29 +179,29 @@ public class TankBase : SerializedMonoBehaviour
     protected virtual void Awake()
     {
         // Initializes cannon sound source array
-        cannonSoundSources = new AudioSource[cannonAmount];
+        cannonSoundSources = new AudioSource[CannonAmount];
 
         // Caches reference for the body rigidbody
-        bodyRigidbody = tankParts["Body"].GetComponent<Rigidbody>();
+        bodyRigidbody = gameObject.GetComponent<Rigidbody>();
 
         // Caches references to the audio sources on the body and the cannon
-        engineSoundSource = tankParts["Body"].GetComponent<AudioSource>();
+        engineSoundSource = gameObject.GetComponent<AudioSource>();
 
         // Caches references to cannon sound sources
-        cannonSoundSources[0] = tankParts["Cannon 1"].GetComponent<AudioSource>();
+        cannonSoundSources[0] = TankParts["Cannon 1"].GetComponent<AudioSource>();
 
         // Checks if a second cannon exists
-        if (tankParts.ContainsKey("Cannon 2"))
+        if (TankParts.ContainsKey("Cannon 2"))
         {
             // Adds it to sound sources
-            cannonSoundSources[1] = tankParts["Cannon 2"].GetComponent<AudioSource>();
+            cannonSoundSources[1] = TankParts["Cannon 2"].GetComponent<AudioSource>();
         }
 
         // Checks if a third cannon exists
-        if (tankParts.ContainsKey("Cannon 3"))
+        if (TankParts.ContainsKey("Cannon 3"))
         {
             // Adds it to sound sources
-            cannonSoundSources[2] = tankParts["Cannon 3"].GetComponent<AudioSource>();
+            cannonSoundSources[2] = TankParts["Cannon 3"].GetComponent<AudioSource>();
         }
 
     }
@@ -219,7 +218,7 @@ public class TankBase : SerializedMonoBehaviour
     protected virtual void Update()
     {
         // Ticks fire cooldown up
-        fireCooldown += 1 * Time.deltaTime;
+        fireCooldown += Time.deltaTime;
 
         // Updates engine sounds
         UpdateEngineSound();
@@ -232,12 +231,12 @@ public class TankBase : SerializedMonoBehaviour
     // Updates tank engine sound effect
     protected virtual void UpdateEngineSound()
     {
-            // Update engine sound volume
-            float engineVolume = Mathf.Clamp01((bodyRigidbody.velocity.magnitude / maxSpeed) + 0.35f);
-            if (engineVolume != engineSoundSource.volume)
-            {
-                engineSoundSource.volume = engineVolume;
-            }
+        // Update engine sound volume
+        float engineVolume = Mathf.Clamp01((bodyRigidbody.velocity.magnitude / maxSpeed) + 0.35f);
+        if (engineVolume != engineSoundSource.volume)
+        {
+            engineSoundSource.volume = engineVolume;
+        }
     }
 
     // Destroys the tank in a big explosion
@@ -254,17 +253,16 @@ public class TankBase : SerializedMonoBehaviour
     }
 
     // Fires the tank's cannon
-    protected virtual void TankFire()
+    public virtual void TankFire()
     {
         // Loops through the existing cannons up to the cannon amount, and fires once for every cannon
-        for (int currentCannon = 1; currentCannon <= cannonAmount; currentCannon++)
+        for (int currentCannon = 1; currentCannon <= CannonAmount; currentCannon++)
         {
             // Creates shell
             CreateProjectile(currentCannon, currentCannon, tankShell);
 
             // Apply recoil to tank body
             string fireTransformKey = "Fire Transform " + currentCannon.ToString();
-            bodyRigidbody.AddExplosionForce(shotRecoil, tankParts[fireTransformKey].transform.position, shotRecoilRadius, shotUpwardRecoil, ForceMode.Impulse);
 
             // TODO: Add VFX to firing cannon
 
@@ -288,16 +286,16 @@ public class TankBase : SerializedMonoBehaviour
         string cannonKey = "Cannon " + cannonNumber.ToString();
 
         // Gets references for the cannon anchor and fire transform
-        GameObject fireTransform = tankParts[fireTransformKey];
+        GameObject fireTransform = TankParts[fireTransformKey];
 
         // Creates new Vector3 values for when the fired Projectile is created
         Vector3 ProjectileOrigin = new Vector3(fireTransform.transform.position.x, fireTransform.transform.position.y, fireTransform.transform.position.z);
-        Vector3 ProjectileRotation = new Vector3(fireTransform.transform.rotation.eulerAngles.x, fireTransform.transform.rotation.eulerAngles.y, fireTransform.transform.rotation.eulerAngles.z + 90);
+        Vector3 ProjectileRotation = new Vector3(fireTransform.transform.rotation.eulerAngles.x + 90f, fireTransform.transform.rotation.eulerAngles.y, fireTransform.transform.rotation.eulerAngles.z);
 
         // Create a tankShell and add the cannon who fired it to the collision ignore list (to prevent shells from exploding in the cannon that fired them)
         GameObject firedTankShell = Instantiate(tankShellToFire, ProjectileOrigin, Quaternion.Euler(ProjectileRotation));
         ProjectileController firedTankShellController = firedTankShell.GetComponent<ProjectileController>();
-        firedTankShellController.FiredFrom = tankParts[cannonKey];
+        firedTankShellController.FiredFrom = TankParts[cannonKey];
 
         // Adds impulse to fired projectile
         firedTankShellController.ProjectileImpulse = fireForce;
