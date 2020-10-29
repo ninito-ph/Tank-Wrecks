@@ -67,12 +67,18 @@ public class OptionsMenuController : MenuBase
         graphicalSettingsDropdown.value = QualitySettings.GetQualityLevel();
         graphicalSettingsDropdown.RefreshShownValue();
 
+
         // Restores fullscreen toggle state
-        bool isFullscreen = true;
+        bool isFullscreen;
         if (PlayerPrefs.GetString("Fullscreen") == "false")
         {
             isFullscreen = false;
         }
+        else
+        {
+            isFullscreen = true;
+        }
+
         fullscreenToggle.isOn = isFullscreen;
 
         // Restoring resolution is not necessary as the GenerateResolutionOptions
