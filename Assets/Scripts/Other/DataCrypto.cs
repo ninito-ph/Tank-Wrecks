@@ -9,7 +9,11 @@ public static class DataCrypto
     // Someone could still just look at the assembly and find this key
     private static string hash = "O8t!7Tto^you";
 
-    // Encrypts text
+    /// <summary>
+    /// Encrypts text utilizing a hash
+    /// </summary>
+    /// <param name="inputText">The the text to encrypt</param>
+    /// <returns>The encrypted text</returns>
     public static string EncryptText(string inputText)
     {
         // Stores the input in a byte array
@@ -34,7 +38,11 @@ public static class DataCrypto
         }
     }
 
-    // Decrypts text
+    /// <summary>
+    /// Decrypts text using a hash
+    /// </summary>
+    /// <param name="inputCrypt">The encrypted text to be decrypted</param>
+    /// <returns>The decrypted text</returns>
     public static string DecryptText(string inputCrypt)
     {
         // Stores the input in a byte array
