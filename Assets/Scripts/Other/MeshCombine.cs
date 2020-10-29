@@ -96,11 +96,6 @@ public class MeshCombine : SerializedMonoBehaviour
     // Combines meshes with differing materials into a parent mesh subdivided into submeshes
     public void MultiMaterialCombine()
     {
-        /*
-        This method is somewhat advanced, so here's a breakdown of how it works:
-
-        */
-
         // Caches frequently used references and components
         CacheReferences();
 
