@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -96,7 +96,7 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         // Gets a reference of playerController so other classes can access it
-        playerReference = GameObject.Find("Tank (Player)");
+        playerReference = GameObject.Find("Tank Player");
 
         //HACK: For some reason, when returning to the game scene from the menu, the TimeScale starts at 0
         // Setting it to 1 works, but ideally we should find what is setting it to 0 in the first place
