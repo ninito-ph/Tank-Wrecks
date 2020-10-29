@@ -25,7 +25,10 @@ public class GameOverController : MenuBase
     [Tooltip("The text containing how many points the player accrued")]
     [SerializeField]
     private Text pointsAccrued;
-    [Tooltip("The text entry field used to input the player name")]
+    [Tooltip("The input field component of the entry field")]
+    [SerializeField]
+    private InputField inputField;
+    [Tooltip("The text component of the input field used to input the player name")]
     [SerializeField]
     private Text playerName;
 
@@ -50,12 +53,16 @@ public class GameOverController : MenuBase
 
         // Fades in the game over screen and its content over time
         fadeRoutine = StartCoroutine(Fade(1f, fadeInTime, gameOverTexts, gameOverBackground));
+
+        // Selects the input field so the player can type right away
+        inputField.ActivateInputField();
+        inputField.Select();
     }
 
     private void Update()
     {
         // If the player presses enter
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) && playerName.text != "")
         {
             // Saves the player metric into a save file
             SavePlayerMetrics();
