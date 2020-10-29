@@ -14,7 +14,7 @@ public interface IEnemy
         set;
     }
 
-    GameObject PlayerReference
+    PlayerController PlayerReference
     {
         get;
         set;
