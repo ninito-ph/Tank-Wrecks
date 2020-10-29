@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1139111487377864088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4723335326354090679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 413f220d9bf9b29439770d2ba0247e2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingTip: Rollers are the canon fodder of the enemy. Not particularly strong,
+    agressive or fast. Beware, however, as they will overwhelm you when in sufficient
+    number!
+--- !u!1001 &8459272277081793282
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3812850298496911797, guid: ad36334a5b79f414b82c2ad400748f0e,
+        type: 3}
+      propertyPath: m_Name
+      value: Roller Loading
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358655985350112931, guid: ad36334a5b79f414b82c2ad400748f0e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358655985350112931, guid: ad36334a5b79f414b82c2ad400748f0e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358655985350112931, guid: ad36334a5b79f414b82c2ad400748f0e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358655985350112931, guid: ad36334a5b79f414b82c2ad400748f0e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358655985350112931, guid: ad36334a5b79f414b82c2ad400748f0e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358655985350112931, guid: ad36334a5b79f414b82c2ad400748f0e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358655985350112931, guid: ad36334a5b79f414b82c2ad400748f0e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358655985350112931, guid: ad36334a5b79f414b82c2ad400748f0e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358655985350112931, guid: ad36334a5b79f414b82c2ad400748f0e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358655985350112931, guid: ad36334a5b79f414b82c2ad400748f0e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358655985350112931, guid: ad36334a5b79f414b82c2ad400748f0e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3914075768061065397, guid: ad36334a5b79f414b82c2ad400748f0e, type: 3}
+    - {fileID: 2504533557541087191, guid: ad36334a5b79f414b82c2ad400748f0e, type: 3}
+    - {fileID: 1517717721940370849, guid: ad36334a5b79f414b82c2ad400748f0e, type: 3}
+    - {fileID: 8460923585258786753, guid: ad36334a5b79f414b82c2ad400748f0e, type: 3}
+    - {fileID: 7524079546104095064, guid: ad36334a5b79f414b82c2ad400748f0e, type: 3}
+    - {fileID: 6451912726195802849, guid: ad36334a5b79f414b82c2ad400748f0e, type: 3}
+    - {fileID: 78680728660688328, guid: ad36334a5b79f414b82c2ad400748f0e, type: 3}
+    - {fileID: 6114033596836630672, guid: ad36334a5b79f414b82c2ad400748f0e, type: 3}
+    - {fileID: -1449400243845712561, guid: ad36334a5b79f414b82c2ad400748f0e, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: ad36334a5b79f414b82c2ad400748f0e, type: 3}
+--- !u!1 &4723335326354090679 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3812850298496911797, guid: ad36334a5b79f414b82c2ad400748f0e,
+    type: 3}
+  m_PrefabInstance: {fileID: 8459272277081793282}
+  m_PrefabAsset: {fileID: 0}

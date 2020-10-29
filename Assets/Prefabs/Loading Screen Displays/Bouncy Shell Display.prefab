@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 413f220d9bf9b29439770d2ba0247e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingTip: The Bouncy shell is created using the rare, bouncy and explosive Violet
-    Powder! It bounces two times before exploding a final time. Each bounce triggers
-    an explosion!
+  loadingTip: The Bouncy shell is created using expensive and explosive Quantum Gunpowder!
+    It bounces two times before exploding a final time. Each bounce triggers an explosion!
 --- !u!1001 &3370884672334464034
 PrefabInstance:
   m_ObjectHideFlags: 0
