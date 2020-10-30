@@ -1,18 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class EnemyBaseState : MonoBehaviour
+public abstract class EnemyBaseState
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    // EnterState is called whenever the enemy enters a state
+    public abstract void EnterState(EnemyBase enemy);
+
+    // LeaveState is called whenever the enemy leaves a state
+    public abstract void LeaveState(EnemyBase enemy);
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public abstract void Update(EnemyBase enemy);
+
+    // OnDrawGizmos is called once every time gizmos are drawn to the scene view
+    public abstract void OnDrawGizmos(EnemyBase enemy);
 }

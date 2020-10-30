@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &2986518552976758195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4175126506872844719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 413f220d9bf9b29439770d2ba0247e2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingTip: Annihilators are merciless machines of destruction! They will rush
+    your position while firing their three cannons in short succession. Mantain your
+    distance and fire back!
+--- !u!1001 &7417010261929496743
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1954428504075600899, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4419173716039081785, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 4419173716039081785, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+    - target: {fileID: 4419173716039081785, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4908774707138560221, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5684007651112833307, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6076574474863737778, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6076574474863737778, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6076574474863737778, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6076574474863737778, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6076574474863737778, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6076574474863737778, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6076574474863737778, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6076574474863737778, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6076574474863737778, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6076574474863737778, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6076574474863737778, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6260350849267667843, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6854343284140351752, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: m_Name
+      value: Annihilator Loading
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6925423412256984864, guid: 36b79e77b5b6ac24b8736c0bf5202c78, type: 3}
+    - {fileID: 1954428504075600899, guid: 36b79e77b5b6ac24b8736c0bf5202c78, type: 3}
+    - {fileID: 5684007651112833307, guid: 36b79e77b5b6ac24b8736c0bf5202c78, type: 3}
+    - {fileID: 4419173716039081785, guid: 36b79e77b5b6ac24b8736c0bf5202c78, type: 3}
+    - {fileID: 6260350849267667843, guid: 36b79e77b5b6ac24b8736c0bf5202c78, type: 3}
+    - {fileID: 5999768017000884620, guid: 36b79e77b5b6ac24b8736c0bf5202c78, type: 3}
+    - {fileID: 8372897126029936273, guid: 36b79e77b5b6ac24b8736c0bf5202c78, type: 3}
+    - {fileID: 8081155498728049916, guid: 36b79e77b5b6ac24b8736c0bf5202c78, type: 3}
+    - {fileID: 3826524180676833466, guid: 36b79e77b5b6ac24b8736c0bf5202c78, type: 3}
+    - {fileID: 8087626101810995673, guid: 36b79e77b5b6ac24b8736c0bf5202c78, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 36b79e77b5b6ac24b8736c0bf5202c78, type: 3}
+--- !u!1 &4175126506872844719 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6854343284140351752, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+    type: 3}
+  m_PrefabInstance: {fileID: 7417010261929496743}
+  m_PrefabAsset: {fileID: 0}
