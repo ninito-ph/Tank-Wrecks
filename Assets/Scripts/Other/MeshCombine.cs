@@ -40,16 +40,6 @@ public class MeshCombine : SerializedMonoBehaviour
     #endregion
 
     #region Unity Methods
-    // Runs once the script is loaded
-    private void Awake()
-    {
-        // Caches common references
-        CacheReferences();
-
-        // Checks whether the meshes are combined already
-        if (containerMeshFilter == null) meshesAreCombined = false;
-        else meshesAreCombined = true;
-    }
 
     // Reset is used when the component is reset or placed for the first time
     private void Reset()
@@ -285,8 +275,13 @@ public class MeshCombine : SerializedMonoBehaviour
     // Uncombines all meshes
     public void Uncombine()
     {
+        // Caches commonly used references
+        CacheReferences();
+
         // Sets the mesh to none
         containerMeshFilter.mesh = null;
+        // Sets the mesh renderer to only have one material
+        containerRenderer.materials = new Material[1];
         // Clears the renderer's materials
         containerRenderer.material = null;
 
