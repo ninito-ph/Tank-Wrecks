@@ -69,6 +69,8 @@ public class RepositionState : EnemyBaseState
         WaitForSeconds pathingInterval = new WaitForSeconds(0.65f);
         // Stores the player's previous position
         Vector3 destination = GetValidPoint(enemy, 15f);
+        // Stores a safety cooldown to prevent stack overflows when changing states
+        float safetyCooldown = 1f;
 
         // Loops eternally until the inevitable and somber heat death of the universe
         while (enemy.PlayerReference != null)
@@ -84,8 +86,11 @@ public class RepositionState : EnemyBaseState
             // Sets the destination
             if (destination != enemy.NavigationAgent.destination) enemy.NavigationAgent.SetDestination(destination);
 
+            // Ticks down the safety cooldown
+            safetyCooldown -= 0.65f;
+
             // Checks if the distance with the error margin is lesser than the safe fire area radius
-            if (distance - errorMargin < enemy.PlayerReference.SafeFireAreaRadius && distance + errorMargin > enemy.PlayerReference.RushAreaFireRadius && ValidatePoint(enemy.transform.position, enemy.NavigationAgent, enemy.PlayerReference.transform) == true)
+            if (distance - errorMargin < enemy.PlayerReference.SafeFireAreaRadius && distance + errorMargin > enemy.PlayerReference.RushAreaFireRadius && ValidatePoint(enemy.TankParts["Head"].transform.position, enemy.NavigationAgent, enemy.PlayerReference.transform) == true && safetyCooldown <= 0)
             {
                 // Transitions to the fire state
                 enemy.TransitionToState(enemy.FireState);
@@ -184,7 +189,7 @@ public class RepositionState : EnemyBaseState
         layerMask = ~layerMask;
 
         // Whether the object is obstructed
-        bool objectIsObstructed = Physics.Linecast(sampledPosition.position, targetTransform.position, layerMask);
+        bool objectIsObstructed = Physics.Linecast(sampledPosition.position, targetTransform.position, layerMask, QueryTriggerInteraction.Ignore);
 
         // Returns true if the navmesh could sample and the linecast did not encounter any obstruction
         if (navMeshSampleSucceeded == true && objectIsObstructed == false)
