@@ -62,8 +62,8 @@ public class GameDifficultySO : ScriptableObject
 
     [Header("Enemy amount")]
     [SerializeField]
-    [Tooltip("The amount of enemies that will spawn on a given wave. This number increases as the waves increase.")]
-    private int enemyAmount = 4;
+    [Tooltip("The amount of enemies that will spawn at the final wave (30).")]
+    private int maxEnemyAmount = 12;
     [SerializeField]
     [Tooltip("The Roller Tank prefab")]
     private GameObject rollerTank;
@@ -76,6 +76,8 @@ public class GameDifficultySO : ScriptableObject
     [SerializeField]
     [Tooltip("The Annihilator Tank prefb")]
     private GameObject annihilatorTank;
+    //The amount of enemies that will spawn on a given wave. This number increases up to the max enemy amount as the waves increase
+    private int enemyAmount = 1;
 
     [Header("Score Rewards")]
     [SerializeField]
@@ -112,7 +114,7 @@ public class GameDifficultySO : ScriptableObject
             oilBarrelChance = value;
             PowerupSpawnChanceValidity();
         }
-            
+
     }
 
     public int ShieldChance
@@ -255,7 +257,7 @@ public class GameDifficultySO : ScriptableObject
     {
         get { return annihilatorTank; }
     }
-    
+
     #endregion
 
     #endregion
@@ -264,10 +266,17 @@ public class GameDifficultySO : ScriptableObject
 
     #region Methods
 
-    //TODO: add a method that increases the enemy spawn amount as the wave increases.
-    public void UpdateEnemyAmount()
+    // Increases the enemy spawn amount accourding to a easeInOutSine curve
+    public void UpdateEnemyAmount(int wave, int peakDifficultyWave)
     {
+        // Calculates the time to sample the curve
+        float sampleTime = Mathf.Min(1f, (float)wave / (float)peakDifficultyWave);
 
+        // Calculates difficulty curve progress
+        float sampleTimeSquared = sampleTime * sampleTime;
+
+        // Updates enemy amount
+        enemyAmount = Mathf.CeilToInt(sampleTimeSquared / (2 * (sampleTimeSquared - sampleTime) + 1) * maxEnemyAmount);
     }
 
     // Checks whether them sum of all spawn chances are below or over 100
@@ -284,7 +293,7 @@ public class GameDifficultySO : ScriptableObject
         }
     }
 
-        // Checks whether them sum of all spawn chances are below or over 100
+    // Checks whether them sum of all spawn chances are below or over 100
     public void PowerupSpawnChanceValidity()
     {
         float totalSpawnChance = (oilBarrelChance + shieldChance + wrenchChance + ammoChance + nukeShellChance);

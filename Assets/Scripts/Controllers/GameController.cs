@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Scripting;
+//using DebuggingEssentials;
 
 public class GameController : MonoBehaviour
 {
@@ -192,6 +193,12 @@ public class GameController : MonoBehaviour
     // Begins next wave
     private void BeginWave()
     {
+        // Increases wave
+        wave++;
+
+        // Updates the enemy amount
+        difficultyConfig.UpdateEnemyAmount(wave, 30);
+
         // Spawns enemies & powerups
         spawnEnemiesRoutine = StartCoroutine(SpawnEnemy());
         spawnPowerupsRoutine = StartCoroutine(SpawnPowerup());
@@ -202,8 +209,6 @@ public class GameController : MonoBehaviour
             AddScore(difficultyConfig.WaveCompleteBonus);
         }
 
-        // Increases wave
-        wave++;
         // Calls WaveOver event
         EventBroker.CallWaveStarted();
     }
@@ -554,6 +559,18 @@ public class GameController : MonoBehaviour
     #endregion
 
     #region Console Commands
-    //[ConsoleCommand("")]
+/*     [ConsoleCommand("SetWave", "Sets the current wave to the specified wave")]
+    private void SetWave(int desiredWave)
+    {
+        // Sets the current wave to the wave preceding the desired wave
+        wave = desiredWave - 1;
+
+        // Destroys all remaining enemies which causes the next wave to begin
+        foreach (GameObject activeEnemy in activeEnemies)
+        {
+            Destroy(activeEnemy);
+        }
+    } */
+
     #endregion
 }
