@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 991776574486238859}
   - component: {fileID: 3037546848423158337}
   - component: {fileID: 4460284789209677608}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Bush C
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3541927948098536340}
-  m_Mesh: {fileID: 5958362384829529401, guid: 8fcb52c331ff8be43b92386739ceb5c0, type: 3}
+  m_Mesh: {fileID: 3772688071908286620, guid: b1936cbe72210f742ab76117b82a35cb, type: 3}
 --- !u!23 &3037546848423158337
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -59,7 +59,6 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8e9a83f6871e1cc4984281461fd0f1a4, type: 2}
   - {fileID: 2100000, guid: 8e9a83f6871e1cc4984281461fd0f1a4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0

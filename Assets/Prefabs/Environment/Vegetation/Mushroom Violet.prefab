@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8337966809946608328}
   - component: {fileID: 6076094678771279362}
   - component: {fileID: 4869246940966578138}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Mushroom Violet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
