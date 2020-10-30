@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &112992874171354728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3487028437379910726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 413f220d9bf9b29439770d2ba0247e2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingTip: The Bouncy shell is created using expensive and explosive Quantum Gunpowder!
+    It bounces two times before exploding a final time. Each bounce triggers an explosion!
+--- !u!1001 &3370884672334464034
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1578635849384940254, guid: c72aac07aec9600499fe5df7d3c28db7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1578635849384940254, guid: c72aac07aec9600499fe5df7d3c28db7,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1578635849384940254, guid: c72aac07aec9600499fe5df7d3c28db7,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1578635849384940254, guid: c72aac07aec9600499fe5df7d3c28db7,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1578635849384940254, guid: c72aac07aec9600499fe5df7d3c28db7,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1578635849384940254, guid: c72aac07aec9600499fe5df7d3c28db7,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.2588191
+      objectReference: {fileID: 0}
+    - target: {fileID: 1578635849384940254, guid: c72aac07aec9600499fe5df7d3c28db7,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9659258
+      objectReference: {fileID: 0}
+    - target: {fileID: 1578635849384940254, guid: c72aac07aec9600499fe5df7d3c28db7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1578635849384940254, guid: c72aac07aec9600499fe5df7d3c28db7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1578635849384940254, guid: c72aac07aec9600499fe5df7d3c28db7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1578635849384940254, guid: c72aac07aec9600499fe5df7d3c28db7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1578635849384940254, guid: c72aac07aec9600499fe5df7d3c28db7,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1578635849384940254, guid: c72aac07aec9600499fe5df7d3c28db7,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1578635849384940254, guid: c72aac07aec9600499fe5df7d3c28db7,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2207784561268033636, guid: c72aac07aec9600499fe5df7d3c28db7,
+        type: 3}
+      propertyPath: m_Name
+      value: Bouncy Shell Display
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3111865793558001854, guid: c72aac07aec9600499fe5df7d3c28db7, type: 3}
+    - {fileID: 5916003188704931941, guid: c72aac07aec9600499fe5df7d3c28db7, type: 3}
+    - {fileID: 4321941343004782461, guid: c72aac07aec9600499fe5df7d3c28db7, type: 3}
+    - {fileID: 732498175895554676, guid: c72aac07aec9600499fe5df7d3c28db7, type: 3}
+    - {fileID: 4846849116883705909, guid: c72aac07aec9600499fe5df7d3c28db7, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: c72aac07aec9600499fe5df7d3c28db7, type: 3}
+--- !u!1 &3487028437379910726 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2207784561268033636, guid: c72aac07aec9600499fe5df7d3c28db7,
+    type: 3}
+  m_PrefabInstance: {fileID: 3370884672334464034}
+  m_PrefabAsset: {fileID: 0}

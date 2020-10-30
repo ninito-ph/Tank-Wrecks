@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 779f0abfeddb0794db999fb02a761b77, type: 3}
+  m_Name: Medium Difficulty
+  m_EditorClassIdentifier: 
+  oilBarrelChance: 15
+  shieldChance: 10
+  wrenchChance: 25
+  ammoChance: 40
+  nukeShellChance: 10
+  oilBarrelPowerup: {fileID: 1882780295976016320, guid: dd390f7aa107b89469012601a50a6c6c,
+    type: 3}
+  shieldPowerup: {fileID: 3552752275440300221, guid: aeda92499de848843bf2992e5c284ca4,
+    type: 3}
+  wrenchPowerup: {fileID: 4833907545851943040, guid: 45fb3054572b1d54998615700a88c69a,
+    type: 3}
+  ammoPowerup: {fileID: 8361984706794311539, guid: fa4319f40abc78b4192e1a1717eab4ac,
+    type: 3}
+  nukeShellPowerup: {fileID: 3873084885385344414, guid: 58f892af4672c2145ae7ad3c1c562edc,
+    type: 3}
+  powerupSpawnCooldown: 8
+  rollerTankChance: 55
+  speederTankChance: 20
+  smasherTankChance: 20
+  annihilatorTankChance: 5
+  maxEnemyAmount: 9
+  rollerTank: {fileID: 3812850298496911797, guid: ad36334a5b79f414b82c2ad400748f0e,
+    type: 3}
+  speederTank: {fileID: 5547885572492086858, guid: 89e934a371d443e4081a8d041f8c4466,
+    type: 3}
+  smasherTank: {fileID: 292291347057366468, guid: 5decc2f8fe6a4c64bb191a80f62c6b88,
+    type: 3}
+  annihilatorTank: {fileID: 6854343284140351752, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+    type: 3}
+  waveCompleteBonus: 50
+  difficultyScoreModifier: 1

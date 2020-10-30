@@ -15,14 +15,14 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - TankBodies
+  - Tanks
+  - Powerups
+  - PostProcessing
+  - ObjectTexture
+  - Ground
+  - Environment
+  - Projectiles
   - 
   - 
   - 
