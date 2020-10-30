@@ -88,7 +88,7 @@ You will need a working machine running:
 * Windows 7 (SP1+) or later;
 * Ubuntu 16.04 or later;
 * Sierra 10.12+ or later;
-* DX10 or later capable graphics card;
+* DX11 or later capable graphics card;
 * A x86 or x64 architecture cpu
 
 <!-- USAGE EXAMPLES -->
@@ -99,7 +99,7 @@ In Tank Wrecks, you control a tank seen from a third-person perspective. You can
 <!-- ROADMAP -->
 ## Roadmap
 
-The game is scheduled to enter Alpha in september 17, where the game will be at an early but functional stage at this point. Core features will be implemented, but may lack polish and content. Later, in october 17, the game will enter Beta, where most features will have seen considerable amounts of polish, and most content will have been implemented. Lastly, in november 18, the game will go gold, where it will be feature-complete and content-complete. Most bugs will have been ironed out, and it is unlikely the game will recieve further support past this point. 
+The game is scheduled to enter Alpha in september 17, where the game will be at an early but functional stage at this point. Core features will be implemented, but may lack polish and content. Later, in november 1st, the game will enter Beta, where most features will have seen considerable amounts of polish, and most content will have been implemented. Lastly, in november 19, the game will go gold, where it will be feature-complete and content-complete. Most bugs will have been ironed out, and it is unlikely the game will recieve further support past this point. 
 
 
 <!-- LICENSE -->
@@ -118,6 +118,5 @@ Project Link: [https://github.com/ninito-ph/Tank-Wrecks](https://github.com/nini
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
-* [Editor Console Pro](https://assetstore.unity.com/packages/tools/utilities/editor-console-pro-11889)
 * [dafont.com](https://www.dafont.com)
 
