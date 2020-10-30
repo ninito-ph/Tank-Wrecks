@@ -324,7 +324,10 @@ public class PlayerController : TankBase
 
             // Speed powerup
             case (PowerupTypes.OilBarrel):
-                OilPowerupRoutine = StartCoroutine(OilPowerup(duration, speedMultiplier));
+                if (OilPowerupRoutine == null)
+                {
+                    OilPowerupRoutine = StartCoroutine(OilPowerup(duration, speedMultiplier));
+                }
                 break;
 
             // Shield powerup
@@ -398,5 +401,4 @@ public class PlayerController : TankBase
     #endregion
 
     #endregion
-
 }
