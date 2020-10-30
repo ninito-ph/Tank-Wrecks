@@ -75,7 +75,7 @@ public class HUDController : MenuBase
         UpdateHealth();
 
         // Checks for pause Input
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && playerController != null)
         {
             // Pauses/Resumes game
             TogglePause();
