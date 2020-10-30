@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5704765168079106299}
   - component: {fileID: 7552416694248965169}
   - component: {fileID: 6622461882812693581}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Tree Maple C
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8345010165587584484}
-  m_Mesh: {fileID: 8882628249823059349, guid: dfbab25d34ea80e428052aab72e294d3, type: 3}
+  m_Mesh: {fileID: 8882628249823059349, guid: 1a0407015e2c74d4e878d9066221d86e, type: 3}
 --- !u!23 &7552416694248965169
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -59,7 +59,6 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8e9a83f6871e1cc4984281461fd0f1a4, type: 2}
   - {fileID: 2100000, guid: 8e9a83f6871e1cc4984281461fd0f1a4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0

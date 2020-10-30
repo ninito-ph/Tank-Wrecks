@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1202624537119356449}
   - component: {fileID: 3986921439272501995}
   - component: {fileID: 8964016643046464039}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Tree Pine A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3194353531592483646}
-  m_Mesh: {fileID: 6918630627893317177, guid: 2e4bf4c5d70426840b6ba874fa992e7d, type: 3}
+  m_Mesh: {fileID: 6918630627893317177, guid: c8bbb793ba28f394ca7bdb76a0ee406b, type: 3}
 --- !u!23 &3986921439272501995
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -59,7 +59,6 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8e9a83f6871e1cc4984281461fd0f1a4, type: 2}
   - {fileID: 2100000, guid: 8e9a83f6871e1cc4984281461fd0f1a4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0

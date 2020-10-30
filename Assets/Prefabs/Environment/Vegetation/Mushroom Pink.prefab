@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6838392631355839151}
   - component: {fileID: 8719583041742038629}
   - component: {fileID: 7981428804135985765}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Mushroom Pink
   m_TagString: Untagged
   m_Icon: {fileID: 0}
