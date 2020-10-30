@@ -157,7 +157,7 @@ public class FireState : EnemyBaseState
         layerMask = ~layerMask;
 
         // Whether the object is obstructed
-        bool isObstructed = Physics.Linecast(enemy.TankParts["Fire Transform 1"].transform.position, enemy.PlayerReference.transform.position, layerMask);
+        bool isObstructed = Physics.Linecast(enemy.TankParts["Head"].transform.position, enemy.PlayerReference.transform.position, layerMask, QueryTriggerInteraction.Ignore);
         return isObstructed;
     }
 
