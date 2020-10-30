@@ -37,7 +37,6 @@ public class ProjectileController : MonoBehaviour
     private bool enableRadiusGizmo = false;
 #endif
 
-
     // The rigidbody of the projectile for internal reference
     private Rigidbody projectileRigidbody;
 
@@ -97,6 +96,12 @@ public class ProjectileController : MonoBehaviour
         // Reduces the amount of bounces left
         projectileBounces--;
 
+        // If a shell explodes another shell mid-air award 500 points
+        if (gameObject.CompareTag("Projectile"))
+        {
+            EventBroker.CallAddScore(500);
+        }
+
         // If the object that fired the shell wasn't the one colliding with it
         if (other.gameObject != firedFrom)
         {
@@ -141,7 +146,6 @@ public class ProjectileController : MonoBehaviour
         // Iterates through each of the tanks
         foreach (Collider tank in tanksInRadius)
         {
-
             // FIXME: Realistically, this won't cause performance drops, as a tank shell will rarely hit more than 2
             // gameobjects at a time, but using GetComponent in this manner is not optimal performance-wise.
             TankBase tankController = tank.transform.root.gameObject.GetComponent<TankBase>();
