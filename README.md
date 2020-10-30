@@ -80,7 +80,7 @@ Tank Wrecks and its assets were built using the following software:
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To download a working build of Tank Wrecks is simple; first check if your computer is running one of the supported OS and meets the requirements for CPU and GPU capabilities. Then, you need only download the latest release, unzip the folder and execute Tank Wrecks.exe. If you have any problems installing the game, feel free to open an issue or contact me at paulo at ninito.me for support.
+To download a working build of Tank Wrecks is simple; first check if your computer is running one of the supported OS and meets the requirements for CPU and GPU capabilities. Then, you need only download the [latest stable build](https://ninito.itch.io/tank-wrecks), unzip the folder and execute Tank Wrecks.exe. If you have any problems installing the game, feel free to open an issue or contact me at paulo at ninito.me for support.
 
 ### Minimum Requirements
 
