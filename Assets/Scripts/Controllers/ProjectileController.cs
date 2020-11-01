@@ -96,12 +96,6 @@ public class ProjectileController : MonoBehaviour
         // Reduces the amount of bounces left
         projectileBounces--;
 
-        // If a shell explodes another shell mid-air award 500 points
-        if (gameObject.CompareTag("Projectile"))
-        {
-            EventBroker.CallAddScore(500);
-        }
-
         // If the object that fired the shell wasn't the one colliding with it
         if (other.gameObject != firedFrom)
         {
