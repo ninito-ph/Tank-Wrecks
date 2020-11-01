@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GreatForest.unity
     guid: 9df1abe5dd4a09b439749dade5f8a97f
+  - enabled: 1
+    path: Assets/Scenes/OldwoodTown.unity
+    guid: ca9a9bfe38939314f9318721d0bb2f87
   m_configObjects: {}
