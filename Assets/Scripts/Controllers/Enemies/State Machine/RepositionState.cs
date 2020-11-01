@@ -120,7 +120,6 @@ public class RepositionState : EnemyBaseState
         // Checks if the rotation is not already the target rotation before running lerp
         if (enemy.TankParts["Cannon Anchor"].transform.localRotation != Quaternion.identity)
         {
-            Debug.Log(Quaternion.identity.eulerAngles);
             // The time point in the interpolation
             float rotationTime = Mathf.Min(rotationStrenght * Time.deltaTime, 1);
             // Sets the rotation to the lerp
