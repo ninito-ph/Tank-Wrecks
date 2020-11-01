@@ -45,6 +45,9 @@ public class GameOverController : MenuBase
     // OnEnable is called when the object is enabled
     private void OnEnable()
     {
+        // Clears the current game from global data, as it is over
+        GlobalData.CurrentGame = null;
+
         // Gets reference to GameObject
         gameController = GameObject.Find("Game Controller").GetComponent<GameController>();
 

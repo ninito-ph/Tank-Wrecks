@@ -112,6 +112,7 @@ public class GameController : MonoBehaviour
 
         // Starts the game
         StartGame();
+
     }
 
     // OnDestroy runs once before the gameObject is destroyed
@@ -159,13 +160,22 @@ public class GameController : MonoBehaviour
         score += scoreAmount * difficultyConfig.DifficultyScoreModifier + wave * 20;
     }
 
-    // Runs before the first wave in the game
+    // Runs before the first wave in the level
     private void StartGame()
     {
+        // Checks if an ongoing game already exists
+        if (GlobalData.CurrentGame.HasValue == true)
+        {
+            // Loads the survived waves from the previous scene
+            wave = GlobalData.CurrentGame.Value.wavesSurvived;
+            // Loads the score from the previous scene
+            score = GlobalData.CurrentGame.Value.playerScore;
+        }
+
         // Initial populate spawnpools
         PopulateEnemySpawnpool();
         PopulatePowerupSpawnpool();
-        // Begins the first wave
+        // Begins the wave
         BeginWave();
         // Starts the manual garbage collector
         garbageCollectorRoutine = StartCoroutine(CollectGarbage());
@@ -180,14 +190,11 @@ public class GameController : MonoBehaviour
         // Unpauses the game
         Time.timeScale = 1;
 
-        // TODO: Add game end effects, save game metrics and return to main menu
-
         // Goes to requested screen
         // Set the scene to load data to the desired scene
         GlobalData.SceneToLoad = sceneName;
         // Load the loading screen scene
         SceneManager.LoadScene("LoadingScene");
-
     }
 
     // Begins next wave
@@ -225,13 +232,17 @@ public class GameController : MonoBehaviour
             StopCoroutine(spawnEnemiesRoutine);
         }
 
-        // Starts next wave
-        BeginWave();
         // Checks if the wave is a multiple of ten. If so, change the level
         if (wave % 10 == 0)
         {
             ChangeLevel();
         }
+        else
+        {
+            // Starts next wave
+            BeginWave();
+        }
+
     }
 
     // Loads the next level in the game
@@ -245,6 +256,9 @@ public class GameController : MonoBehaviour
         }
         else // Otherwise, simply load the next level of the game
         {
+            // Saves current player metrics
+            GlobalData.CurrentGame = new LeaderboardEntry(wave, (int)score, null);
+
             //TODO: Add a transition between scenes
 
             // Gets the current scene and its index on the list
@@ -559,18 +573,18 @@ public class GameController : MonoBehaviour
     #endregion
 
     #region Console Commands
-/*     [ConsoleCommand("SetWave", "Sets the current wave to the specified wave")]
-    private void SetWave(int desiredWave)
-    {
-        // Sets the current wave to the wave preceding the desired wave
-        wave = desiredWave - 1;
-
-        // Destroys all remaining enemies which causes the next wave to begin
-        foreach (GameObject activeEnemy in activeEnemies)
+    /*     [ConsoleCommand("SetWave", "Sets the current wave to the specified wave")]
+        private void SetWave(int desiredWave)
         {
-            Destroy(activeEnemy);
-        }
-    } */
+            // Sets the current wave to the wave preceding the desired wave
+            wave = desiredWave - 1;
+
+            // Destroys all remaining enemies which causes the next wave to begin
+            foreach (GameObject activeEnemy in activeEnemies)
+            {
+                Destroy(activeEnemy);
+            }
+        } */
 
     #endregion
 }

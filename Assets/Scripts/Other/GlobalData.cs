@@ -10,6 +10,9 @@ public static class GlobalData
     private static string sceneToLoad = null;
     // The game's difficulty
     private static GameDifficultySO gameDifficulty;
+    // Stores the current ongoing game metrics
+    // Uses a nullable struct because the game checks whether there is an ongoing game by checking if this variable is null or not
+    private static LeaderboardEntry? currentGame;
 
     #region Properties
 
@@ -24,6 +27,8 @@ public static class GlobalData
         get { return gameDifficulty; }
         set { gameDifficulty = value; }
     }
+
+    public static LeaderboardEntry? CurrentGame { get => currentGame; set => currentGame = value; }
 
     #endregion
 
