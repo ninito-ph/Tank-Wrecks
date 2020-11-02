@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 413f220d9bf9b29439770d2ba0247e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingTip: Annihilators are merciless machines of destruction! They will rush
-    your position while firing their three cannons in short succession. Mantain your
-    distance and fire back!
+  loadingTip: Annihilators are unstoppable machines of destruction! They will rush
+    your position and fire their three cannons in short succession. Keep moving and
+    fire back!
 --- !u!1001 &7417010261929496743
 PrefabInstance:
   m_ObjectHideFlags: 0

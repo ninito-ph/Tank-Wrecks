@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 413f220d9bf9b29439770d2ba0247e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingTip: Rollers are the canon fodder of the enemy. Not particularly strong,
-    agressive or fast. Beware, however, as they will overwhelm you when in sufficient
-    number!
+  loadingTip: Rollers are the front line soldiers of the enemy. Not particularly
+    strong, agressive or fast. Beware, however, they can make a difference if they
+    catch you with your guard down!
 --- !u!1001 &8459272277081793282
 PrefabInstance:
   m_ObjectHideFlags: 0

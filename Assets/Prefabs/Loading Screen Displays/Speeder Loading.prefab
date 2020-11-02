@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 413f220d9bf9b29439770d2ba0247e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingTip: Speeders are fragile but agile tanks. They will quickly catch up to
-    you and lay support fire, and their superior speed means there's no getting away!
+  loadingTip: Speeders are fragile but highly agile. They will quickly catch up to
+    you and fire. Their superior speed means there's no getting away!
 --- !u!1001 &4454718040298518616
 PrefabInstance:
   m_ObjectHideFlags: 0

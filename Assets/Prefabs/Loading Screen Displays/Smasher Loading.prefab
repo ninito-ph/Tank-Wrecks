@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 413f220d9bf9b29439770d2ba0247e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingTip: "Smasher tanks will rush \x03you without hesitation, while firing their
-    large cannon. They are extremely aggressive and will destroy you if not dealt
-    with quickly!"
+  loadingTip: "Smasher tanks will boldly rush \x03you, bearing their armored chassis.
+    They may be slow, but they are highly resillient and won't back down!"
 --- !u!1001 &4287620408889923913
 PrefabInstance:
   m_ObjectHideFlags: 0
