@@ -29,8 +29,8 @@ public class GameController : MonoBehaviour
     private List<GameObject> powerupSpawnPoints = new List<GameObject>();
 
     [SerializeField]
-    [Tooltip("A list containing the scenes for each level in the game")]
-    private List<Scene> gameLevels = new List<Scene>();
+    [Tooltip("The asset name for the next level in the level chain")]
+    private string nextLevel;
     private List<GameObject> enemySpawnPool = new List<GameObject>();
     private List<GameObject> powerupSpawnPool = new List<GameObject>();
 
@@ -261,27 +261,8 @@ public class GameController : MonoBehaviour
 
             //TODO: Add a transition between scenes
 
-            // Gets the current scene and its index on the list
-            Scene currentScene = SceneManager.GetActiveScene();
-            int levelIndex = gameLevels.FindIndex(Scene => Scene == currentScene);
-
-            // Stores the index of the next scene to be loaded
-            int levelToLoadIndex;
-
-            // Checks to see if there actually is a next level, or whether the game should reset back to the first level
-            if (levelIndex + 1 > gameLevels.Count)
-            {
-                // Sends the player back to the first level
-                levelToLoadIndex = 0;
-            }
-            else
-            {
-                // Sends the player to the next level
-                levelToLoadIndex = levelIndex + 1;
-            }
-
             // Loads the next level
-            GlobalData.SceneToLoad = gameLevels[levelToLoadIndex].name;
+            GlobalData.SceneToLoad = nextLevel;
             SceneManager.LoadScene("LoadingScene");
         }
 
