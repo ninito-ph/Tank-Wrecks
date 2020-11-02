@@ -4,11 +4,15 @@ using UnityEngine;
 using System;
 using UnityEngine.AI;
 
-public class EnemyBase : TankBase, IEnemy
+public class EnemyController : TankBase, IEnemy
 {
     #region Field Declarations
 
     #region Core Values
+
+    [SerializeField]
+    [Tooltip("The speed at which the tank's head and cannon, repsectively, aim at the player.")]
+    private Vector2 aimSpeeds = new Vector2(1.1f, 0.65f);
 
     // Basic variables for the functioning of the class
     protected GameObject assignedReference;
@@ -59,6 +63,8 @@ public class EnemyBase : TankBase, IEnemy
 
     public NavMeshAgent NavigationAgent { get => navigationAgent; }
 
+    public Vector2 AimSpeeds { get => aimSpeeds; }
+
     // Accessor for enabling and disabling agent/obstacle to improve obstacle avoidance
     public bool IsStationary
     {
@@ -88,12 +94,13 @@ public class EnemyBase : TankBase, IEnemy
     public EnemyBaseState RepositionState { get { return repositionState; } }
     public EnemyBaseState FireState { get { return fireState; } }
 
+
     #endregion
 
     #region Actions
 
     // Actions to notify other classes of noteworthy events
-    private Action<EnemyBase> EnemyDestroyed;
+    private Action<EnemyController> EnemyDestroyed;
 
     #endregion
 

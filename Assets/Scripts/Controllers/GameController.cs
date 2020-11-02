@@ -472,7 +472,7 @@ public class GameController : MonoBehaviour
             GameObject spawnedEnemy = Instantiate(enemiesToSpawn.Dequeue(), enemySpawnPoints[randomSpawnPointPick].transform.position, Quaternion.identity);
 
             // Passes the spawnedEnemy its reference and the gameController reference.
-            IEnemy spawnedEnemyBase = spawnedEnemy.GetComponent<EnemyBase>();
+            IEnemy spawnedEnemyBase = spawnedEnemy.GetComponent<EnemyController>();
             spawnedEnemyBase.AssignedReference = spawnedEnemy;
 
             // Gives GameController reference and PlayerReference references

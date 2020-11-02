@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SmasherController : EnemyBase
+public class SmasherController : EnemyController
 {
 
 }

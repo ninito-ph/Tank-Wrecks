@@ -13,6 +13,34 @@ public class PlayerController : TankBase
     [Tooltip("Maximum ammo of the tank.")]
     private int maxAmmo = 25;
 
+        [Header("Movement values")]
+    // Tank part turn/incline speeds.
+    [SerializeField]
+    [Tooltip("The speed at which the tank turns")]
+    private float bodyTurnRate = 30f;
+    [SerializeField]
+    [Tooltip("The speed at which the tank's 'head' turns.")]
+    private float headTurnRate = 30f;
+    [SerializeField]
+    [Tooltip("The speed at which the tank's cannon inclines/declines")]
+    private float cannonInclineRate = 30f;
+
+    // Maximum turn and incline angles for head and cannon
+    [SerializeField]
+    [Tooltip("The maximum angle the tank's head can turn either direction.")]
+    private float maxHeadRotation = 120f;
+    [SerializeField]
+    [Tooltip("The maximum angle the tank's cannon can decline or incline (respectively)")]
+    private Vector2 maxCannonInclineAngle = new Vector2(20f, -50f);
+
+    [SerializeField]
+    [Tooltip("The acceleration of the tank's movement.")]
+    private float acceleration = 3f;
+
+    // Internal variables to keep track of the head's/cannon's current angle
+    protected float headAngle = 0f;
+    protected float cannonAngle = 0f;
+
     #region Controls
 
     // Movement

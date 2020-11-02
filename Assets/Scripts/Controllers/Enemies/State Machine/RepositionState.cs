@@ -18,7 +18,7 @@ public class RepositionState : EnemyBaseState
 
     #region Abstract Implementation
 
-    public override void EnterState(EnemyBase enemy)
+    public override void EnterState(EnemyController enemy)
     {
         // Marks enemy as non-stationary
         enemy.IsStationary = false;
@@ -28,19 +28,19 @@ public class RepositionState : EnemyBaseState
         enemy.NavigationAgent.isStopped = false;
     }
 
-    public override void LeaveState(EnemyBase enemy)
+    public override void LeaveState(EnemyController enemy)
     {
         // Stops and clears the coroutine
         enemy.StopCoroutine(pathingRoutine);
     }
 
-    public override void Update(EnemyBase enemy)
+    public override void Update(EnemyController enemy)
     {
         // Resets head rotation
         ResetHeadRotation(enemy, 1.65f);
     }
 
-    public override void OnDrawGizmos(EnemyBase enemy)
+    public override void OnDrawGizmos(EnemyController enemy)
     {
         // If the AI debug mode is enabled
         if (enemy.AIDebugMode == true && enemy.PlayerReference != null)
@@ -63,7 +63,7 @@ public class RepositionState : EnemyBaseState
     #region Coroutines
 
     // Coroutine that constantly paths towards the player
-    private IEnumerator PathToPlayer(EnemyBase enemy, Transform enemyTransform, Transform playerTransform, float areaRadius)
+    private IEnumerator PathToPlayer(EnemyController enemy, Transform enemyTransform, Transform playerTransform, float areaRadius)
     {
         // Caches waitforseconds return
         WaitForSeconds pathingInterval = new WaitForSeconds(0.65f);
@@ -106,7 +106,7 @@ public class RepositionState : EnemyBaseState
     #endregion
 
     // Turns the tank towards the player
-    private void ResetHeadRotation(EnemyBase enemy, float rotationStrenght)
+    private void ResetHeadRotation(EnemyController enemy, float rotationStrenght)
     {
         // Checks if the rotation is not already 0 before running lerp
         if (enemy.TankParts["Head"].transform.localRotation != Quaternion.identity)
@@ -206,7 +206,7 @@ public class RepositionState : EnemyBaseState
     }
 
     // Tries getting a new point until it is valid
-    private Vector3 GetValidPoint(EnemyBase enemy, float tryIncrement)
+    private Vector3 GetValidPoint(EnemyController enemy, float tryIncrement)
     {
         // Declares a variable to store whether the point is valid
         bool pointIsValid = false;

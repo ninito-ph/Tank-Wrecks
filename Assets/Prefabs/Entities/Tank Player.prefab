@@ -776,15 +776,9 @@ MonoBehaviour:
       Data: 
   deathExplosion: {fileID: 8300000, guid: 01f2bffd25faa254b8dee6fdc1d19857, type: 3}
   maxHealth: 3
+  maxSpeed: 6.8
   cannonAmount: 1
   maxFireCooldown: 2.5
-  bodyTurnRate: 50
-  headTurnRate: 75
-  cannonInclineRate: 60
-  maxHeadRotation: 120
-  maxCannonInclineAngle: {x: 16, y: 50}
-  maxSpeed: 6.8
-  acceleration: 18
   cannonFireSFX:
   - {fileID: 8300000, guid: 8ee31ca585644574faf376ba342df510, type: 3}
   - {fileID: 8300000, guid: f6cbc2b1f820be042933ff53683699c2, type: 3}
@@ -792,11 +786,17 @@ MonoBehaviour:
     type: 3}
   fireForce: 20
   maxAmmo: 25
+  bodyTurnRate: 50
+  headTurnRate: 75
+  cannonInclineRate: 60
+  maxHeadRotation: 120
+  maxCannonInclineAngle: {x: 16, y: 50}
+  acceleration: 18
   forceFieldDome: {fileID: 2811557256436223070}
   nukeShell: {fileID: 2144414025666665918, guid: e4b9784550df4214cb7847a94fcd2c40,
     type: 3}
   fireAreaRadius: 44.75
-  showFireAreas: 0
+  showFireAreas: 1
 --- !u!208 &5450893072464412886
 NavMeshObstacle:
   m_ObjectHideFlags: 0

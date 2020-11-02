@@ -320,21 +320,16 @@ MonoBehaviour:
       Data: 
   deathExplosion: {fileID: 8300000, guid: 855703cdf48498a4ba993f74e84eb088, type: 3}
   maxHealth: 3
-  cannonAmount: 1
-  maxFireCooldown: 2.5
-  bodyTurnRate: 30
-  headTurnRate: 30
-  cannonInclineRate: 30
-  maxHeadRotation: 120
-  maxCannonInclineAngle: {x: 20, y: -50}
   maxSpeed: 5
-  acceleration: 3
+  cannonAmount: 1
+  maxFireCooldown: 2.85
   cannonFireSFX:
   - {fileID: 8300000, guid: 8ee31ca585644574faf376ba342df510, type: 3}
   - {fileID: 8300000, guid: f6cbc2b1f820be042933ff53683699c2, type: 3}
   tankShell: {fileID: 3475972169881591529, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
     type: 3}
   fireForce: 20
+  aimSpeeds: {x: 1, y: 0.55}
   scoreReward: 400
   aiDebugMode: 1
 --- !u!195 &1704068203764560228

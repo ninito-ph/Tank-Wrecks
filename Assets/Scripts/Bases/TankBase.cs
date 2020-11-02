@@ -21,6 +21,10 @@ public class TankBase : SerializedMonoBehaviour
     [Tooltip("Maximum health of the tank.")]
     protected int maxHealth = 3;
 
+    [SerializeField]
+    [Tooltip("The maximum speed at which a tank can move.")]
+    protected float maxSpeed = 5f;
+
     // The amount of cannons the tank has
     [SerializeField]
     [Tooltip("The amount of cannons the tank has.")]
@@ -35,41 +39,6 @@ public class TankBase : SerializedMonoBehaviour
     [Tooltip("The amount of time the tank must wait between shots.")]
     protected float maxFireCooldown = 2.5f;
 
-    [Header("Movement values")]
-    // Tank part turn/incline speeds.
-    [SerializeField]
-    [Tooltip("The speed at which the tank turns")]
-    protected float bodyTurnRate = 30f;
-    [SerializeField]
-    [Tooltip("The speed at which the tank's 'head' turns.")]
-    protected float headTurnRate = 30f;
-    [SerializeField]
-    [Tooltip("The speed at which the tank's cannon inclines/declines")]
-    protected float cannonInclineRate = 30f;
-
-    // Maximum turn and incline angles for head and cannon
-    [SerializeField]
-    [Tooltip("The maximum angle the tank's head can turn either direction.")]
-    protected float maxHeadRotation = 120f;
-    [SerializeField]
-    [Tooltip("The maximum angle the tank's cannon can decline or incline (respectively)")]
-    protected Vector2 maxCannonInclineAngle = new Vector2(20f, -50f);
-
-    // The maximum speed and acceleration a tank may have/has
-    [SerializeField]
-    [Tooltip("The maximum speed at which the tank can move.")]
-    protected float maxSpeed = 5f;
-    [SerializeField]
-    [Tooltip("The acceleration of the tank's movement.")]
-    protected float acceleration = 3f;
-
-    // Internal variables to keep track of the head's/cannon's current angle
-    protected float headAngle = 0f;
-    protected float cannonAngle = 0f;
-
-    // Internal reference to the body rigidbody
-    protected Rigidbody bodyRigidbody;
-
     #endregion
 
     #region Audio Values
@@ -83,6 +52,8 @@ public class TankBase : SerializedMonoBehaviour
     protected AudioSource engineSoundSource;
     // Uses an array of sound sources for cannons, so that it is compatible with multiple cannons
     protected AudioSource[] cannonSoundSources;
+    // Rigidbody used to determine velocity
+    protected Rigidbody bodyRigidbody;
 
     #endregion
 
