@@ -237,9 +237,9 @@ GameObject:
   - component: {fileID: 3385078028351215756}
   - component: {fileID: 5968263156869048860}
   - component: {fileID: 1778716887349532430}
-  - component: {fileID: 5547885572492086856}
   - component: {fileID: 5547885572492086857}
   - component: {fileID: 7958853566982235694}
+  - component: {fileID: 8517558663382774541}
   m_Layer: 8
   m_Name: Tank Speeder
   m_TagString: Untagged
@@ -435,7 +435,45 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &5547885572492086856
+--- !u!195 &5547885572492086857
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5547885572492086858}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 1.43
+  m_Speed: 14
+  m_Acceleration: 11
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2.07
+  m_BaseOffset: 0.7
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!208 &7958853566982235694
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5547885572492086858}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.429, y: 1.045, z: 1.56}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.002, y: 0.33, z: 0.12}
+  m_TimeToStationary: 0.5
+--- !u!114 &8517558663382774541
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -444,7 +482,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5547885572492086858}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90563fda4ce561f49a0fe4871fed9d70, type: 3}
+  m_Script: {fileID: 11500000, guid: a881714cf8cc3ff4b81ff24de3727e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
@@ -553,46 +591,8 @@ MonoBehaviour:
     type: 3}
   fireForce: 20
   aimSpeeds: {x: 1.25, y: 0.8}
-  scoreReward: 150
+  scoreReward: 275
   aiDebugMode: 1
---- !u!195 &5547885572492086857
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5547885572492086858}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 1.43
-  m_Speed: 14
-  m_Acceleration: 11
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2.07
-  m_BaseOffset: 0.7
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!208 &7958853566982235694
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5547885572492086858}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 1.429, y: 1.045, z: 1.56}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0.002, y: 0.33, z: 0.12}
-  m_TimeToStationary: 0.5
 --- !u!1 &7397312748082297560
 GameObject:
   m_ObjectHideFlags: 0

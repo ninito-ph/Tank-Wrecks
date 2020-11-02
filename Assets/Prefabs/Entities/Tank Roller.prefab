@@ -138,9 +138,9 @@ GameObject:
   - component: {fileID: 3914075768061065397}
   - component: {fileID: 2504533557541087191}
   - component: {fileID: 1517717721940370849}
-  - component: {fileID: 8460923585258786753}
   - component: {fileID: 7524079546104095064}
   - component: {fileID: -1449400243845712561}
+  - component: {fileID: -1312585537915184951}
   m_Layer: 8
   m_Name: Tank Roller
   m_TagString: Untagged
@@ -335,7 +335,45 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &8460923585258786753
+--- !u!195 &7524079546104095064
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3812850298496911797}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 1.6
+  m_Speed: 10
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2.4
+  m_BaseOffset: 0.82
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!208 &-1449400243845712561
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3812850298496911797}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.6120001, y: 1.225, z: 2.285}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.001, y: 0.4, z: 0.43}
+  m_TimeToStationary: 0.5
+--- !u!114 &-1312585537915184951
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -344,7 +382,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3812850298496911797}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 464ada366bc79d24fa297862fe3c0804, type: 3}
+  m_Script: {fileID: 11500000, guid: a881714cf8cc3ff4b81ff24de3727e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
@@ -443,61 +481,18 @@ MonoBehaviour:
       Data: 
   deathExplosion: {fileID: 8300000, guid: 01f2bffd25faa254b8dee6fdc1d19857, type: 3}
   maxHealth: 2
+  maxSpeed: 5
   cannonAmount: 1
   maxFireCooldown: 2.5
-  bodyTurnRate: 30
-  headTurnRate: 30
-  cannonInclineRate: 30
-  maxHeadRotation: 120
-  maxCannonInclineAngle: {x: 20, y: -50}
-  maxSpeed: 5
-  acceleration: 3
   cannonFireSFX:
   - {fileID: 8300000, guid: 8ee31ca585644574faf376ba342df510, type: 3}
   - {fileID: 8300000, guid: f6cbc2b1f820be042933ff53683699c2, type: 3}
   tankShell: {fileID: 3475972169881591529, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
     type: 3}
   fireForce: 20
+  aimSpeeds: {x: 1.1, y: 0.65}
   scoreReward: 200
   aiDebugMode: 1
---- !u!195 &7524079546104095064
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3812850298496911797}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 1.6
-  m_Speed: 10
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2.4
-  m_BaseOffset: 0.82
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!208 &-1449400243845712561
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3812850298496911797}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 1.6120001, y: 1.225, z: 2.285}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: -0.001, y: 0.4, z: 0.43}
-  m_TimeToStationary: 0.5
 --- !u!1 &6820075500665841708
 GameObject:
   m_ObjectHideFlags: 0
