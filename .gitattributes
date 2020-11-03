@@ -32,7 +32,7 @@ rakefile    text
 # Use YAML Merge for Unity assets (more info: https://github.com/anacat/unity-mergetool)
 *.mat merge=unityyamlmerge eol=lf
 *.anim merge=unityyamlmerge eol=lf
-*.unity merge=unityyamlmerge eol=lf
+*.unity filter=lfs merge=unityyamlmerge diff=lfs eol=lf -text
 *.prefab merge=unityyamlmerge eol=lf
 *.physicsMaterial2D merge=unityyamlmerge eol=lf
 *.physicsMaterial merge=unityyamlmerge eol=lf
