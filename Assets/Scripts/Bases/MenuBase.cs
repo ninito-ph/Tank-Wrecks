@@ -6,6 +6,7 @@ using UnityEngine.Audio;
 using Sirenix.OdinInspector;
 
 // I don't usually enjoy using replacements to monobehaviour, but Odin Inspector is a proven tool used in very large-scale games.
+[RequireComponent(typeof(AudioSource))]
 public class MenuBase : SerializedMonoBehaviour
 {
     #region Field Declarations
@@ -22,17 +23,25 @@ public class MenuBase : SerializedMonoBehaviour
     protected AudioMixer mainMixer;
 
     // The cache of the camera's position
-    [SerializeField]
-    [Tooltip("The transform of the main camera so that sounds can be played exactly where the audio listener is.")]
     private Transform cameraTransform;
+
+    #endregion
+
+    #region Unity Methods
+
+    protected virtual void Start()
+    {
+        cameraTransform = Camera.main.transform;
+    }
 
     #endregion
 
     #region Custom Methods
 
+    // Public methods because Unity needs to be able to detect the method for button functionality
+
     // Switches to the desired menu
-    // Public because Unity needs to be able to detect the method for button functionality
-    public virtual void SwitchToMenu(string desiredMenu, bool mouseEnabled = true)
+    public void SwitchToMenu(string desiredMenu, bool mouseEnabled = true)
     {
         // Sets the given menu active
         menus[desiredMenu].SetActive(true);
@@ -65,8 +74,29 @@ public class MenuBase : SerializedMonoBehaviour
         PlayClickSound();
     }
 
+    // Opens a menu without disabling the others
+    public void OverlayMenu(string desiredMenu, bool mouseEnabled = true)
+    {
+        // Sets the given menu active
+        menus[desiredMenu].SetActive(true);
+
+        // Disables mouse if mouseEnabled is false
+        if (mouseEnabled == false)
+        {
+            // Locks the cursor and makes it invisible;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            // Unlocks the cursor and makes it visible;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+    }
+
     // Switches to a new scene
-    public virtual void SwitchToScene(string sceneName, bool useLoadingScreen)
+    public void SwitchToScene(string sceneName, bool useLoadingScreen)
     {
         // If we are to use a loading scene
         if (useLoadingScreen == true)
@@ -88,9 +118,12 @@ public class MenuBase : SerializedMonoBehaviour
     // Gets UI volume and plays sound
     private void PlayClickSound()
     {
+        // Gets the volume for UI SFX
         float clickVolume;
         mainMixer.GetFloat("soundEffectsVolume", out clickVolume);
-        AudioSource.PlayClipAtPoint(clickSound, cameraTransform.position, 1f);
+
+        // Plays the clip at the camera (listener)
+        AudioSource.PlayClipAtPoint(clickSound, cameraTransform.position, clickVolume);
     }
 
     #endregion

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using System;
 
 public class GameInitialize : MonoBehaviour
 {
@@ -16,6 +17,17 @@ public class GameInitialize : MonoBehaviour
         LoadPreferences();
     }
 
+    // Gets the system time and c
+    private int GetUnixDay()
+    {
+        // Gets today's date
+        DateTime today = DateTime.Now;
+        // Gets the elapsed unix time of the date
+        TimeSpan unixElapsedTime = new TimeSpan(today.Ticks);
+        // Converts it to days and returns it
+        return unixElapsedTime.Days;
+    }
+
     // Creates preferences for the first time if they don't already exist
     private void CreatePreferences()
     {
@@ -24,6 +36,9 @@ public class GameInitialize : MonoBehaviour
         {
             // Declare the first startup key as true
             PlayerPrefs.SetString("First Startup", "true");
+
+            // Save the date at which the game was entered
+            PlayerPrefs.SetInt("LastLoginDate", GetUnixDay());
 
             // Declare the volume keys
             PlayerPrefs.SetFloat("Master Volume", 0);
@@ -46,11 +61,24 @@ public class GameInitialize : MonoBehaviour
     // Loads saved preferences
     private void LoadPreferences()
     {
+        // Check if it has been more than 15 days since the last time the game was opened
+        if (GetUnixDay() > PlayerPrefs.GetInt("LastLoginDate", GetUnixDay()) + 15)
+        {
+            // Mark the game as first startup, so that help shows again
+            PlayerPrefs.SetString("First Startup", "true");
+        }
+        else
+        {
+            // Declare the first startup key as false, so that help doesn't annoy the player
+            PlayerPrefs.SetString("First Startup", "false");
+        }
+
         // Sets volume to saved volume values
         // Clamps volume values for safety
         mainMixer.SetFloat("masterVolume", Mathf.Clamp(PlayerPrefs.GetFloat("Master Volume"), -80f, 0f));
         mainMixer.SetFloat("masterVolume", Mathf.Clamp(PlayerPrefs.GetFloat("Sound Effects Volume"), -80f, 0f));
         mainMixer.SetFloat("masterVolume", Mathf.Clamp(PlayerPrefs.GetFloat("Music Volume"), -80f, 0f));
+
         // Sets the screen resolution
         Screen.SetResolution(PlayerPrefs.GetInt("Resolution Width"), PlayerPrefs.GetInt("Resolution Height"), FullScreenMode.FullScreenWindow);
         // Sets to fullscreen or windowed
@@ -60,6 +88,7 @@ public class GameInitialize : MonoBehaviour
             isFullscreen = false;
         }
         Screen.fullScreen = isFullscreen;
+
         // Sets the graphical quality
         QualitySettings.SetQualityLevel(PlayerPrefs.GetInt("Graphical Settings"));
     }
