@@ -236,6 +236,7 @@ public class TankBase : SerializedMonoBehaviour
             string fireTransformKey = "Fire Transform " + currentCannon.ToString();
 
             // TODO: Add VFX to firing cannon
+            EventBroker.CallShakeCamera(0.15f, tankParts[fireTransformKey].transform.position);
 
             // Sound effects
             // Picks a random fire cannon sound effect from the array and assigns it to the sound source

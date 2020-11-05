@@ -32,6 +32,9 @@ public static class EventBroker
     // Notifies the game has been paused
     public static event Action PauseToggled;
 
+    // Induces stress (shakes) on the camera transform
+    public static event Action<float, Vector3> ShakeCamera;
+
     #endregion
 
     #region Call Methods
@@ -39,6 +42,14 @@ public static class EventBroker
     // Methods that are called by other classes to trigger actions
     // Methods and actions are static so that classes don't need a reference to EventBroker
     // Actions are checked to see if they are null. If they are, then they have no subscribers, and would case an error on being raised.
+    public static void CallShakeCamera(float stress, Vector3 stressOrigin)
+    {
+        if (ShakeCamera != null)
+        {
+            ShakeCamera(stress, stressOrigin);
+        }
+    }
+
     public static void CallEnemyDestroyed(GameObject assignedReference)
     {
         if (EnemyDestroyed != null)

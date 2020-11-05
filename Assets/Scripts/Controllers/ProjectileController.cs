@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -122,6 +122,7 @@ public class ProjectileController : MonoBehaviour
     private void ExplodeShell()
     {
         // TODO: Add explosion VFX
+        EventBroker.CallShakeCamera(1f, transform.position);
 
         // Play explosion sound
         // Picks a random fire cannon sound effect from the array and assigns it to the sound source
@@ -158,7 +159,6 @@ public class ProjectileController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
     }
 
     #endregion

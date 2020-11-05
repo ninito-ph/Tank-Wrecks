@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -87,6 +87,9 @@ public class PlayerController : TankBase
     private float safeFireAreaRadius;
     private float rushFireAreaRadius;
 
+    // The camera controller that follows the player
+    private CameraController cameraController;
+
     #endregion
 
     #region Properties
@@ -121,6 +124,8 @@ public class PlayerController : TankBase
     {
         get { return rushFireAreaRadius; }
     }
+
+    public CameraController CameraController { get => cameraController; }
 
     #endregion
 
@@ -235,6 +240,8 @@ public class PlayerController : TankBase
 
                 // Apply recoil to tank body
                 string fireTransformKey = "Fire Transform " + currentCannon.ToString();
+
+                EventBroker.CallShakeCamera(0.15f, tankParts[fireTransformKey].transform.position);
 
                 // Sound effects
                 // Picks a random fire cannon sound effect from the array and assigns it to the sound source
