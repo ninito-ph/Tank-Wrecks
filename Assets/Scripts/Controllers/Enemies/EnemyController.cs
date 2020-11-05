@@ -114,7 +114,7 @@ public class EnemyController : TankBase, IEnemy
         navigationAgent = gameObject.GetComponent<NavMeshAgent>();
         navigationObstacle = gameObject.GetComponent<NavMeshObstacle>();
         // Caches the player reference
-        playerReference = gameController.PlayerReference.GetComponent<PlayerController>();
+        playerReference = GameManager.PlayerReference.GetComponent<PlayerController>();
 
         // Calls the base class start
         base.Start();
@@ -138,8 +138,8 @@ public class EnemyController : TankBase, IEnemy
         // Awards the player with points
         EventBroker.CallAddScore(scoreReward);
 
-        // Checks is gameController is null first to prevent missing reference exceptions
-        if (gameController != null)
+        // Checks is GameManager is null first to prevent missing reference exceptions
+        if (GameManager != null)
         {
             // Notifies event broker the enemy has been destroyed.
             EventBroker.CallEnemyDestroyed(assignedReference);

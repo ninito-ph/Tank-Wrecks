@@ -35,8 +35,8 @@ public class GameOverController : MenuBase
     // The coroutine that fades text and images
     private Coroutine fadeRoutine;
 
-    // Caches reference to GameController
-    private GameController gameController;
+    // Caches reference to GameManager
+    private GameManager GameManager;
 
     #endregion
 
@@ -49,7 +49,7 @@ public class GameOverController : MenuBase
         GlobalData.CurrentGame = null;
 
         // Gets reference to GameObject
-        gameController = GameObject.Find("Game Controller").GetComponent<GameController>();
+        GameManager = GameObject.Find("Game Controller").GetComponent<GameManager>();
 
         // Gets the player metrics for the game and displays them on the screen
         GetPlayerMetrics();
@@ -81,8 +81,8 @@ public class GameOverController : MenuBase
     // Gets the player metrics for the match, namely score and waves survived
     private void GetPlayerMetrics()
     {
-        wavesSurvived.text = (gameController.Wave - 1).ToString();
-        pointsAccrued.text = ((int)gameController.Score).ToString();
+        wavesSurvived.text = (GameManager.Wave - 1).ToString();
+        pointsAccrued.text = ((int)GameManager.Score).ToString();
     }
 
     // Saves the player metrics in a save file using a JSON format
@@ -92,7 +92,7 @@ public class GameOverController : MenuBase
         string filepath = Application.persistentDataPath + "/Leaderboard.json";
 
         // Stores the game data into a LeaderboardEntry struct
-        LeaderboardEntry playerMetrics = new LeaderboardEntry(gameController.Wave - 1, (int)gameController.Score, playerName.text);
+        LeaderboardEntry playerMetrics = new LeaderboardEntry(GameManager.Wave - 1, (int)GameManager.Score, playerName.text);
 
         // Checks if a save file exists
         if (File.Exists(filepath))

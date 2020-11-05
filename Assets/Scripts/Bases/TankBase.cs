@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
@@ -72,8 +72,8 @@ public class TankBase : SerializedMonoBehaviour
     [DictionaryDrawerSettings(KeyLabel = "Tank Part Name", ValueLabel = "Tank Part GameObject")]
     protected Dictionary<string, GameObject> tankParts = new Dictionary<string, GameObject>();
 
-    // Keeps a reference to the GameController object
-    protected GameController gameController;
+    // Keeps a reference to the GameManager object
+    protected GameManager gameManager;
 
     // Properties
     // properties are being used to preserve encapsulation
@@ -82,10 +82,10 @@ public class TankBase : SerializedMonoBehaviour
         get { return tankShell; }
     }
 
-    public GameController GameController
+    public GameManager GameManager
     {
-        get { return gameController; }
-        set { gameController = value; }
+        get { return gameManager; }
+        set { gameManager = value; }
     }
 
     public int Health

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GameDifficulty", menuName = "Game Configurations/Difficulty Profile", order = 0)]
-public class GameDifficultySO : ScriptableObject
+public class GameDifficultyObject : ScriptableObject
 {
     #region Field Declarations
 
@@ -64,6 +64,8 @@ public class GameDifficultySO : ScriptableObject
     [SerializeField]
     [Tooltip("The amount of enemies that will spawn at the final wave (30).")]
     private int maxEnemyAmount = 12;
+    //The amount of enemies that will spawn on a given wave. This number increases up to the max enemy amount as the waves increase
+    private int enemyAmount = 1;
     [SerializeField]
     [Tooltip("The Roller Tank prefab")]
     private GameObject rollerTank;
@@ -76,8 +78,6 @@ public class GameDifficultySO : ScriptableObject
     [SerializeField]
     [Tooltip("The Annihilator Tank prefb")]
     private GameObject annihilatorTank;
-    //The amount of enemies that will spawn on a given wave. This number increases up to the max enemy amount as the waves increase
-    private int enemyAmount = 1;
 
     [Header("Score Rewards")]
     [SerializeField]
@@ -280,7 +280,7 @@ public class GameDifficultySO : ScriptableObject
     }
 
     // Checks whether them sum of all spawn chances are below or over 100
-    public void EnemySpawnChanceValidity()
+    private void EnemySpawnChanceValidity()
     {
         float totalSpawnChance = (rollerTankChance + speederTankChance + smasherTankChance + annihilatorTankChance);
         if (totalSpawnChance > 100)
@@ -294,7 +294,7 @@ public class GameDifficultySO : ScriptableObject
     }
 
     // Checks whether them sum of all spawn chances are below or over 100
-    public void PowerupSpawnChanceValidity()
+    private void PowerupSpawnChanceValidity()
     {
         float totalSpawnChance = (oilBarrelChance + shieldChance + wrenchChance + ammoChance + nukeShellChance);
         if (totalSpawnChance > 100)

@@ -8,7 +8,7 @@ public interface IEnemy
         set;
     }
 
-    GameController GameController
+    GameManager GameManager
     {
         get;
         set;

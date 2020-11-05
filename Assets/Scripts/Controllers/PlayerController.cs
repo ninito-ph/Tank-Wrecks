@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -133,8 +133,8 @@ public class PlayerController : TankBase
         // Calls the base's awake method
         base.Awake();
 
-        // Gets a reference for the gameController
-        gameController = GameObject.Find("Game Controller").GetComponent<GameController>();
+        // Gets a reference for the GameManager
+        GameManager = GameObject.Find("Game Controller").GetComponent<GameManager>();
     }
 
     // Update runs every frame
@@ -145,7 +145,7 @@ public class PlayerController : TankBase
 
         // Checks if player is pressing fire key, if the cooldown is off and the game is unpaused
         // NOTE: fireCooldown, as a counter, unusually ticks UP instead of down, due to the way HUDController functions and uses it.
-        if (Input.GetKeyDown(KeyCode.Space) && fireCooldown >= maxFireCooldown && gameController.IsPaused == false)
+        if (Input.GetKeyDown(KeyCode.Space) && fireCooldown >= maxFireCooldown && GameManager.IsPaused == false)
         {
             TankFire();
         }

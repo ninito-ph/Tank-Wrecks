@@ -41,7 +41,7 @@ public class HUDController : MenuBase
     private float fireCooldownLerpSpeed = 13f;
 
     // Necessary object references
-    private GameController gameController;
+    private GameManager GameManager;
     private PlayerController playerController;
 
     #endregion
@@ -50,8 +50,11 @@ public class HUDController : MenuBase
 
     #region Unity Methods
 
-    private void Start()
+    protected override void Start()
     {
+        // Calls the bases' start
+        base.Start();
+
         // Subscribes ammo update to shot fired by player event
         EventBroker.ShotFired += UpdateAmmo;
         // Subscribes wave update to wave over event
@@ -59,11 +62,18 @@ public class HUDController : MenuBase
         // Subscribes goto game over screen to player destroyed event
         EventBroker.PlayerDestroyed += GotoGameOverScreen;
 
-        // Caches reference to the gamecontroller
-        gameController = GameObject.Find("Game Controller").GetComponent<GameController>();
+        // Caches reference to the GameManager
+        GameManager = GameObject.Find("Game Controller").GetComponent<GameManager>();
 
-        // Retrieves the player reference from the gamecontroller
-        playerController = gameController.PlayerReference.GetComponent<PlayerController>();
+        // Retrieves the player reference from the GameManager
+        playerController = GameManager.PlayerReference.GetComponent<PlayerController>();
+
+        // Triggers help screen if it is the first time the player has entered the game
+        if (true)//PlayerPrefs.GetString("First Startup", "false") == "true")
+        {
+            // Enables Help Screen
+            OverlayMenu("Help Screen", false);
+        }
     }
 
     // Update runs every frame
@@ -105,7 +115,7 @@ public class HUDController : MenuBase
         if (!Mathf.Approximately(fireCooldownIcon.fillAmount, playerController.FireCooldown / playerController.MaxFireCooldown))
         {
             // The score number is linearly interpolated for a crisp score increase effect
-            float interpolatedScore = Mathf.Lerp(displayedScore, gameController.Score, scoreLerpSpeed);
+            float interpolatedScore = Mathf.Lerp(displayedScore, GameManager.Score, scoreLerpSpeed);
 
             // The displayed number is then ceiled to an integer, so that no decimal scores may appear
             displayedScore = Mathf.CeilToInt(interpolatedScore);
@@ -161,7 +171,7 @@ public class HUDController : MenuBase
     // Updates wave counter text
     private void UpdateWave()
     {
-        waveCountText.text = gameController.Wave.ToString();
+        waveCountText.text = GameManager.Wave.ToString();
     }
 
     // Updates fire cooldown fill
@@ -178,10 +188,10 @@ public class HUDController : MenuBase
     public void TogglePause()
     {
         // Pauses/resumes the game
-        gameController.IsPaused = !gameController.IsPaused;
+        GameManager.IsPaused = !GameManager.IsPaused;
 
         // Checks if the game is paused, to decide whether to show the HUD or the Pause Menu
-        if (gameController.IsPaused == true)
+        if (GameManager.IsPaused == true)
         {
             // Switches to pause menu
             SwitchToMenu("Pause Menu");
@@ -209,6 +219,13 @@ public class HUDController : MenuBase
     public void GotoGameOverScreen()
     {
         SwitchToMenu("Game Over Screen");
+    }
+
+    // Switches to the help screen
+    public void GotoHelpScreen()
+    {
+        SwitchToMenu("HUD", false);
+        OverlayMenu("Help Screen");
     }
 
     #endregion

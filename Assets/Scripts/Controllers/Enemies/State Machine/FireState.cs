@@ -189,7 +189,7 @@ public class FireState : EnemyBaseState
             AimHeadAtPlayer(enemy, enemy.AimSpeeds.y);
 
             // Fire shell if cooldown is over & game is unpaused
-            if (enemy.FireCooldown >= enemy.MaxFireCooldown && enemy.GameController.IsPaused == false)
+            if (enemy.FireCooldown >= enemy.MaxFireCooldown && enemy.GameManager.IsPaused == false)
             {
                 // Makes tank fire
                 enemy.TankFire();

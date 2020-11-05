@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Scripting;
 //using DebuggingEssentials;
 
-public class GameController : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     #region Field Declarations
 
@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour
     [Header("Difficulty")]
     [SerializeField]
     [Tooltip("The difficulty config profile to be used")]
-    private GameDifficultySO difficultyConfig;
+    private GameDifficultyObject difficultyConfig;
     private Queue<GameObject> enemiesToSpawn = new Queue<GameObject>();
     private List<GameObject> activeEnemies = new List<GameObject>();
     [Header("Spawnpoints and level lists")]
@@ -471,12 +471,12 @@ public class GameController : MonoBehaviour
             // Instantiates the enemy at the front of the queue
             GameObject spawnedEnemy = Instantiate(enemiesToSpawn.Dequeue(), enemySpawnPoints[randomSpawnPointPick].transform.position, Quaternion.identity);
 
-            // Passes the spawnedEnemy its reference and the gameController reference.
+            // Passes the spawnedEnemy its reference and the GameManager reference.
             IEnemy spawnedEnemyBase = spawnedEnemy.GetComponent<EnemyController>();
             spawnedEnemyBase.AssignedReference = spawnedEnemy;
 
-            // Gives GameController reference and PlayerReference references
-            spawnedEnemyBase.GameController = this;
+            // Gives GameManager reference and PlayerReference references
+            spawnedEnemyBase.GameManager = this;
 
             // Adds the spawnedEnemy to the activeEnemy list
             activeEnemies.Add(spawnedEnemy);
@@ -522,7 +522,7 @@ public class GameController : MonoBehaviour
             // Creates the powerup at the powerup spawn location if it is free
             GameObject spawnedPowerup = Instantiate(PickObject(powerupSpawnPool), powerupSpawnPoints[randomSpawnPointPick].transform.position, Quaternion.Euler(0f, 0f, -24f));
 
-            // Gives the powerup a reference to the gamecontroller
+            // Gives the powerup a reference to the GameManager
             PowerupController powerupController = spawnedPowerup.GetComponent<PowerupController>();
             powerupController.GameControllerRef = this;
 

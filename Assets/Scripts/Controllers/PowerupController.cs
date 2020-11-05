@@ -44,8 +44,8 @@ public class PowerupController : MonoBehaviour
     [Tooltip("The sound effect played when the powerup is picked up")]
     private AudioClip powerupClip;
 
-    // Private reference to the gamecontroller
-    private GameController gameControllerRef;
+    // Private reference to the GameManager
+    private GameManager gameControllerRef;
 
     // Reference to the renderer component
     private Renderer powerupRenderer;
@@ -59,7 +59,7 @@ public class PowerupController : MonoBehaviour
 
     #region Properties
 
-    public GameController GameControllerRef
+    public GameManager GameControllerRef
     {
         get { return gameControllerRef; }
         set { gameControllerRef = value; }
