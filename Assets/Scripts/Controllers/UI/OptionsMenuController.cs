@@ -36,8 +36,11 @@ public class OptionsMenuController : MenuBase
     #region Unity Methods
 
     // Runs once before the first frame update
-    private void Start()
+    protected override void Start()
     {
+        // Calls the base state's update
+        base.Start();
+
         // Generates the resolution options for the resolutions dropdown
         GenerateResolutionOptions(resolutionDropdown);
 
@@ -136,21 +139,21 @@ public class OptionsMenuController : MenuBase
     // Sets the volume of the master mixer
     public void SetVolumeMaster(float volume)
     {
-        mainMixer.SetFloat("masterVolume", volume);
+        mainMixer.SetFloat("masterVolume", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("Master Volume", volume);
     }
 
     // Sets the volume of the music mixer
     public void SetVolumeMusic(float volume)
     {
-        mainMixer.SetFloat("musicVolume", volume);
+        mainMixer.SetFloat("musicVolume", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("Music Volume", volume);
     }
 
     // Sets the volume of the sound effects mixer
     public void SetVolumeSoundEffects(float volume)
     {
-        mainMixer.SetFloat("soundEffectsVolume", volume);
+        mainMixer.SetFloat("soundEffectsVolume", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("Sound Effects Volume", volume);
     }
 
