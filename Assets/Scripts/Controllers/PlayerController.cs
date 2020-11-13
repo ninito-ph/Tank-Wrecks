@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : TankBase
@@ -13,7 +12,7 @@ public class PlayerController : TankBase
     [Tooltip("Maximum ammo of the tank.")]
     private int maxAmmo = 25;
 
-        [Header("Movement values")]
+    [Header("Movement values")]
     // Tank part turn/incline speeds.
     [SerializeField]
     [Tooltip("The speed at which the tank turns")]
@@ -72,6 +71,15 @@ public class PlayerController : TankBase
     // The ammo for nuke shells
     private int nukeShellAmmo = 0;
 
+    [Header("Other Values")]
+    [SerializeField]
+    [Tooltip("The reload sound of the cannon")]
+    private AudioClip reloadClip;
+
+    // The trajectory controller reference and coroutine
+    private TrajectoryController trajectoryController;
+    private Coroutine giveLaunchDataRoutine;
+
     #endregion
     #region AI interface
 
@@ -86,9 +94,6 @@ public class PlayerController : TankBase
     // Hidden areas (areas that are based on the radius of the fire area)
     private float safeFireAreaRadius;
     private float rushFireAreaRadius;
-
-    // The camera controller that follows the player
-    private CameraController cameraController;
 
     #endregion
 
@@ -125,8 +130,6 @@ public class PlayerController : TankBase
         get { return rushFireAreaRadius; }
     }
 
-    public CameraController CameraController { get => cameraController; }
-
     #endregion
 
     #endregion
@@ -137,9 +140,6 @@ public class PlayerController : TankBase
     {
         // Calls the base's awake method
         base.Awake();
-
-        // Gets a reference for the GameManager
-        GameManager = GameObject.Find("Game Controller").GetComponent<GameManager>();
     }
 
     // Update runs every frame
@@ -150,7 +150,7 @@ public class PlayerController : TankBase
 
         // Checks if player is pressing fire key, if the cooldown is off and the game is unpaused
         // NOTE: fireCooldown, as a counter, unusually ticks UP instead of down, due to the way HUDController functions and uses it.
-        if (Input.GetKeyDown(KeyCode.Space) && fireCooldown >= maxFireCooldown && GameManager.IsPaused == false)
+        if (Input.GetKeyDown(KeyCode.Space) && fireCooldown >= maxFireCooldown && Time.timeScale > 0f)
         {
             TankFire();
         }
@@ -160,6 +160,9 @@ public class PlayerController : TankBase
     {
         // Calls the base's start method
         base.Start();
+
+        // Caches the trajectory controller and begins giving it projectile launch data
+        trajectoryController = GetComponentInChildren<TrajectoryController>();
 
         // Sets the radius of the other fire areas
         safeFireAreaRadius = fireAreaRadius * 0.75f;
@@ -182,6 +185,9 @@ public class PlayerController : TankBase
         TankBodyMovement();
         TankHeadMovement();
         TankCannonMovement();
+
+        // Gives trajectory controller launch data to calculate trajectory
+        trajectoryController.LaunchData = LaunchData;
     }
 
     // OnDestroy runs once gameobject is destroyed
@@ -241,7 +247,8 @@ public class PlayerController : TankBase
                 // Apply recoil to tank body
                 string fireTransformKey = "Fire Transform " + currentCannon.ToString();
 
-                EventBroker.CallShakeCamera(0.15f, tankParts[fireTransformKey].transform.position);
+                // Plays cannon fire explosion
+                Instantiate(cannonExplosion, tankParts[fireTransformKey].transform.position, Quaternion.identity);
 
                 // Sound effects
                 // Picks a random fire cannon sound effect from the array and assigns it to the sound source
@@ -251,6 +258,8 @@ public class PlayerController : TankBase
                 // Makes the sound source play its sound
                 cannonSoundSources[currentCannon - 1].Play();
             }
+
+            StartCoroutine(PlayReloadSound(maxFireCooldown / 2.2f));
 
             // Activate cooldown and remove ammo
             fireCooldown = 0;
@@ -428,6 +437,23 @@ public class PlayerController : TankBase
 
         //  Marks coroutine as null so as to indicate powerup is inactive
         ShieldPowerupRoutine = null;
+
+        // Ends coroutine
+        yield break;
+    }
+
+    // Reload sound coroutine
+    private IEnumerator PlayReloadSound(float reloadDelay)
+    {
+        // Waits the reload delay
+        yield return new WaitForSeconds(reloadDelay);
+
+        // Randomizes pitch
+        cannonSoundSources[0].pitch = Random.Range(1.2f, 1.3f);
+        // Sets clip to reload clip
+        cannonSoundSources[0].clip = reloadClip;
+        // Plays reload sound
+        cannonSoundSources[0].Play();
 
         // Ends coroutine
         yield break;
