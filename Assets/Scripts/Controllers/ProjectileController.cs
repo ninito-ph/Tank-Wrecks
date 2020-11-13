@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
 {
@@ -12,6 +10,7 @@ public class ProjectileController : MonoBehaviour
     [SerializeField]
     [Tooltip("The damage of the projectile's explosion")]
     private int projectileDamage = 1;
+
     [Header("Explosion Properties")]
     [SerializeField]
     [Tooltip("The radius of the projectile's explosion")]
@@ -21,14 +20,9 @@ public class ProjectileController : MonoBehaviour
     [SerializeField]
     [Tooltip("The amount of bounces the shell has before exploding")]
     private int projectileBounces = 0;
-
-    // TODO: This should be part of the explosion prefab.
-    // Remove this from here once it exists
-    [Header("Audio")]
     [SerializeField]
-    [Tooltip("The array containing possible explosion sounds")]
-    private AudioClip[] explosionSounds;
-    private AudioSource explosionSoundSource;
+    [Tooltip("The explosion visual effect")]
+    private GameObject explosionEffect;
 
 #if UNITY_EDITOR
     [Header("Debug")]
@@ -68,8 +62,6 @@ public class ProjectileController : MonoBehaviour
     {
         // Caches the rigidbody component
         projectileRigidbody = GetComponent<Rigidbody>();
-        // Caches the AudioSource component
-        explosionSoundSource = GetComponent<AudioSource>();
         // Applies force on the projectile
         projectileRigidbody.AddRelativeForce(projectileImpulse * Vector3.up, ForceMode.Impulse);
         // Ignores collisions with fired from object
@@ -121,16 +113,8 @@ public class ProjectileController : MonoBehaviour
 
     private void ExplodeShell()
     {
-        // TODO: Add explosion VFX
-        EventBroker.CallShakeCamera(1f, transform.position);
-
-        // Play explosion sound
-        // Picks a random fire cannon sound effect from the array and assigns it to the sound source
-        explosionSoundSource.clip = explosionSounds[Random.Range(0, explosionSounds.Length)];
-        // Randomizes pitch to increase sound variance
-        explosionSoundSource.pitch = Random.Range(1.1f, 1.4f);
-        // Makes the sound source play its sound
-        explosionSoundSource.Play();
+        // Play explosion effect
+        Instantiate(explosionEffect, transform.position, Quaternion.identity);
 
         // Makes a layer into a layermask so that it may be used in physics raycasts
         LayerMask tankBodyLayer = LayerMask.GetMask("TankBodies");
