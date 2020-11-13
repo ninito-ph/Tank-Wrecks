@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PowerupController : MonoBehaviour
@@ -8,14 +7,14 @@ public class PowerupController : MonoBehaviour
 
     #region Core Values
 
-    [Header("Generic properties")]
+    [Header("General properties")]
     [SerializeField]
     [Tooltip("The speed at which the powerup rotates")]
     private float rotationSpeed = 15f;
     // FIXME: The animation curve doesn't seem to actually fluctuate from 1 to 0 to 1, even when set up properly.
     [SerializeField]
     [Tooltip("How high or low the powerup will float")]
-    private float floatMagnitude;
+    private float floatMagnitude = 1;
     [SerializeField]
     [Tooltip("The score bonus for collecting a powerup")]
     private float powerupScore = 200f;
@@ -45,10 +44,11 @@ public class PowerupController : MonoBehaviour
     private AudioClip powerupClip;
 
     // Private reference to the GameManager
-    private GameManager gameControllerRef;
-
+    private GameObject mainCamera;
     // Reference to the renderer component
     private Renderer powerupRenderer;
+    // Reference to the camera audio receiver
+    private AudioSource sfxAudioSource;
 
     // Deltas for the movement and rotation of the powerup
     // These are being declared in this manner to reduce heap memory usage (garbage generation)
@@ -59,10 +59,10 @@ public class PowerupController : MonoBehaviour
 
     #region Properties
 
-    public GameManager GameControllerRef
+    public GameObject MainCamera
     {
-        get { return gameControllerRef; }
-        set { gameControllerRef = value; }
+        get { return mainCamera; }
+        set { mainCamera = value; }
     }
 
     #endregion
@@ -74,6 +74,22 @@ public class PowerupController : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        // Iterates through all the audio sources in the main camera
+        foreach (AudioSource audioSource in mainCamera.GetComponents<AudioSource>())
+        {
+            // If the audioSource has the empty SFX Flag clip
+            if (Mathf.Equals(audioSource.maxDistance, 1.01f))
+            {
+                sfxAudioSource = audioSource;
+            }
+
+            // Skips rest of the loop if the audiosource has already been found
+            if (sfxAudioSource != null)
+            {
+                break;
+            }
+        }
+
         // Starts the lifetime routine
         powerupLifetimeRoutine = StartCoroutine(PowerupLifetimeRoutine());
         powerupRenderer = gameObject.GetComponent<Renderer>();
@@ -98,8 +114,10 @@ public class PowerupController : MonoBehaviour
             EventBroker.CallActivatePowerup(powerupType, powerupDuration, powerupAmount, speedMultipler);
             // Adds score
             EventBroker.CallAddScore(powerupScore);
-
-            // TODO: Add powerup collect VFX
+            // Sets audiosource clip to the powerup clip
+            sfxAudioSource.clip = powerupClip;
+            // Plays powerup clip
+            sfxAudioSource.Play();
 
             Destroy(gameObject);
         }
@@ -108,11 +126,6 @@ public class PowerupController : MonoBehaviour
     private void OnDestroy()
     {
         StopAllCoroutines();
-
-        // Plays clip at pickup point
-        AudioSource.PlayClipAtPoint(powerupClip, transform.position);
-
-        // TODO: Add pickup VFX
     }
 
     #endregion
