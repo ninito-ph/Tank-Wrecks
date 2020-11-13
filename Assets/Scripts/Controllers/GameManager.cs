@@ -117,7 +117,6 @@ public class GameManager : MonoBehaviour
 
         // Starts the game
         StartGame();
-
     }
 
     // OnDestroy runs once before the gameObject is destroyed
@@ -163,6 +162,9 @@ public class GameManager : MonoBehaviour
     private void AddScore(float scoreAmount)
     {
         score += scoreAmount * difficultyConfig.DifficultyScoreModifier + wave * 20;
+
+        // Updates current game metrics
+        GlobalData.CurrentGame = new LeaderboardEntry(wave, (int)score, "");
     }
 
     // Runs before the first wave in the level
@@ -211,6 +213,9 @@ public class GameManager : MonoBehaviour
     {
         // Increases wave
         wave++;
+
+        // Updates current game entry
+        GlobalData.CurrentGame = new LeaderboardEntry(wave, (int)score, "");
 
         // Updates the enemy amount
         difficultyConfig.UpdateEnemyAmount(wave, 30);
