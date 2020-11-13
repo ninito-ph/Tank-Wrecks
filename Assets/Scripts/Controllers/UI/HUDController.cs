@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class HUDController : MenuBase
@@ -69,7 +67,7 @@ public class HUDController : MenuBase
         playerController = GameManager.PlayerReference.GetComponent<PlayerController>();
 
         // Triggers help screen if it is the first time the player has entered the game
-        if (true)//PlayerPrefs.GetString("First Startup", "false") == "true")
+        if (PlayerPrefs.GetString("First Startup", "false") == "true")
         {
             // Enables Help Screen
             OverlayMenu("Help Screen", false);
@@ -126,7 +124,6 @@ public class HUDController : MenuBase
     // Increases and decreases heart icon fill
     private void UpdateHealth()
     {
-
         // FIXME: This code is so abominably bad it hurts to look at. Make a more elegant solution later.
         // If the player health is 2, and the third heart's fill amount is not 0
         if (playerController.Health == 3)
