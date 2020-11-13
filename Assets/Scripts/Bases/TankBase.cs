@@ -1,7 +1,6 @@
-using System.Collections;
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
-using Sirenix.OdinInspector;
 
 // I don't usually enjoy using replacements to monobehaviour, but Odin Inspector is a proven tool used in very large-scale games.
 public class TankBase : SerializedMonoBehaviour
@@ -10,8 +9,7 @@ public class TankBase : SerializedMonoBehaviour
 
     #region Core Values
 
-    // The explosion clip
-    public AudioClip deathExplosion;
+
 
     // Health of the tank
     protected int health;
@@ -47,6 +45,10 @@ public class TankBase : SerializedMonoBehaviour
     [SerializeField]
     [Tooltip("The audio clips for cannon fire")]
     protected AudioClip[] cannonFireSFX;
+    // The explosion clip
+    [SerializeField]
+    [Tooltip("The death explosion sound of the tank")]
+    protected AudioClip deathExplosionSound;
 
     // The audio source for the tank engine
     protected AudioSource engineSoundSource;
@@ -72,20 +74,19 @@ public class TankBase : SerializedMonoBehaviour
     [DictionaryDrawerSettings(KeyLabel = "Tank Part Name", ValueLabel = "Tank Part GameObject")]
     protected Dictionary<string, GameObject> tankParts = new Dictionary<string, GameObject>();
 
-    // Keeps a reference to the GameManager object
-    protected GameManager gameManager;
+    [Header("Visual Effect Values")]
+    [Tooltip("The explosion effect when firing from cannon")]
+    [SerializeField]
+    protected GameObject cannonExplosion;
+    [Tooltip("The explosion effect when the tank is destroyed")]
+    [SerializeField]
+    protected GameObject deathExplosion;
 
     // Properties
     // properties are being used to preserve encapsulation
     public GameObject FireProjectile
     {
         get { return tankShell; }
-    }
-
-    public GameManager GameManager
-    {
-        get { return gameManager; }
-        set { gameManager = value; }
     }
 
     public int Health
@@ -121,13 +122,12 @@ public class TankBase : SerializedMonoBehaviour
     {
         get
         {
-
             // Retrieves the launch angle and launch height
             float launchAngle = TankParts["Cannon 1"].transform.eulerAngles.x;
             float launchHeight = TankParts["Fire Transform 1"].transform.position.y;
 
             // Calculates the forces of the launch
-            Vector3 launchVelocity = new Vector3(fireForce * Mathf.Cos(launchAngle * Mathf.Deg2Rad), fireForce * Mathf.Sin(launchAngle * Mathf.Deg2Rad), 0f);
+            Vector3 launchVelocity = tankParts["Fire Transform 1"].transform.forward * fireForce;
 
             // Stores information into the launch data struct
             ProjectileLaunchData launchInfo = new ProjectileLaunchData(launchVelocity, Physics.gravity.magnitude, launchAngle, launchHeight);
@@ -213,11 +213,9 @@ public class TankBase : SerializedMonoBehaviour
     // Destroys the tank in a big explosion
     protected virtual void DestroyTank()
     {
-        // TODO: Add explosion VFX
+        // Plays death explosion effect
+        Instantiate(deathExplosion, transform.position, Quaternion.identity);
         Destroy(gameObject);
-
-        // HACK: This is only for the audio project. The SFX shoul be in the actual explosion
-        AudioSource.PlayClipAtPoint(deathExplosion, transform.position);
 
         // Ends all of the tank's associated coroutines
         StopAllCoroutines();
@@ -235,8 +233,8 @@ public class TankBase : SerializedMonoBehaviour
             // Apply recoil to tank body
             string fireTransformKey = "Fire Transform " + currentCannon.ToString();
 
-            // TODO: Add VFX to firing cannon
-            EventBroker.CallShakeCamera(0.15f, tankParts[fireTransformKey].transform.position);
+            // Plays cannon fire explosion
+            Instantiate(cannonExplosion, tankParts[fireTransformKey].transform.position, Quaternion.identity);
 
             // Sound effects
             // Picks a random fire cannon sound effect from the array and assigns it to the sound source
