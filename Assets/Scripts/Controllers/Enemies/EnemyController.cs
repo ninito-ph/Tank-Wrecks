@@ -1,22 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
-using System;
 using UnityEngine.AI;
 
-public class EnemyController : TankBase, IEnemy
+public class EnemyController : TankBase
 {
     #region Field Declarations
 
     #region Core Values
 
+    [Header("Other values")]
     [SerializeField]
     [Tooltip("The speed at which the tank's head and cannon, repsectively, aim at the player.")]
     private Vector2 aimSpeeds = new Vector2(1.1f, 0.65f);
 
     // Basic variables for the functioning of the class
     protected GameObject assignedReference;
-    protected EnemyTypes enemyType;
     protected PlayerController playerReference;
 
     // Variables used for state machine functionality
@@ -53,12 +51,6 @@ public class EnemyController : TankBase, IEnemy
     {
         get { return assignedReference; }
         set { assignedReference = value; }
-    }
-
-    public EnemyTypes EnemyType
-    {
-        get { return enemyType; }
-        set { enemyType = value; }
     }
 
     public NavMeshAgent NavigationAgent { get => navigationAgent; }
@@ -113,8 +105,6 @@ public class EnemyController : TankBase, IEnemy
         // Caches the navmesh agent and obstacle reference
         navigationAgent = gameObject.GetComponent<NavMeshAgent>();
         navigationObstacle = gameObject.GetComponent<NavMeshObstacle>();
-        // Caches the player reference
-        playerReference = GameManager.PlayerReference.GetComponent<PlayerController>();
 
         // Calls the base class start
         base.Start();
@@ -137,13 +127,6 @@ public class EnemyController : TankBase, IEnemy
     {
         // Awards the player with points
         EventBroker.CallAddScore(scoreReward);
-
-        // Checks is GameManager is null first to prevent missing reference exceptions
-        if (GameManager != null)
-        {
-            // Notifies event broker the enemy has been destroyed.
-            EventBroker.CallEnemyDestroyed(assignedReference);
-        }
     }
 
     // On draws gizmos runs whenever the editor renders gizmos on the scene view
@@ -179,16 +162,3 @@ public class EnemyController : TankBase, IEnemy
 
     #endregion
 }
-
-#region Enum
-
-// Enum containing the types of enemies
-public enum EnemyTypes
-{
-    Roller,
-    Speeder,
-    Smasher,
-    Annihilator
-}
-
-#endregion
