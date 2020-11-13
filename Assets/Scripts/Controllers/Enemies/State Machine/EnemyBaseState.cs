@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public abstract class EnemyBaseState
+﻿public abstract class EnemyBaseState
 {
     // EnterState is called whenever the enemy enters a state
     public abstract void EnterState(EnemyController enemy);
