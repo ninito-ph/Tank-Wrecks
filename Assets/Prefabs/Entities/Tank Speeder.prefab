@@ -579,7 +579,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  deathExplosion: {fileID: 8300000, guid: 23e6854a91bbcca4c971a8f5feea4a7a, type: 3}
   maxHealth: 1
   maxSpeed: 5
   cannonAmount: 1
@@ -587,9 +586,14 @@ MonoBehaviour:
   cannonFireSFX:
   - {fileID: 8300000, guid: 8ee31ca585644574faf376ba342df510, type: 3}
   - {fileID: 8300000, guid: f6cbc2b1f820be042933ff53683699c2, type: 3}
+  deathExplosionSound: {fileID: 0}
   tankShell: {fileID: 3475972169881591529, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
     type: 3}
   fireForce: 20
+  cannonExplosion: {fileID: 366783496774432537, guid: 416ed9bb5c855f24c914ef2abe0ad88f,
+    type: 3}
+  deathExplosion: {fileID: 4908070375856605500, guid: 3a1ca27f5b674804c8c5d22c8abd68ed,
+    type: 3}
   aimSpeeds: {x: 1.25, y: 0.8}
   scoreReward: 275
   aiDebugMode: 1
