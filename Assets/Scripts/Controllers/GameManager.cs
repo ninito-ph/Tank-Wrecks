@@ -39,8 +39,9 @@ public class GameManager : MonoBehaviour
     private Coroutine spawnPowerupsRoutine;
     private Coroutine garbageCollectorRoutine;
 
-    // Caches a player reference
-    private GameObject playerReference;
+    // Caches a player and main camera reference
+    private PlayerController playerReference;
+    private GameObject mainCameraReference;
 
 #if UNITY_EDITOR
 
@@ -65,10 +66,12 @@ public class GameManager : MonoBehaviour
         get { return score; }
     }
 
-    public GameObject PlayerReference
+    public PlayerController PlayerReference
     {
         get { return playerReference; }
     }
+
+    public GameObject MainCameraReference { get => mainCameraReference; }
 
     public bool IsPaused
     {
@@ -88,6 +91,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
     #endregion
 
     #endregion
@@ -96,8 +100,9 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // Gets a reference of playerController so other classes can access it
-        playerReference = GameObject.Find("Tank Player");
+        // Gets a reference of playerController and main camera so other classes can access it
+        playerReference = GameObject.Find("Tank Player").GetComponent<PlayerController>();
+        mainCameraReference = Camera.main.gameObject;
 
         //HACK: For some reason, when returning to the game scene from the menu, the TimeScale starts at 0
         // Setting it to 1 works, but ideally we should find what is setting it to 0 in the first place
@@ -170,6 +175,10 @@ public class GameManager : MonoBehaviour
             wave = GlobalData.CurrentGame.Value.wavesSurvived;
             // Loads the score from the previous scene
             score = GlobalData.CurrentGame.Value.playerScore;
+        }
+        else // If one doesn't, create a new one
+        {
+            GlobalData.CurrentGame = new LeaderboardEntry(wave, (int)score, "");
         }
 
         // Initial populate spawnpools
@@ -471,12 +480,10 @@ public class GameManager : MonoBehaviour
             // Instantiates the enemy at the front of the queue
             GameObject spawnedEnemy = Instantiate(enemiesToSpawn.Dequeue(), enemySpawnPoints[randomSpawnPointPick].transform.position, Quaternion.identity);
 
-            // Passes the spawnedEnemy its reference and the GameManager reference.
-            IEnemy spawnedEnemyBase = spawnedEnemy.GetComponent<EnemyController>();
-            spawnedEnemyBase.AssignedReference = spawnedEnemy;
-
-            // Gives GameManager reference and PlayerReference references
-            spawnedEnemyBase.GameManager = this;
+            // Passes the spawnedEnemy its reference and the player's reference.
+            EnemyController spawnedEnemyController = spawnedEnemy.GetComponent<EnemyController>();
+            spawnedEnemyController.AssignedReference = spawnedEnemy;
+            spawnedEnemyController.PlayerReference = playerReference;
 
             // Adds the spawnedEnemy to the activeEnemy list
             activeEnemies.Add(spawnedEnemy);
@@ -524,7 +531,7 @@ public class GameManager : MonoBehaviour
 
             // Gives the powerup a reference to the GameManager
             PowerupController powerupController = spawnedPowerup.GetComponent<PowerupController>();
-            powerupController.GameControllerRef = this;
+            powerupController.MainCamera = mainCameraReference;
 
             yield return spawnCooldown;
         }
@@ -551,21 +558,5 @@ public class GameManager : MonoBehaviour
         }
     }
     #endregion
-    #endregion
-
-    #region Console Commands
-    /*     [ConsoleCommand("SetWave", "Sets the current wave to the specified wave")]
-        private void SetWave(int desiredWave)
-        {
-            // Sets the current wave to the wave preceding the desired wave
-            wave = desiredWave - 1;
-
-            // Destroys all remaining enemies which causes the next wave to begin
-            foreach (GameObject activeEnemy in activeEnemies)
-            {
-                Destroy(activeEnemy);
-            }
-        } */
-
     #endregion
 }
