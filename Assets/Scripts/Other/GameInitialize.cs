@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.Audio;
-using System;
 
 public class GameInitialize : MonoBehaviour
 {
@@ -73,11 +71,14 @@ public class GameInitialize : MonoBehaviour
             PlayerPrefs.SetString("First Startup", "false");
         }
 
+        // Save the date at which the game was entered
+        PlayerPrefs.SetInt("LastLoginDate", GetUnixDay());
+
         // Sets volume to saved volume values
         // Clamps volume values for safety
-        mainMixer.SetFloat("masterVolume", Mathf.Clamp(PlayerPrefs.GetFloat("Master Volume"), -80f, 0f));
-        mainMixer.SetFloat("masterVolume", Mathf.Clamp(PlayerPrefs.GetFloat("Sound Effects Volume"), -80f, 0f));
-        mainMixer.SetFloat("masterVolume", Mathf.Clamp(PlayerPrefs.GetFloat("Music Volume"), -80f, 0f));
+        mainMixer.SetFloat("masterVolume", Mathf.Log10(PlayerPrefs.GetFloat("Master Volume")) * 20);
+        mainMixer.SetFloat("soundEffectsVolume", Mathf.Log10(PlayerPrefs.GetFloat("Sound Effects Volume")) * 20);
+        mainMixer.SetFloat("musicVolume", Mathf.Log10(PlayerPrefs.GetFloat("Music Volume")) * 20);
 
         // Sets the screen resolution
         Screen.SetResolution(PlayerPrefs.GetInt("Resolution Width"), PlayerPrefs.GetInt("Resolution Height"), FullScreenMode.FullScreenWindow);
