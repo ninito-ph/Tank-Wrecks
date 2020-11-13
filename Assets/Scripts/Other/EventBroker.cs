@@ -1,10 +1,10 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
+using UnityEngine;
 
 public static class EventBroker
 {
     #region Actions
-    
+
     // Actions that notify other classes of notable events
     // Methods and actions are static so that classes don't need a reference to EventBroker
 
