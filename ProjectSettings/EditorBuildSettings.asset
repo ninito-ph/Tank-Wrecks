@@ -9,15 +9,15 @@ EditorBuildSettings:
     path: 
     guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/MenuScene.unity
+    path: Assets/Scenes/Menu Scenes/MenuScene.unity
     guid: 01d311fb16b036845a6b279c753bb06c
   - enabled: 1
-    path: Assets/Scenes/LoadingScene.unity
+    path: Assets/Scenes/Menu Scenes/LoadingScene.unity
     guid: 26ba24c4aca920842b66734b808fd69d
   - enabled: 1
-    path: Assets/Scenes/GreatForest.unity
+    path: Assets/Scenes/Game Levels/GreatForest.unity
     guid: 9df1abe5dd4a09b439749dade5f8a97f
   - enabled: 1
-    path: Assets/Scenes/OldwoodTown.unity
+    path: Assets/Scenes/Game Levels/OldwoodTown.unity
     guid: ca9a9bfe38939314f9318721d0bb2f87
   m_configObjects: {}

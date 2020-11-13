@@ -79,7 +79,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  clickSound: {fileID: 0}
   mainMixer: {fileID: 24100000, guid: 8b906cb8456804146822146991a468c7, type: 2}
+  cameraTransform: {fileID: 0}
   fullscreenToggle: {fileID: 5442398718089589576}
   resolutionDropdown: {fileID: 5442398718858677009}
   graphicalSettingsDropdown: {fileID: 5442398717952377740}
@@ -1936,10 +1938,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 0}
   m_HandleRect: {fileID: 5442398719995517392}
   m_Direction: 0
-  m_MinValue: -80
-  m_MaxValue: 0
+  m_MinValue: 0.0001
+  m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -2619,10 +2621,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 0}
   m_HandleRect: {fileID: 5442398718055749057}
   m_Direction: 0
-  m_MinValue: -80
-  m_MaxValue: 0
+  m_MinValue: 0.0001
+  m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -3928,10 +3930,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 0}
   m_HandleRect: {fileID: 5442398718186357147}
   m_Direction: 0
-  m_MinValue: -80
-  m_MaxValue: 0
+  m_MinValue: 0.0001
+  m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
