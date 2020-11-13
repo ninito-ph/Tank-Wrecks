@@ -1,12 +1,10 @@
-﻿using System.Collections;
+﻿using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
-using Sirenix.OdinInspector;
+using UnityEngine.SceneManagement;
 
 // I don't usually enjoy using replacements to monobehaviour, but Odin Inspector is a proven tool used in very large-scale games.
-[RequireComponent(typeof(AudioSource))]
 public class MenuBase : SerializedMonoBehaviour
 {
     #region Field Declarations
@@ -22,8 +20,8 @@ public class MenuBase : SerializedMonoBehaviour
     [Tooltip("The audio mixer used for sound effect")]
     protected AudioMixer mainMixer;
 
-    // The cache of the camera's position
-    private Transform cameraTransform;
+    // The sound receiver for menu sounds
+    private AudioSource menuAudioSource;
 
     #endregion
 
@@ -31,7 +29,26 @@ public class MenuBase : SerializedMonoBehaviour
 
     protected virtual void Start()
     {
-        cameraTransform = Camera.main.transform;
+        // Loops through every audiosource in the camera
+        foreach (AudioSource audioSource in Camera.main.gameObject.GetComponents<AudioSource>())
+        {
+            // Checks every audiosource until it finds the one with the menu
+            // click sound. We identiy the right one by checking which has said
+            // click sound
+            if (audioSource.clip == clickSound)
+            {
+                menuAudioSource = audioSource;
+            }
+
+            // If it has found the 
+            if (menuAudioSource != null)
+            {
+                // Makes menu sounds play even when the game is paused
+                menuAudioSource.ignoreListenerPause = true;
+                // Ends the loop early
+                break;
+            }
+        }
     }
 
     #endregion
@@ -118,14 +135,8 @@ public class MenuBase : SerializedMonoBehaviour
     // Gets UI volume and plays sound
     private void PlayClickSound()
     {
-        // Gets the volume for UI SFX
-        float clickVolume;
-        mainMixer.GetFloat("soundEffectsVolume", out clickVolume);
-
-        // Plays the clip at the camera (listener)
-        AudioSource.PlayClipAtPoint(clickSound, cameraTransform.position, clickVolume);
+        menuAudioSource.Play();
     }
 
     #endregion
-
 }
