@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 // A class that carries data through scenes
 public static class GlobalData
 {
