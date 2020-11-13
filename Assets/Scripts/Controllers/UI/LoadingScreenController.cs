@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LoadingScreenController : MonoBehaviour
 {
@@ -48,8 +46,6 @@ public class LoadingScreenController : MonoBehaviour
 
     private void Start()
     {
-
-        // TODO: Remove this null check once testing is done
         if (GlobalData.SceneToLoad != null)
         {
             // Starts the loading process and unloads previous scene
@@ -78,7 +74,6 @@ public class LoadingScreenController : MonoBehaviour
     {
         // Updates the fill amount of the loading bar
         // progess is being divided by a total of 0.9 instead of 1; at 1 the scene has finished loading, and the scene changes automatically
-        // TODO: Remove this null check once testing is done
         if (loadScene != null)
         {
             loadingBarFill.fillAmount = Mathf.Clamp01(loadScene.progress / 0.9f);

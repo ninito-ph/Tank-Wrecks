@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class OptionsMenuController : MenuBase
@@ -61,7 +59,7 @@ public class OptionsMenuController : MenuBase
 
     public void LoadPreferences()
     {
-        // Restores master volume functionality
+        // Restores volume sliders
         masterVolumeSlider.value = PlayerPrefs.GetFloat("Master Volume");
         soundEffectsVolumeSlider.value = PlayerPrefs.GetFloat("Sound Effects Volume");
         musicVolumeSlider.value = PlayerPrefs.GetFloat("Music Volume");
@@ -69,7 +67,6 @@ public class OptionsMenuController : MenuBase
         // Restores graphical quality setting
         graphicalSettingsDropdown.value = QualitySettings.GetQualityLevel();
         graphicalSettingsDropdown.RefreshShownValue();
-
 
         // Restores fullscreen toggle state
         bool isFullscreen;
