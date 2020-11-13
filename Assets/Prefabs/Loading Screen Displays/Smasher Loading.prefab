@@ -162,6 +162,17 @@ PrefabInstance:
       propertyPath: serializationData.PrefabModifications.Array.data[4]
       value: '"path":"tankParts.{\"Head\"}","value":$eref:4'
       objectReference: {fileID: 0}
+    - target: {fileID: 6845777905670183714, guid: 5decc2f8fe6a4c64bb191a80f62c6b88,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6845777905670183714, guid: 5decc2f8fe6a4c64bb191a80f62c6b88,
+        type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 6845777905670183714, guid: 5decc2f8fe6a4c64bb191a80f62c6b88,
+        type: 3}
     m_RemovedComponents:
     - {fileID: 1911137590714104940, guid: 5decc2f8fe6a4c64bb191a80f62c6b88, type: 3}
     - {fileID: 6324281182366381488, guid: 5decc2f8fe6a4c64bb191a80f62c6b88, type: 3}
@@ -171,6 +182,7 @@ PrefabInstance:
     - {fileID: 5238935774610984967, guid: 5decc2f8fe6a4c64bb191a80f62c6b88, type: 3}
     - {fileID: 1161025178494652933, guid: 5decc2f8fe6a4c64bb191a80f62c6b88, type: 3}
     - {fileID: 7732327151246848595, guid: 5decc2f8fe6a4c64bb191a80f62c6b88, type: 3}
+    - {fileID: 6845777905670183714, guid: 5decc2f8fe6a4c64bb191a80f62c6b88, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5decc2f8fe6a4c64bb191a80f62c6b88, type: 3}
 --- !u!1 &4579841301035289741 stripped
 GameObject:

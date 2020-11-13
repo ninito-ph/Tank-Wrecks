@@ -147,6 +147,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Speeder Loading
       objectReference: {fileID: 0}
+    - target: {fileID: 8517558663382774541, guid: 89e934a371d443e4081a8d041f8c4466,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8517558663382774541, guid: 89e934a371d443e4081a8d041f8c4466,
+        type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 8517558663382774541, guid: 89e934a371d443e4081a8d041f8c4466,
+        type: 3}
     m_RemovedComponents:
     - {fileID: 3385078028351215756, guid: 89e934a371d443e4081a8d041f8c4466, type: 3}
     - {fileID: 5968263156869048860, guid: 89e934a371d443e4081a8d041f8c4466, type: 3}
@@ -156,6 +167,7 @@ PrefabInstance:
     - {fileID: 8895187796984084274, guid: 89e934a371d443e4081a8d041f8c4466, type: 3}
     - {fileID: 9217543628114629535, guid: 89e934a371d443e4081a8d041f8c4466, type: 3}
     - {fileID: 7958853566982235694, guid: 89e934a371d443e4081a8d041f8c4466, type: 3}
+    - {fileID: 8517558663382774541, guid: 89e934a371d443e4081a8d041f8c4466, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 89e934a371d443e4081a8d041f8c4466, type: 3}
 --- !u!1 &8154993065189422610 stripped
 GameObject:

@@ -22,6 +22,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1939657976793678822, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1939657976793678822, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 1939657976793678822, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
     - target: {fileID: 1954428504075600899, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
         type: 3}
       propertyPath: m_Enabled
@@ -139,6 +150,7 @@ PrefabInstance:
     - {fileID: 8081155498728049916, guid: 36b79e77b5b6ac24b8736c0bf5202c78, type: 3}
     - {fileID: 3826524180676833466, guid: 36b79e77b5b6ac24b8736c0bf5202c78, type: 3}
     - {fileID: 8087626101810995673, guid: 36b79e77b5b6ac24b8736c0bf5202c78, type: 3}
+    - {fileID: 1939657976793678822, guid: 36b79e77b5b6ac24b8736c0bf5202c78, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 36b79e77b5b6ac24b8736c0bf5202c78, type: 3}
 --- !u!1 &4175126506872844719 stripped
 GameObject:
