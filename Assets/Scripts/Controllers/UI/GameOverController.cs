@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
-using System.IO;
 
 public class GameOverController : MenuBase
 {
@@ -34,9 +34,7 @@ public class GameOverController : MenuBase
 
     // The coroutine that fades text and images
     private Coroutine fadeRoutine;
-
-    // Caches reference to GameController
-    private GameController gameController;
+    private Coroutine waitForInputRoutine;
 
     #endregion
 
@@ -45,18 +43,13 @@ public class GameOverController : MenuBase
     // OnEnable is called when the object is enabled
     private void OnEnable()
     {
-        // Gets reference to GameObject
-        gameController = GameObject.Find("Game Controller").GetComponent<GameController>();
-
         // Gets the player metrics for the game and displays them on the screen
-        GetPlayerMetrics();
+        DisplayPlayerMetrics(GlobalData.CurrentGame.Value.wavesSurvived, GlobalData.CurrentGame.Value.playerScore);
 
+        // Waits a given time before activating input field
+        waitForInputRoutine = StartCoroutine(WaitToActivateInput(1.5f));
         // Fades in the game over screen and its content over time
         fadeRoutine = StartCoroutine(Fade(1f, fadeInTime, gameOverTexts, gameOverBackground));
-
-        // Selects the input field so the player can type right away
-        inputField.ActivateInputField();
-        inputField.Select();
     }
 
     private void Update()
@@ -66,6 +59,10 @@ public class GameOverController : MenuBase
         {
             // Saves the player metric into a save file
             SavePlayerMetrics();
+
+            // Clears the current game from global data, as it is over
+            GlobalData.CurrentGame = null;
+
             // Go to menu
             SwitchToScene("MenuScene", true);
         }
@@ -76,10 +73,10 @@ public class GameOverController : MenuBase
     #region Custom Methods
 
     // Gets the player metrics for the match, namely score and waves survived
-    private void GetPlayerMetrics()
+    private void DisplayPlayerMetrics(int waves, float score)
     {
-        wavesSurvived.text = (gameController.Wave - 1).ToString();
-        pointsAccrued.text = ((int)gameController.Score).ToString();
+        wavesSurvived.text = (waves - 1).ToString();
+        pointsAccrued.text = ((int)score).ToString();
     }
 
     // Saves the player metrics in a save file using a JSON format
@@ -89,7 +86,7 @@ public class GameOverController : MenuBase
         string filepath = Application.persistentDataPath + "/Leaderboard.json";
 
         // Stores the game data into a LeaderboardEntry struct
-        LeaderboardEntry playerMetrics = new LeaderboardEntry(gameController.Wave - 1, (int)gameController.Score, playerName.text);
+        LeaderboardEntry playerMetrics = new LeaderboardEntry(GlobalData.CurrentGame.Value.wavesSurvived, (int)GlobalData.CurrentGame.Value.playerScore, playerName.text);
 
         // Checks if a save file exists
         if (File.Exists(filepath))
@@ -162,6 +159,20 @@ public class GameOverController : MenuBase
             // Waits for the next frame
             yield return null;
         }
+
+        // Ends coroutine
+        yield break;
+    }
+
+    // Waits a given time to activate the input receiver
+    private IEnumerator WaitToActivateInput(float waitTime)
+    {
+        // Waits given time
+        yield return new WaitForSeconds(waitTime);
+
+        // Selects the input field so the player can type
+        inputField.ActivateInputField();
+        inputField.Select();
 
         // Ends coroutine
         yield break;

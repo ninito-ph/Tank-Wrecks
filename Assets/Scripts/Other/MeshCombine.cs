@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
-using Sirenix.OdinInspector;
 
 // Requires a renderer, mesh filter and material
 [RequireComponent(typeof(MeshFilter))]

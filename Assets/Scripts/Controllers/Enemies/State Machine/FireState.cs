@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class FireState : EnemyBaseState
 {
@@ -15,7 +13,7 @@ public class FireState : EnemyBaseState
     #region Abstract Implementations
 
     // Runs upon entering the state
-    public override void EnterState(EnemyBase enemy)
+    public override void EnterState(EnemyController enemy)
     {
         // Stops steering
         enemy.NavigationAgent.isStopped = true;
@@ -26,13 +24,13 @@ public class FireState : EnemyBaseState
     }
 
     // Runs every frame during the state
-    public override void Update(EnemyBase enemy)
+    public override void Update(EnemyController enemy)
     {
 
     }
 
     // Runs on draw gizmos
-    public override void OnDrawGizmos(EnemyBase enemy)
+    public override void OnDrawGizmos(EnemyController enemy)
     {
         if (enemy.AIDebugMode == true && enemy.PlayerReference != null)
         {
@@ -49,7 +47,7 @@ public class FireState : EnemyBaseState
     }
 
     // Runs upon leaving the state
-    public override void LeaveState(EnemyBase enemy)
+    public override void LeaveState(EnemyController enemy)
     {
         // Stops the aim coroutine
         enemy.StopCoroutine(firingRoutine);
@@ -60,7 +58,7 @@ public class FireState : EnemyBaseState
     #region Custom Methods
 
     // Turns the head of the tank towards the player
-    private bool AimHeadAtPlayer(EnemyBase enemy, float rotationStrenght)
+    private bool AimHeadAtPlayer(EnemyController enemy, float rotationSpeed)
     {
         // The position of the player ignoring the Y component
         Vector3 playerPositionNoY = new Vector3(enemy.PlayerReference.transform.position.x, enemy.TankParts["Head"].transform.position.y, enemy.PlayerReference.transform.position.z);
@@ -72,7 +70,7 @@ public class FireState : EnemyBaseState
         if (enemy.TankParts["Head"].transform.rotation != targetRotation)
         {
             // The time point in the interpolation
-            float rotationTime = Mathf.Min(rotationStrenght * Time.deltaTime, 1);
+            float rotationTime = Mathf.Min(rotationSpeed * Time.deltaTime, 1);
             // Sets the rotation to the lerp
             enemy.TankParts["Head"].transform.rotation = Quaternion.Lerp(enemy.TankParts["Head"].transform.rotation, targetRotation, rotationTime);
 
@@ -87,7 +85,7 @@ public class FireState : EnemyBaseState
     }
 
     // Inclines the cannon of the tank towards the player
-    private bool AimCannonAtPlayer(EnemyBase enemy, float rotationStrenght)
+    private bool AimCannonAtPlayer(EnemyController enemy, float rotationSpeed)
     {
         // Gets the range the projectile needs to have to land on the player
         float projectileRange = Vector3.Distance(enemy.transform.position, enemy.PlayerReference.transform.position);
@@ -97,7 +95,7 @@ public class FireState : EnemyBaseState
         float gravity = launch.projectileGravity;
 
         // Calculates at what angle the projectile should be launched at
-        float cannonAngle = -1f* GetLaunchAngle(new Vector3(0f, launch.projectileGravity, 0f), launch.launchVelocity.magnitude, enemy.PlayerReference.transform.position, enemy.TankParts["Fire Transform 1"].transform.position);
+        float cannonAngle = -1f * GetLaunchAngle(new Vector3(0f, launch.projectileGravity, 0f), launch.launchVelocity.magnitude, enemy.PlayerReference.transform.position, enemy.TankParts["Fire Transform 1"].transform.position);
 
         // Stores the target rotation
         Quaternion targetRotation = Quaternion.Euler(cannonAngle, 0f, 0f);
@@ -107,7 +105,7 @@ public class FireState : EnemyBaseState
         if (enemy.TankParts["Cannon Anchor"].transform.localRotation != targetRotation)
         {
             // The time point in the interpolation
-            float rotationTime = Mathf.Min(rotationStrenght * Time.deltaTime, 1);
+            float rotationTime = Mathf.Min(rotationSpeed * Time.deltaTime, 1);
             // Sets the rotation to the lerp
             enemy.TankParts["Cannon Anchor"].transform.localRotation = Quaternion.Lerp(enemy.TankParts["Cannon Anchor"].transform.localRotation, targetRotation, rotationTime);
 
@@ -133,7 +131,7 @@ public class FireState : EnemyBaseState
         // Gets horizontal distance
         float xOffset = targetPositionDelta.magnitude;
 
-        //Calculate the angles
+        // Calculate the angles
         // Squares the launch speed for brevity
         float launchSpeedSquared = launchSpeed * launchSpeed;
         // Calculates the discriminant of the quadratic equation
@@ -149,7 +147,7 @@ public class FireState : EnemyBaseState
     }
 
     // Checks if the player is being obstructed by something
-    private bool CheckIfObstructed(EnemyBase enemy)
+    private bool CheckIfObstructed(EnemyController enemy)
     {
         // Creates layermask by using
         LayerMask layerMask = LayerMask.GetMask("TankBodies", "Tanks", "Projectiles");
@@ -164,7 +162,7 @@ public class FireState : EnemyBaseState
     #region Coroutines
 
     // Coroutine that aims and fires at the player
-    private IEnumerator FireAtPlayer(EnemyBase enemy)
+    private IEnumerator FireAtPlayer(EnemyController enemy)
     {
         // Resets fire cooldown
         enemy.FireCooldown = 0;
@@ -185,11 +183,11 @@ public class FireState : EnemyBaseState
             }
 
             // Aims head and cannon at player
-            AimCannonAtPlayer(enemy, 0.65f);
-            AimHeadAtPlayer(enemy, 1.1f);
+            AimCannonAtPlayer(enemy, enemy.AimSpeeds.x);
+            AimHeadAtPlayer(enemy, enemy.AimSpeeds.y);
 
             // Fire shell if cooldown is over & game is unpaused
-            if (enemy.FireCooldown >= enemy.MaxFireCooldown && enemy.GameController.IsPaused == false)
+            if (enemy.FireCooldown >= enemy.MaxFireCooldown && !Mathf.Equals(Time.timeScale, 0f))
             {
                 // Makes tank fire
                 enemy.TankFire();

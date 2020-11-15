@@ -95,5 +95,17 @@ PrefabInstance:
         it pack a quite literally nuclear punch. It will destroy whatever you throw
         it at! Just be careful not to be too close!
       objectReference: {fileID: 0}
+    - target: {fileID: 8973245887266645736, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
+        type: 3}
+      propertyPath: simplifiedExplosion
+      value: 
+      objectReference: {fileID: 4618666044741959274, guid: 12fb513ba33d9fe4294294dc038b1777,
+        type: 3}
+    - target: {fileID: 8973245887266645736, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
+        type: 3}
+      propertyPath: explosionEffect
+      value: 
+      objectReference: {fileID: 2137125081686242988, guid: 81f1299f7a1b58c49b38ba0a33701d7a,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4a7796ff4cc84d4baa5e1e0cea874e9, type: 3}

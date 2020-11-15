@@ -70,10 +70,10 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1803299749210886714}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -102,16 +102,18 @@ LineRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Positions: []
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.25
+    widthMultiplier: 1
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.3
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -123,8 +125,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 0.49803922}
-      key1: {r: 1, g: 1, b: 1, a: 0.49803922}
+      key0: {r: 1, g: 1, b: 1, a: 0.7490196}
+      key1: {r: 1, g: 1, b: 1, a: 0.101960786}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -139,9 +141,9 @@ LineRenderer:
       ctime5: 0
       ctime6: 0
       ctime7: 0
-      atime0: 386
-      atime1: 65535
-      atime2: 0
+      atime0: 0
+      atime1: 49151
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
@@ -149,14 +151,14 @@ LineRenderer:
       atime7: 0
       m_Mode: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 3
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 1
     textureMode: 1
     shadowBias: 0.5
     generateLightingData: 0
-  m_UseWorldSpace: 0
+  m_UseWorldSpace: 1
   m_Loop: 0
 --- !u!114 &1006897011174371073
 MonoBehaviour:
@@ -165,12 +167,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1803299749210886714}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f15e48156286dc42ab7d4d83463d3d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sampleCount: 10
 --- !u!1 &1849572732762561390
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,7 +261,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1849572732762561390}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 801c0cfcfc069d9459906b3674b55d4f, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -451,7 +452,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2811557256436223070}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 801c0cfcfc069d9459906b3674b55d4f, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -549,7 +550,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6314509635454715171}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 801c0cfcfc069d9459906b3674b55d4f, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -569,7 +570,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 16
   m_CollisionDetection: 0
 --- !u!82 &8501570175069356037
 AudioSource:
@@ -774,27 +775,32 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  deathExplosion: {fileID: 8300000, guid: 01f2bffd25faa254b8dee6fdc1d19857, type: 3}
   maxHealth: 3
+  maxSpeed: 6.8
   cannonAmount: 1
   maxFireCooldown: 2.5
+  cannonFireSFX:
+  - {fileID: 8300000, guid: 8ee31ca585644574faf376ba342df510, type: 3}
+  - {fileID: 8300000, guid: f6cbc2b1f820be042933ff53683699c2, type: 3}
+  deathExplosionSound: {fileID: 0}
+  tankShell: {fileID: 3475972169881591529, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
+    type: 3}
+  fireForce: 20
+  cannonExplosion: {fileID: 366783496774432537, guid: 416ed9bb5c855f24c914ef2abe0ad88f,
+    type: 3}
+  deathExplosion: {fileID: 4908070375856605500, guid: 3a1ca27f5b674804c8c5d22c8abd68ed,
+    type: 3}
+  maxAmmo: 25
   bodyTurnRate: 50
   headTurnRate: 75
   cannonInclineRate: 60
   maxHeadRotation: 120
   maxCannonInclineAngle: {x: 16, y: 50}
-  maxSpeed: 6.8
   acceleration: 18
-  cannonFireSFX:
-  - {fileID: 8300000, guid: 8ee31ca585644574faf376ba342df510, type: 3}
-  - {fileID: 8300000, guid: f6cbc2b1f820be042933ff53683699c2, type: 3}
-  tankShell: {fileID: 3475972169881591529, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
-    type: 3}
-  fireForce: 20
-  maxAmmo: 25
   forceFieldDome: {fileID: 2811557256436223070}
   nukeShell: {fileID: 2144414025666665918, guid: e4b9784550df4214cb7847a94fcd2c40,
     type: 3}
+  reloadClip: {fileID: 8300000, guid: 915aeec54f8d2da48b774f6db90e7321, type: 3}
   fireAreaRadius: 44.75
   showFireAreas: 0
 --- !u!208 &5450893072464412886

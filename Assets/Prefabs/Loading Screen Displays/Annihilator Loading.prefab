@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 413f220d9bf9b29439770d2ba0247e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingTip: Annihilators are merciless machines of destruction! They will rush
-    your position while firing their three cannons in short succession. Mantain your
-    distance and fire back!
+  loadingTip: Annihilators are unstoppable machines of destruction! They will rush
+    your position and fire their three cannons in short succession. Keep moving and
+    fire back!
 --- !u!1001 &7417010261929496743
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22,6 +22,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1939657976793678822, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1939657976793678822, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 1939657976793678822, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
     - target: {fileID: 1954428504075600899, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
         type: 3}
       propertyPath: m_Enabled
@@ -103,6 +114,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6076574474863737778, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6076574474863737778, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6076574474863737778, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 6260350849267667843, guid: 36b79e77b5b6ac24b8736c0bf5202c78,
         type: 3}
       propertyPath: m_Enabled
@@ -124,6 +150,7 @@ PrefabInstance:
     - {fileID: 8081155498728049916, guid: 36b79e77b5b6ac24b8736c0bf5202c78, type: 3}
     - {fileID: 3826524180676833466, guid: 36b79e77b5b6ac24b8736c0bf5202c78, type: 3}
     - {fileID: 8087626101810995673, guid: 36b79e77b5b6ac24b8736c0bf5202c78, type: 3}
+    - {fileID: 1939657976793678822, guid: 36b79e77b5b6ac24b8736c0bf5202c78, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 36b79e77b5b6ac24b8736c0bf5202c78, type: 3}
 --- !u!1 &4175126506872844719 stripped
 GameObject:

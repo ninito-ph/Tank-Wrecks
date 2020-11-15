@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7586597558438468874}
   - component: {fileID: 6838392631355839151}
   - component: {fileID: 8719583041742038629}
-  - component: {fileID: 7981428804135985765}
   m_Layer: 14
   m_Name: Mushroom Pink
   m_TagString: Untagged
@@ -80,17 +79,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &7981428804135985765
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7062439043272951728}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.87240183
-  m_Height: 1.7577692
-  m_Direction: 1
-  m_Center: {x: -0.2194705, y: 0.8759064, z: 0.034528553}

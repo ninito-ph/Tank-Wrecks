@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 7916753711359227576}
   m_Layer: 15
   m_Name: Normal Shell
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -112,14 +112,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileDamage: 1
   projectileExplosionRadius: 3.2
-  projectileExplosionForce: 5
-  projectileExplosionUpwards: 1
   projectileBounces: 0
-  explosionSounds:
-  - {fileID: 8300000, guid: 01f2bffd25faa254b8dee6fdc1d19857, type: 3}
-  - {fileID: 8300000, guid: 855703cdf48498a4ba993f74e84eb088, type: 3}
-  - {fileID: 8300000, guid: 23e6854a91bbcca4c971a8f5feea4a7a, type: 3}
-  - {fileID: 8300000, guid: 54a7a5d5c7522ff419e308925706d332, type: 3}
+  explosionEffect: {fileID: 6848584224562398059, guid: a3cfc20c7e126aa4880ef40ba219549c,
+    type: 3}
   enableRadiusGizmo: 1
 --- !u!54 &1541388692575844848
 Rigidbody:

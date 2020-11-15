@@ -521,9 +521,9 @@ GameObject:
   - component: {fileID: 6925423412256984864}
   - component: {fileID: 1954428504075600899}
   - component: {fileID: 5684007651112833307}
-  - component: {fileID: 4419173716039081785}
   - component: {fileID: 6260350849267667843}
   - component: {fileID: 8087626101810995673}
+  - component: {fileID: 1939657976793678822}
   m_Layer: 8
   m_Name: Tank Annihilator
   m_TagString: Untagged
@@ -719,55 +719,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &4419173716039081785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6854343284140351752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 654f5c2e3b33e3740ad6e095ae963ac6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 0
-    SerializedBytes: 010109000000740061006e006b00500061007200740073002f00000000017d000000530079007300740065006d002e0043006f006c006c0065006300740069006f006e0073002e00470065006e0065007200690063002e00440069006300740069006f006e00610072007900600032005b005b00530079007300740065006d002e0053007400720069006e0067002c0020006d00730063006f0072006c00690062005d002c005b0055006e0069007400790045006e00670069006e0065002e00470061006d0065004f0062006a006500630074002c00200055006e0069007400790045006e00670069006e0065002e0043006f00720065004d006f00640075006c0065005d005d002c0020006d00730063006f0072006c00690062000000000001010800000063006f006d00700061007200650072002f010000000159000000530079007300740065006d002e0043006f006c006c0065006300740069006f006e0073002e00470065006e0065007200690063002e00470065006e00650072006900630045007100750061006c0069007400790043006f006d0070006100720065007200600031005b005b00530079007300740065006d002e0053007400720069006e0067002c0020006d00730063006f0072006c00690062005d005d002c0020006d00730063006f0072006c00690062000100000005060900000000000000042e27010200000024006b000110000000460069007200650020005400720061006e00730066006f0072006d00200033000b0102000000240076000000000005042e27010200000024006b00010400000042006f00640079000b0102000000240076000100000005042e27010200000024006b000108000000430061006e006e006f006e00200032000b0102000000240076000200000005042e27010200000024006b000110000000460069007200650020005400720061006e00730066006f0072006d00200032000b0102000000240076000300000005042e27010200000024006b000110000000460069007200650020005400720061006e00730066006f0072006d00200031000b0102000000240076000400000005042e27010200000024006b000108000000430061006e006e006f006e00200033000b0102000000240076000500000005042e27010200000024006b000108000000430061006e006e006f006e00200031000b0102000000240076000600000005042e27010200000024006b00010d000000430061006e006e006f006e00200041006e00630068006f0072000b0102000000240076000700000005042e27010200000024006b00010400000048006500610064000b01020000002400760008000000050705
-    ReferencedUnityObjects:
-    - {fileID: 2288598716959259108}
-    - {fileID: 6854343284140351752}
-    - {fileID: 7770766322756909945}
-    - {fileID: 647898815652820768}
-    - {fileID: 5995655670854963385}
-    - {fileID: 342416149720587881}
-    - {fileID: 3620677415465066377}
-    - {fileID: 303636777991582859}
-    - {fileID: 7239812729023798519}
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  deathExplosion: {fileID: 8300000, guid: 54a7a5d5c7522ff419e308925706d332, type: 3}
-  maxHealth: 5
-  cannonAmount: 3
-  maxFireCooldown: 2.5
-  bodyTurnRate: 30
-  headTurnRate: 30
-  cannonInclineRate: 30
-  maxHeadRotation: 120
-  maxCannonInclineAngle: {x: 20, y: -50}
-  maxSpeed: 5
-  acceleration: 3
-  cannonFireSFX:
-  - {fileID: 8300000, guid: 8ee31ca585644574faf376ba342df510, type: 3}
-  - {fileID: 8300000, guid: f6cbc2b1f820be042933ff53683699c2, type: 3}
-  tankShell: {fileID: 3475972169881591529, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
-    type: 3}
-  fireForce: 20
-  scoreReward: 1500
-  aiDebugMode: 1
 --- !u!195 &6260350849267667843
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -806,6 +757,182 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.003, y: 0.88, z: 0.75}
   m_TimeToStationary: 0.5
+--- !u!114 &1939657976793678822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6854343284140351752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a881714cf8cc3ff4b81ff24de3727e03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 2288598716959259108}
+    - {fileID: 6854343284140351752}
+    - {fileID: 7770766322756909945}
+    - {fileID: 647898815652820768}
+    - {fileID: 5995655670854963385}
+    - {fileID: 342416149720587881}
+    - {fileID: 3620677415465066377}
+    - {fileID: 303636777991582859}
+    - {fileID: 7239812729023798519}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: tankParts
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[UnityEngine.GameObject,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 9
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Fire Transform 3
+    - Name: $v
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Body
+    - Name: $v
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cannon 2
+    - Name: $v
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Fire Transform 2
+    - Name: $v
+      Entry: 10
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Fire Transform 1
+    - Name: $v
+      Entry: 10
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cannon 3
+    - Name: $v
+      Entry: 10
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cannon 1
+    - Name: $v
+      Entry: 10
+      Data: 6
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cannon Anchor
+    - Name: $v
+      Entry: 10
+      Data: 7
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Head
+    - Name: $v
+      Entry: 10
+      Data: 8
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  maxHealth: 5
+  maxSpeed: 5
+  cannonAmount: 3
+  maxFireCooldown: 1.9
+  cannonFireSFX:
+  - {fileID: 8300000, guid: 8ee31ca585644574faf376ba342df510, type: 3}
+  - {fileID: 8300000, guid: f6cbc2b1f820be042933ff53683699c2, type: 3}
+  deathExplosionSound: {fileID: 0}
+  tankShell: {fileID: 3475972169881591529, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
+    type: 3}
+  fireForce: 20
+  cannonExplosion: {fileID: 366783496774432537, guid: 416ed9bb5c855f24c914ef2abe0ad88f,
+    type: 3}
+  deathExplosion: {fileID: 4908070375856605500, guid: 3a1ca27f5b674804c8c5d22c8abd68ed,
+    type: 3}
+  aimSpeeds: {x: 1, y: 0.45}
+  scoreReward: 1500
+  aiDebugMode: 1
 --- !u!1 &7239812729023798519
 GameObject:
   m_ObjectHideFlags: 0

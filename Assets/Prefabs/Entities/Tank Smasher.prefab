@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 1911137590714104940}
   - component: {fileID: 6324281182366381488}
   - component: {fileID: 2115726230186391786}
-  - component: {fileID: 1431672529027855126}
   - component: {fileID: 1704068203764560228}
   - component: {fileID: 7732327151246848595}
+  - component: {fileID: 6845777905670183714}
   m_Layer: 8
   m_Name: Tank Smasher
   m_TagString: Untagged
@@ -212,7 +212,45 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1431672529027855126
+--- !u!195 &1704068203764560228
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292291347057366468}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 1.69
+  m_Speed: 8
+  m_Acceleration: 5.5
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2.75
+  m_BaseOffset: 1.05
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!208 &7732327151246848595
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292291347057366468}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.672, y: 1.415, z: 2.66}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.001, y: 0.4, z: 0.64}
+  m_TimeToStationary: 0.5
+--- !u!114 &6845777905670183714
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -221,7 +259,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 292291347057366468}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5783f2cf0abdd574989cacdacc1ae557, type: 3}
+  m_Script: {fileID: 11500000, guid: a881714cf8cc3ff4b81ff24de3727e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
@@ -318,63 +356,24 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  deathExplosion: {fileID: 8300000, guid: 855703cdf48498a4ba993f74e84eb088, type: 3}
   maxHealth: 3
-  cannonAmount: 1
-  maxFireCooldown: 2.5
-  bodyTurnRate: 30
-  headTurnRate: 30
-  cannonInclineRate: 30
-  maxHeadRotation: 120
-  maxCannonInclineAngle: {x: 20, y: -50}
   maxSpeed: 5
-  acceleration: 3
+  cannonAmount: 1
+  maxFireCooldown: 2.85
   cannonFireSFX:
   - {fileID: 8300000, guid: 8ee31ca585644574faf376ba342df510, type: 3}
   - {fileID: 8300000, guid: f6cbc2b1f820be042933ff53683699c2, type: 3}
+  deathExplosionSound: {fileID: 0}
   tankShell: {fileID: 3475972169881591529, guid: c4a7796ff4cc84d4baa5e1e0cea874e9,
     type: 3}
   fireForce: 20
+  cannonExplosion: {fileID: 366783496774432537, guid: 416ed9bb5c855f24c914ef2abe0ad88f,
+    type: 3}
+  deathExplosion: {fileID: 4908070375856605500, guid: 3a1ca27f5b674804c8c5d22c8abd68ed,
+    type: 3}
+  aimSpeeds: {x: 1, y: 0.55}
   scoreReward: 400
   aiDebugMode: 1
---- !u!195 &1704068203764560228
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 292291347057366468}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 1.69
-  m_Speed: 8
-  m_Acceleration: 5.5
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2.75
-  m_BaseOffset: 1.05
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!208 &7732327151246848595
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 292291347057366468}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 1.672, y: 1.415, z: 2.66}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0.001, y: 0.4, z: 0.64}
-  m_TimeToStationary: 0.5
 --- !u!1 &1798515941143881824
 GameObject:
   m_ObjectHideFlags: 0

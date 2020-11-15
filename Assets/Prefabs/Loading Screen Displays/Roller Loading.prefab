@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 413f220d9bf9b29439770d2ba0247e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingTip: Rollers are the canon fodder of the enemy. Not particularly strong,
-    agressive or fast. Beware, however, as they will overwhelm you when in sufficient
-    number!
+  loadingTip: Rollers are the front line soldiers of the enemy. Not particularly
+    strong, agressive or fast. Beware, however, they can make a difference if they
+    catch you with your guard down!
 --- !u!1001 &8459272277081793282
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22,6 +22,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1312585537915184951, guid: ad36334a5b79f414b82c2ad400748f0e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1312585537915184951, guid: ad36334a5b79f414b82c2ad400748f0e,
+        type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: -1312585537915184951, guid: ad36334a5b79f414b82c2ad400748f0e,
+        type: 3}
     - target: {fileID: 3812850298496911797, guid: ad36334a5b79f414b82c2ad400748f0e,
         type: 3}
       propertyPath: m_Name
@@ -92,6 +103,7 @@ PrefabInstance:
     - {fileID: 78680728660688328, guid: ad36334a5b79f414b82c2ad400748f0e, type: 3}
     - {fileID: 6114033596836630672, guid: ad36334a5b79f414b82c2ad400748f0e, type: 3}
     - {fileID: -1449400243845712561, guid: ad36334a5b79f414b82c2ad400748f0e, type: 3}
+    - {fileID: -1312585537915184951, guid: ad36334a5b79f414b82c2ad400748f0e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ad36334a5b79f414b82c2ad400748f0e, type: 3}
 --- !u!1 &4723335326354090679 stripped
 GameObject:

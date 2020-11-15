@@ -1,7 +1,6 @@
-﻿using System.Collections;
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
-using Sirenix.OdinInspector;
 
 // I don't usually enjoy using replacements to monobehaviour, but Odin Inspector is a proven tool used in very large-scale games.
 public class TankBase : SerializedMonoBehaviour
@@ -10,8 +9,7 @@ public class TankBase : SerializedMonoBehaviour
 
     #region Core Values
 
-    // The explosion clip
-    public AudioClip deathExplosion;
+
 
     // Health of the tank
     protected int health;
@@ -20,6 +18,10 @@ public class TankBase : SerializedMonoBehaviour
     [SerializeField]
     [Tooltip("Maximum health of the tank.")]
     protected int maxHealth = 3;
+
+    [SerializeField]
+    [Tooltip("The maximum speed at which a tank can move.")]
+    protected float maxSpeed = 5f;
 
     // The amount of cannons the tank has
     [SerializeField]
@@ -35,41 +37,6 @@ public class TankBase : SerializedMonoBehaviour
     [Tooltip("The amount of time the tank must wait between shots.")]
     protected float maxFireCooldown = 2.5f;
 
-    [Header("Movement values")]
-    // Tank part turn/incline speeds.
-    [SerializeField]
-    [Tooltip("The speed at which the tank turns")]
-    protected float bodyTurnRate = 30f;
-    [SerializeField]
-    [Tooltip("The speed at which the tank's 'head' turns.")]
-    protected float headTurnRate = 30f;
-    [SerializeField]
-    [Tooltip("The speed at which the tank's cannon inclines/declines")]
-    protected float cannonInclineRate = 30f;
-
-    // Maximum turn and incline angles for head and cannon
-    [SerializeField]
-    [Tooltip("The maximum angle the tank's head can turn either direction.")]
-    protected float maxHeadRotation = 120f;
-    [SerializeField]
-    [Tooltip("The maximum angle the tank's cannon can decline or incline (respectively)")]
-    protected Vector2 maxCannonInclineAngle = new Vector2(20f, -50f);
-
-    // The maximum speed and acceleration a tank may have/has
-    [SerializeField]
-    [Tooltip("The maximum speed at which the tank can move.")]
-    protected float maxSpeed = 5f;
-    [SerializeField]
-    [Tooltip("The acceleration of the tank's movement.")]
-    protected float acceleration = 3f;
-
-    // Internal variables to keep track of the head's/cannon's current angle
-    protected float headAngle = 0f;
-    protected float cannonAngle = 0f;
-
-    // Internal reference to the body rigidbody
-    protected Rigidbody bodyRigidbody;
-
     #endregion
 
     #region Audio Values
@@ -78,11 +45,17 @@ public class TankBase : SerializedMonoBehaviour
     [SerializeField]
     [Tooltip("The audio clips for cannon fire")]
     protected AudioClip[] cannonFireSFX;
+    // The explosion clip
+    [SerializeField]
+    [Tooltip("The death explosion sound of the tank")]
+    protected AudioClip deathExplosionSound;
 
     // The audio source for the tank engine
     protected AudioSource engineSoundSource;
     // Uses an array of sound sources for cannons, so that it is compatible with multiple cannons
     protected AudioSource[] cannonSoundSources;
+    // Rigidbody used to determine velocity
+    protected Rigidbody bodyRigidbody;
 
     #endregion
 
@@ -101,20 +74,19 @@ public class TankBase : SerializedMonoBehaviour
     [DictionaryDrawerSettings(KeyLabel = "Tank Part Name", ValueLabel = "Tank Part GameObject")]
     protected Dictionary<string, GameObject> tankParts = new Dictionary<string, GameObject>();
 
-    // Keeps a reference to the GameController object
-    protected GameController gameController;
+    [Header("Visual Effect Values")]
+    [Tooltip("The explosion effect when firing from cannon")]
+    [SerializeField]
+    protected GameObject cannonExplosion;
+    [Tooltip("The explosion effect when the tank is destroyed")]
+    [SerializeField]
+    protected GameObject deathExplosion;
 
     // Properties
     // properties are being used to preserve encapsulation
     public GameObject FireProjectile
     {
         get { return tankShell; }
-    }
-
-    public GameController GameController
-    {
-        get { return gameController; }
-        set { gameController = value; }
     }
 
     public int Health
@@ -150,13 +122,12 @@ public class TankBase : SerializedMonoBehaviour
     {
         get
         {
-
             // Retrieves the launch angle and launch height
             float launchAngle = TankParts["Cannon 1"].transform.eulerAngles.x;
             float launchHeight = TankParts["Fire Transform 1"].transform.position.y;
 
             // Calculates the forces of the launch
-            Vector3 launchVelocity = new Vector3(fireForce * Mathf.Cos(launchAngle * Mathf.Deg2Rad), fireForce * Mathf.Sin(launchAngle * Mathf.Deg2Rad), 0f);
+            Vector3 launchVelocity = tankParts["Fire Transform 1"].transform.forward * fireForce;
 
             // Stores information into the launch data struct
             ProjectileLaunchData launchInfo = new ProjectileLaunchData(launchVelocity, Physics.gravity.magnitude, launchAngle, launchHeight);
@@ -242,11 +213,9 @@ public class TankBase : SerializedMonoBehaviour
     // Destroys the tank in a big explosion
     protected virtual void DestroyTank()
     {
-        // TODO: Add explosion VFX
+        // Plays death explosion effect
+        Instantiate(deathExplosion, transform.position, Quaternion.identity);
         Destroy(gameObject);
-
-        // HACK: This is only for the audio project. The SFX shoul be in the actual explosion
-        AudioSource.PlayClipAtPoint(deathExplosion, transform.position);
 
         // Ends all of the tank's associated coroutines
         StopAllCoroutines();
@@ -264,7 +233,8 @@ public class TankBase : SerializedMonoBehaviour
             // Apply recoil to tank body
             string fireTransformKey = "Fire Transform " + currentCannon.ToString();
 
-            // TODO: Add VFX to firing cannon
+            // Plays cannon fire explosion
+            Instantiate(cannonExplosion, tankParts[fireTransformKey].transform.position, Quaternion.identity);
 
             // Sound effects
             // Picks a random fire cannon sound effect from the array and assigns it to the sound source
