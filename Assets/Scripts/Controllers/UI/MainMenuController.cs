@@ -1,4 +1,6 @@
-﻿public class MainMenuController : MenuBase
+﻿using UnityEngine;
+
+public class MainMenuController : MenuBase
 {
     #region Custom Methods
 
