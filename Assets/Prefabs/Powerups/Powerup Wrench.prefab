@@ -154,7 +154,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8e9a83f6871e1cc4984281461fd0f1a4, type: 2}
+  - {fileID: 2100000, guid: 2637b5c84735cc6449529922ea4028ab, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -209,6 +209,7 @@ MonoBehaviour:
   powerupDuration: 0
   powerupAmount: 2
   powerupClip: {fileID: 8300000, guid: 1089001da21a6124ba2a944b683f7965, type: 3}
+  disintegrateColor: {r: 1, g: 0.8512076, b: 0, a: 1}
 --- !u!1 &8909111240609449270
 GameObject:
   m_ObjectHideFlags: 0
