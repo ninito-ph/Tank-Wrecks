@@ -3,13 +3,6 @@ using UnityEngine;
 
 public class FireState : EnemyBaseState
 {
-    #region Field Declarations
-
-    // Holds a reference to the firing coroutine
-    private Coroutine firingRoutine;
-
-    #endregion
-
     #region Abstract Implementations
 
     // Runs upon entering the state
@@ -20,7 +13,7 @@ public class FireState : EnemyBaseState
         // Marks the enemy as stationary
         enemy.IsStationary = true;
         // Sets a reference for the coroutine and starts it
-        firingRoutine = enemy.StartCoroutine(FireAtPlayer(enemy));
+        enemy.CurrentStateRoutine = enemy.StartCoroutine(FireAtPlayer(enemy));
     }
 
     // Runs every frame during the state
@@ -50,7 +43,7 @@ public class FireState : EnemyBaseState
     public override void LeaveState(EnemyController enemy)
     {
         // Stops the aim coroutine
-        enemy.StopCoroutine(firingRoutine);
+        enemy.StopCoroutine(enemy.CurrentStateRoutine);
     }
 
     #endregion
