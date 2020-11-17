@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MaterializeAtlas
+  m_Shader: {fileID: -6465566751694194690, guid: f8064cf1fab37b24dbddfa74735bb6db,
+    type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_12A70E72:
+        m_Texture: {fileID: 2800000, guid: bb26d7fb1ec63384a9c395f5645f5149, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_FC39119A:
+        m_Texture: {fileID: 2800000, guid: eb6b1d1244185f549bacc5dc6a470256, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTexture:
+        m_Texture: {fileID: 2800000, guid: eb6b1d1244185f549bacc5dc6a470256, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: bb26d7fb1ec63384a9c395f5645f5149, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - BOOLEAN_5A79FB9C: 0
+    - Vector1_1D84F9A2: 0.235
+    - Vector1_31CDA308: 0.162
+    - Vector1_588C7CCF: 0.389
+    - Vector1_6A1B8813: 0.192
+    - Vector1_8500AF78: 0.25
+    - Vector1_8DAC8216: 10
+    - Vector1_994C6DF6: 0.3
+    - Vector1_A5E1F8A4: 0
+    - Vector1_C9C6EDD8: 0
+    - Vector1_F0B3E7CE: 0
+    - _CutoffSmoothness: 0.13
+    - _DisAmount: 2
+    - _EdgeEmission: 10
+    - _EdgeWidth: 0.203
+    - _NoiseCutoff: 0.5
+    - _NoiseScale: 0.75
+    - _NoiseSpeed: 0.4
+    m_Colors:
+    - Color_ED0EAD33: {r: 0, g: 0.5467558, b: 1, a: 1}
+    - _EdgeColor: {r: 1, g: 1, b: 1, a: 1}
