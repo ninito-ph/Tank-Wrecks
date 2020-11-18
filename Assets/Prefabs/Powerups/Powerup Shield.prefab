@@ -101,7 +101,7 @@ MonoBehaviour:
   powerupLifetime: 60
   powerupType: 1
   speedMultipler: 0
-  powerupDuration: 10
+  powerupDuration: 20
   powerupAmount: 0
   powerupClip: {fileID: 8300000, guid: 64a7bbc260b46bd4d944e81d723fdc93, type: 3}
   disintegrateColor: {r: 0, g: 0.8549633, b: 1, a: 0}
