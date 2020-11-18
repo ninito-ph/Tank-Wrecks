@@ -61,15 +61,15 @@ public class PlayerController : TankBase
     [Header("Powerups")]
     [SerializeField]
     [Tooltip("The prefab for the shield powerup dome")]
-    private GameObject forceFieldDome;
+    private GameObject forceField;
     [SerializeField]
     [Tooltip("The prefab for the nuke shell powerup")]
     private GameObject nukeShell;
 
-    // The forcefield powerup instance
-    private GameObject forceField;
     // The ammo for nuke shells
     private int nukeShellAmmo = 0;
+    // The flag that the player is currently invulnerable
+    private bool isInvulnerable = false;
 
     [Header("Other Values")]
     [SerializeField]
@@ -130,6 +130,8 @@ public class PlayerController : TankBase
         get { return rushFireAreaRadius; }
     }
 
+    public bool IsInvulnerable { get => isInvulnerable; }
+
     #endregion
 
     #endregion
@@ -175,7 +177,7 @@ public class PlayerController : TankBase
         EventBroker.ActivatePowerup += ActivatePowerup;
 
         // Creates and disables the shield powerup for future use
-        forceField = Instantiate(forceFieldDome, transform.position, Quaternion.identity);
+        forceField = Instantiate(forceField, transform.position, Quaternion.identity);
         forceField.SetActive(false);
     }
 
@@ -426,14 +428,27 @@ public class PlayerController : TankBase
     private IEnumerator ShieldPowerup(float duration)
     {
         // Enables the powerup
-        forceField.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
+        isInvulnerable = true;
         forceField.SetActive(true);
+        forceField.transform.position = transform.position;
 
-        // Waits until powerup time is over
-        yield return new WaitForSeconds(duration);
+        // Declares elapsed time
+        float elapsedTime = 0f;
+
+        // Loop until the powerup duration is over
+        while (elapsedTime <= duration)
+        {
+            // Updates forcefield position
+            forceField.transform.position = transform.position;
+            // Increases elapsed time
+            elapsedTime += Time.deltaTime;
+            // Waits until end of next frame
+            yield return null;
+        }
 
         // Disables the powerup
         forceField.SetActive(false);
+        isInvulnerable = false;
 
         //  Marks coroutine as null so as to indicate powerup is inactive
         ShieldPowerupRoutine = null;
