@@ -37,18 +37,18 @@ struct Varyings
 };
 
 // Properties
-float _Height;
-float _MinHeight;
-float _MaxHeight;
-float _Width;
-float4 _Color;
-float4 _ShadowColor;
-float _LightPower;
-float _Translucency;
-float _AlphaCutoff;
+half _Height;
+half _MinHeight;
+half _MaxHeight;
+half _Width;
+half4 _Color;
+half4 _ShadowColor;
+half _LightPower;
+half _Translucency;
+half _AlphaCutoff;
 sampler2D _WindMap;
-float3 _WindFrequency;
-float _WindStrenght;
+half3 _WindFrequency;
+half _WindStrenght;
 
 // Vertex pass
 Varyings vert(Attributes IN)
@@ -60,12 +60,12 @@ Varyings vert(Attributes IN)
     VertexPositionInputs vertexInput = GetVertexPositionInputs(IN.positionOS);
     VertexNormalInputs vertexNormalInput = GetVertexNormalInputs(IN.normalOS, IN.tangentOS);
     
-    float fogFactor = ComputeFogFactor(vertexInput.positionCS.z);
+    half fogFactor = ComputeFogFactor(vertexInput.positionCS.z);
     
     OUT.uv = TRANSFORM_TEX(IN.uv, _BaseMap);
     OUT.uvLM = IN.uvLM.xy * unity_LightmapST.xy + unity_LightmapST.zw;
     
-    OUT.positionWSAndFogFactor = float4(vertexInput.positionWS, fogFactor);
+    OUT.positionWSAndFogFactor = half4(vertexInput.positionWS, fogFactor);
     OUT.positionCS = vertexInput.positionCS;
     OUT.positionOS = IN.positionOS;
     
@@ -116,11 +116,15 @@ float3x3 ZRotationMatrix(float angle)
     );
 }
 
-// FIXME: This function is slow. consider using a pcg generator instead
-// Generates a random number given a seed
+// Credits to Dave Hoskis for this hash function
 float Random(float3 seed)
 {
-    return frac(sin(dot(seed.xyz, float3(12.9898, 78.233, 53.539))) * 43758.5453);
+    //Gets the fraction of the seed multiplied by a random number
+    seed = frac(seed * 0.1031);
+    // Adds the dot product of the swizzled seed plus 33
+    seed += dot(seed, seed.yzx + 33.33);
+    // Returns the fractional portion of a swizzled seed sum and product
+    return frac((seed.xx + seed.yz) * seed.zy);
 }
 
 // Geometry pass
@@ -141,6 +145,7 @@ void geom(triangle Varyings IN[3], inout TriangleStream < Varyings > outStream)
 
     // Calculates the base position of the grass quad
     float3 basePos = (IN[0].positionWSAndFogFactor.xyz + IN[1].positionWSAndFogFactor.xyz + IN[2].positionWSAndFogFactor.xyz) / 3;
+    //basePos.xz = basePos.xz + Random(IN[0].positionWSAndFogFactor.xyz);
     
     // Gets the first vertex in the triangle
     Varyings OUT0 = IN[0];
@@ -210,9 +215,7 @@ half4 frag(Varyings IN, bool isFacingCamera: SV_IsFrontFace): SV_Target
     // Retrieves and normalizes the quad normal
     half3 normalWS = IN.normalWS;
     normalWS = normalize(normalWS);
-    
-    // FIXME: Another performance loss due to branching/wavefront breaking
-    normalWS = isFacingCamera ? normalWS: - normalWS;
+    normalWS = normalWS * isFacingCamera;
     
     // Gets the position in world space
     float3 positionWS = IN.positionWSAndFogFactor.xyz;
@@ -237,7 +240,7 @@ half4 frag(Varyings IN, bool isFacingCamera: SV_IsFrontFace): SV_Target
     color = MixFog(color, IN.positionWSAndFogFactor.w);
     
     // Gets texture alpha and clips alpha
-    float alpha = _BaseMap.Sample(sampler_BaseMap, IN.uv).a;
+    half alpha = _BaseMap.Sample(sampler_BaseMap, IN.uv).a;
     clip(alpha - _AlphaCutoff);
     
     return half4(color, 1);
