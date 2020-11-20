@@ -129,24 +129,9 @@ public class ProjectileController : MonoBehaviour
             // gameobjects at a time, but using GetComponent in this manner is not optimal performance-wise.
             TankBase tankController = tank.transform.root.gameObject.GetComponent<TankBase>();
 
-            // Checks if the collided tank is the player
-            if (tankController is PlayerController)
-            {
-                // After we confirm tankController is of type player, typecast it to a PlayerController
-                PlayerController player = (PlayerController)tankController;
+            // Reduces tank health
+            tankController.Health = tankController.Health - projectileDamage;
 
-                // Check if player is invulnerable
-                if (player.IsInvulnerable == false)
-                {
-                    // Subtracts from the tank's health
-                    tankController.Health = tankController.Health - projectileDamage;
-                }
-            }
-            else // If it isn't
-            {
-                // Subtracts from the tank's health
-                tankController.Health = tankController.Health - projectileDamage;
-            }
         }
 
         // Destroys the shell

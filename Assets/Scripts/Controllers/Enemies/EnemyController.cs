@@ -151,6 +151,8 @@ public class EnemyController : TankBase
         EventBroker.CallAddScore(scoreReward);
         // Notifies the enemy was destroyed
         EventBroker.CallEnemyDestroyed(gameObject);
+        // Notifies the kill achievement
+        EventBroker.CallKillAchieve();
     }
 
     // On draws gizmos runs whenever the editor renders gizmos on the scene view

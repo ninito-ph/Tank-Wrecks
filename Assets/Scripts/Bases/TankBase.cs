@@ -91,7 +91,7 @@ public class TankBase : SerializedMonoBehaviour
         get { return tankShell; }
     }
 
-    public int Health
+    public virtual int Health
     {
         get { return health; }
         set
