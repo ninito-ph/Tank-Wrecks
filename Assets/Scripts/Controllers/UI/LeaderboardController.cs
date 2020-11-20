@@ -88,10 +88,10 @@ public class LeaderboardController : MonoBehaviour
             // Creates a sample leaderboard entry list
             List<LeaderboardEntry> sampleEntryList = new List<LeaderboardEntry>()
             {
-                new LeaderboardEntry(59, 61450, "Delta VI"),
-                new LeaderboardEntry(39, 40990, "Libellula"),
-                new LeaderboardEntry(34, 35400, "Lazertank"),
-                new LeaderboardEntry(91, 95300, "Spark")
+                new LeaderboardEntry(59, 61450, 1,"Delta VI"),
+                new LeaderboardEntry(39, 40990, 1, "Libellula"),
+                new LeaderboardEntry(34, 35400, 1,"Lazertank"),
+                new LeaderboardEntry(91, 95300, 3,"Spark")
             };
 
             // Creates a leaderboard using the sample entry list
@@ -161,14 +161,17 @@ public struct LeaderboardEntry
     [SerializeField]
     public int playerScore;
     [SerializeField]
+    public int newGamePlus;
+    [SerializeField]
     public string playerName;
 
     // Constructor for the struct that initializes relevant data 
-    public LeaderboardEntry(int wavesSurvived, int playerScore, string playerName)
+    public LeaderboardEntry(int wavesSurvived, int playerScore, int newGamePlus, string playerName)
     {
         // Equals the struct's (this) values to the ones passed as arguments
         this.wavesSurvived = wavesSurvived;
         this.playerScore = playerScore;
+        this.newGamePlus = newGamePlus;
         this.playerName = playerName;
     }
 }
