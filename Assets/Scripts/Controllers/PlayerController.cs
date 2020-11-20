@@ -57,6 +57,7 @@ public class PlayerController : TankBase
     private Coroutine OilPowerupRoutine;
     private Coroutine ShieldPowerupRoutine;
     private Coroutine NukePowerupRoutine;
+    private Coroutine correctTiltRoutine;
 
     [Header("Powerups")]
     [SerializeField]
@@ -98,6 +99,23 @@ public class PlayerController : TankBase
     #endregion
 
     #region Properties
+
+    public override int Health
+    {
+        get => health;
+        set
+        {
+            // If the player isn't invulnerable or the value is a heal
+            if (isInvulnerable == false || value > health)
+            {
+                health = value;
+                if (health <= 0)
+                {
+                    DestroyTank();
+                }
+            }
+        }
+    }
 
     public int Ammo
     {
@@ -179,6 +197,9 @@ public class PlayerController : TankBase
         // Creates and disables the shield powerup for future use
         forceField = Instantiate(forceField, transform.position, Quaternion.identity);
         forceField.SetActive(false);
+
+        // Starts correct tilt routine
+        correctTiltRoutine = StartCoroutine(CorrectTilt(2f));
     }
 
     // Fixed update runs on every fixed update. Good for physics. 
@@ -268,6 +289,8 @@ public class PlayerController : TankBase
 
             // Notifies that the player has shot
             EventBroker.CallShotFired();
+            // Notifies the shot achievement shot
+            EventBroker.CallShotAchieve();
         }
     }
 
@@ -472,6 +495,26 @@ public class PlayerController : TankBase
 
         // Ends coroutine
         yield break;
+    }
+
+    // Periodically corrects any tilt in the x or z axis
+    private IEnumerator CorrectTilt(float correctionInterval)
+    {
+        // The correction interval
+        WaitForSeconds interval = new WaitForSeconds(correctionInterval);
+
+        // Loops eternally
+        while (true)
+        {
+            // If x or z rotation is not zero
+            if (transform.eulerAngles.x != 0 || transform.eulerAngles.z != 0)
+            {
+                transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+            }
+
+            // Waits interval
+            yield return interval;
+        }
     }
 
     #endregion
