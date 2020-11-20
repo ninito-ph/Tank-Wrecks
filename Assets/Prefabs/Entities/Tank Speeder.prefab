@@ -582,7 +582,7 @@ MonoBehaviour:
   maxHealth: 1
   maxSpeed: 5
   cannonAmount: 1
-  maxFireCooldown: 2
+  maxFireCooldown: 2.2
   cannonFireSFX:
   - {fileID: 8300000, guid: 8ee31ca585644574faf376ba342df510, type: 3}
   - {fileID: 8300000, guid: f6cbc2b1f820be042933ff53683699c2, type: 3}

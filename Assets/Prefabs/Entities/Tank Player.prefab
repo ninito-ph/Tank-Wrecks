@@ -776,7 +776,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   maxHealth: 3
-  maxSpeed: 6.8
+  maxSpeed: 7.2
   cannonAmount: 1
   maxFireCooldown: 2.5
   cannonFireSFX:
@@ -797,7 +797,8 @@ MonoBehaviour:
   maxHeadRotation: 120
   maxCannonInclineAngle: {x: 16, y: 50}
   acceleration: 18
-  forceFieldDome: {fileID: 2811557256436223070}
+  forceField: {fileID: 8388646402665657742, guid: 4da064b3443d9f543abb7e66ef7cdff2,
+    type: 3}
   nukeShell: {fileID: 2144414025666665918, guid: e4b9784550df4214cb7847a94fcd2c40,
     type: 3}
   reloadClip: {fileID: 8300000, guid: 915aeec54f8d2da48b774f6db90e7321, type: 3}
