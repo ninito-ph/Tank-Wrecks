@@ -99,12 +99,14 @@ MonoBehaviour:
   floatMagnitude: 0.2
   powerupScore: 200
   powerupLifetime: 60
+  pickupExplosion: {fileID: 6193796669752789767, guid: 709c9772b0fa1fe41b904d177a1d4812,
+    type: 3}
   powerupType: 1
   speedMultipler: 0
   powerupDuration: 20
   powerupAmount: 0
   powerupClip: {fileID: 8300000, guid: 64a7bbc260b46bd4d944e81d723fdc93, type: 3}
-  disintegrateColor: {r: 0, g: 0.8549633, b: 1, a: 0}
+  disintegrateColor: {r: 0, g: 0.8549633, b: 1, a: 1}
 --- !u!65 &5371174359544157327
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -186,8 +186,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.4223066, y: 1.3776067, z: 0.7065476}
-  m_Center: {x: -0.040946268, y: 0.44222027, z: -0.095604956}
+  m_Size: {x: 0.4223066, y: 1.675295, z: 0.7065476}
+  m_Center: {x: -0.040946275, y: 0.29337615, z: -0.095604956}
 --- !u!114 &5752245287754547411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +204,8 @@ MonoBehaviour:
   floatMagnitude: 0.2
   powerupScore: 200
   powerupLifetime: 60
+  pickupExplosion: {fileID: 6193796669752789767, guid: 709c9772b0fa1fe41b904d177a1d4812,
+    type: 3}
   powerupType: 3
   speedMultipler: 0
   powerupDuration: 0

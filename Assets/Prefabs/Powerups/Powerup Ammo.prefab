@@ -4924,12 +4924,14 @@ MonoBehaviour:
   floatMagnitude: 0.2
   powerupScore: 200
   powerupLifetime: 60
+  pickupExplosion: {fileID: 6193796669752789767, guid: 709c9772b0fa1fe41b904d177a1d4812,
+    type: 3}
   powerupType: 4
   speedMultipler: 0
   powerupDuration: 0
   powerupAmount: 20
   powerupClip: {fileID: 8300000, guid: 915aeec54f8d2da48b774f6db90e7321, type: 3}
-  disintegrateColor: {r: 1, g: 0, b: 0, a: 0}
+  disintegrateColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &8493080084187972268
 GameObject:
   m_ObjectHideFlags: 0
