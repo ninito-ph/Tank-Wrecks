@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class HUDController : MenuBase
 {
@@ -19,6 +20,7 @@ public class HUDController : MenuBase
     [SerializeField]
     [Tooltip("Score counter text")]
     private Text scoreText;
+    
     [Header("Icons")]
     [SerializeField]
     [Tooltip("Fire cooldown icon sprite")]
@@ -37,10 +39,16 @@ public class HUDController : MenuBase
     [Tooltip("The linear interpolation speed at which the fire readiness icon is updated")]
     [SerializeField]
     private float fireCooldownLerpSpeed = 13f;
+    [Tooltip("The the achievements texts. WARNING: The achievement count and message MUST be at indexes 0 and 1, respectively.")]
+    [SerializeField]
+    private Text[] achievementTexts;
 
     // Necessary object references
     private GameManager GameManager;
     private PlayerController playerController;
+
+    // Other coroutines
+    private Coroutine achievementRoutine;
 
     #endregion
 
@@ -58,7 +66,9 @@ public class HUDController : MenuBase
         // Subscribes wave update to wave over event
         EventBroker.WaveStarted += UpdateWave;
         // Subscribes goto game over screen to player destroyed event
-        EventBroker.PlayerDestroyed += GotoGameOverScreen;
+        EventBroker.GameEnded += GotoGameOverScreen;
+        // Subscribes achievement display to notify achievement event
+        EventBroker.NotifyAchievement += ShowAchievement;
 
         // Caches reference to the GameManager
         GameManager = GameObject.Find("Game Controller").GetComponent<GameManager>();
@@ -98,9 +108,10 @@ public class HUDController : MenuBase
         EventBroker.ShotFired -= UpdateAmmo;
         // Unsubscribes wave update to wave over event
         EventBroker.WaveStarted -= UpdateWave;
-        // Unsubscribes goto game over screen to player destroyed event
-        EventBroker.PlayerDestroyed -= GotoGameOverScreen;
-
+        // Unsubscribes achievement display to notify achievement event
+        EventBroker.NotifyAchievement -= ShowAchievement;
+        // Unsubscribes from game ended event
+        EventBroker.GameEnded -= GotoGameOverScreen;
     }
 
     #endregion
@@ -200,6 +211,16 @@ public class HUDController : MenuBase
         }
     }
 
+    // Displays an achievement
+    public void ShowAchievement(string achievementCount, string unlockMessage)
+    {
+        // Sets the UI text
+        achievementTexts[0].text = achievementCount;
+        achievementTexts[1].text = unlockMessage;
+        // Fades in the achievement
+        achievementRoutine = StartCoroutine(FadeInAchievement(4f, achievementTexts));
+    }
+
     // Switches to the options menu
     public void GotoOptions()
     {
@@ -212,8 +233,13 @@ public class HUDController : MenuBase
         SwitchToMenu("Pause Menu");
     }
 
-    // Switches to the game over screen
-    public void GotoGameOverScreen()
+    // Switches to the game over screen This method takes in an input because it
+    // needs to match the Event signature. I now know about EventArgs and other
+    // mannners of making the code more extensible and reusable. I am, however,
+    // running out of time as I write this, so I cannot go back and perform
+    // another refactoring on the code. May this be a lesson for the next
+    // project. 
+    public void GotoGameOverScreen(LeaderboardEntry discard)
     {
         SwitchToMenu("Game Over Screen");
     }
@@ -224,6 +250,54 @@ public class HUDController : MenuBase
         SwitchToMenu("HUD", false);
         OverlayMenu("Help Screen");
     }
+
+    #region Coroutines
+
+    // Fades text to a given transparency
+    private IEnumerator FadeInAchievement(float duration, Text[] textsToFade)
+    {
+        // Updates text color until it has faded in completely
+        for (float time = 0; time <= duration * 0.2f; time += Time.deltaTime)
+        {
+            // Sets the color to the lerp operation's result color
+            foreach (Text achievementText in textsToFade)
+            {
+                // Fade in text
+                achievementText.color = Color.Lerp(achievementText.color, new Color(achievementText.color.r, achievementText.color.g, achievementText.color.b, 1f), Mathf.Min(1, (time / duration * 0.2f)));
+            }
+
+            // Waits for the next frame
+            yield return null;
+        }
+
+        // Waits 
+        yield return new WaitForSeconds(duration * 0.6f);
+
+        // Updates text color until it has faded in completely
+        for (float time = 0; time <= duration * 0.2f; time += Time.deltaTime)
+        {
+            // Sets the color to the lerp operation's result color
+            foreach (Text achievementText in textsToFade)
+            {
+                // Fade in text
+                achievementText.color = Color.Lerp(achievementText.color, new Color(achievementText.color.r, achievementText.color.g, achievementText.color.b, 0.0f), Mathf.Min(1, (time / duration * 0.2f)));
+            }
+
+            // Waits for the next frame
+            yield return null;
+        }
+
+        // Sets the color alpha to zero
+        foreach (Text achievementText in textsToFade)
+        {
+            achievementText.color = new Color(achievementText.color.r, achievementText.color.g, achievementText.color.b, 0.0f);
+        }
+
+        // Ends coroutine
+        yield break;
+    }
+
+    #endregion
 
     #endregion
 }
