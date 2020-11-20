@@ -21,6 +21,9 @@ public class PowerupController : MonoBehaviour
     [SerializeField]
     [Tooltip("The lifetime in seconds the powerup will last for")]
     private float powerupLifetime = 60f;
+    [SerializeField]
+    [Tooltip("The pickup explosion feedback for a powerup")]
+    private GameObject pickupExplosion;
 
     // Coroutines
     private Coroutine powerupLifetimeRoutine;
@@ -87,19 +90,22 @@ public class PowerupController : MonoBehaviour
         // Starts disintegration coroutine
         disintegrateRoutine = StartCoroutine(Disintegration(6f, -2f, powerupRenderer.material));
 
-        // Iterates through all the audio sources in the main camera
-        foreach (AudioSource audioSource in mainCamera.GetComponents<AudioSource>())
+        if (mainCamera != null)
         {
-            // If the audioSource has the empty SFX Flag clip
-            if (Mathf.Equals(audioSource.maxDistance, 1.01f))
+            // Iterates through all the audio sources in the main camera
+            foreach (AudioSource audioSource in mainCamera.GetComponents<AudioSource>())
             {
-                sfxAudioSource = audioSource;
-            }
+                // If the audioSource has the empty SFX Flag clip
+                if (Mathf.Equals(audioSource.maxDistance, 1.01f))
+                {
+                    sfxAudioSource = audioSource;
+                }
 
-            // Skips rest of the loop if the audiosource has already been found
-            if (sfxAudioSource != null)
-            {
-                break;
+                // Skips rest of the loop if the audiosource has already been found
+                if (sfxAudioSource != null)
+                {
+                    break;
+                }
             }
         }
 
@@ -126,11 +132,18 @@ public class PowerupController : MonoBehaviour
             EventBroker.CallActivatePowerup(powerupType, powerupDuration, powerupAmount, speedMultipler);
             // Adds score
             EventBroker.CallAddScore(powerupScore);
+            // Calls achievement event
+            EventBroker.CallPowerupAchieve();
             // Sets audiosource clip to the powerup clip
             sfxAudioSource.clip = powerupClip;
             // Plays powerup clip
             sfxAudioSource.Play();
 
+            // Intantiates powerup pickup feedback explosion
+            pickupExplosion = Instantiate(pickupExplosion, transform.position, Quaternion.identity);
+            pickupExplosion.GetComponent<ExplosionGenerator>().ExplosionColor = disintegrateColor;
+
+            // Destroys powerup
             Destroy(gameObject);
         }
     }
