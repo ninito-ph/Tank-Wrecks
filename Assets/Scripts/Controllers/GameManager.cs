@@ -210,17 +210,23 @@ public class GameManager : MonoBehaviour
                 // Loads the achievement metrics from the previous scene
                 achievementTracker.AchievementMetrics = GlobalData.CurrentAchievements.Value;
             }
-
-            // Checks if a new game plus has begun
-            if (wave % 30 == 0)
-            {
-                newGamePlus = wave % 30;
-                EventBroker.CallNewGamePlusStarted();
-            }
         }
         else // If one doesn't, create a new one
         {
             currentGame = new LeaderboardEntry(wave, (int)score, newGamePlus, "");
+        }
+
+        // Checks if a new game plus has begun
+        if (wave % 30 == 0)
+        {
+            newGamePlus = wave % 30;
+            EventBroker.CallNewGamePlusStarted();
+        }
+
+        if (wave % 10 == 0)
+        {
+            // Notifies the achievement tracker that a wave has been survived
+            EventBroker.CallWaveAchieve();
         }
 
         // Initial populate spawnpools
