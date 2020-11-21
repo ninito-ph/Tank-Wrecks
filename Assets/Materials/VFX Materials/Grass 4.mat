@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Grass 3
+  m_Name: Grass 4
   m_Shader: {fileID: 4800000, guid: 547847ce118a83647bed2b3f1d40e4a7, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -41,9 +41,9 @@ Material:
     - _ShadowPower: 0.35
     - _Translucency: 0.02
     - _Width: 0.75
-    - _WindStrenght: -2
+    - _WindStrenght: 2
     m_Colors:
-    - _Color: {r: 0.35686275, g: 0.8, b: 0.58823526, a: 1}
-    - _ShadowColor: {r: 0.30980393, g: 0.67058825, b: 0.5137255, a: 1}
+    - _Color: {r: 0.39544186, g: 0.78, b: 0.54781395, a: 1}
+    - _ShadowColor: {r: 0.3529412, g: 0.69411767, b: 0.48627454, a: 1}
     - _WindFrequency: {r: 0.2, g: 0.2, b: 0.1, a: 0}
     - _WindStrenght: {r: 1, g: 1, b: 1, a: 1}
