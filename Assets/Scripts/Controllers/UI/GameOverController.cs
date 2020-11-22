@@ -68,12 +68,18 @@ public class GameOverController : MenuBase
         // If the player presses enter
         if (Input.GetKeyDown(KeyCode.Return) && playerName.text != "")
         {
-            // Saves the player metric into a save file
-            SavePlayerMetrics();
+            // Saves the player metric into a save file, if he hasn't cheated
+            if (GlobalData.Cheated == false)
+            {
+                SavePlayerMetrics();
+            }
 
             // Clears the current game and achievements from global data, as it is over
             GlobalData.CurrentGame = null;
             GlobalData.CurrentAchievements = null;
+
+            // Clears the cheat flag
+            GlobalData.Cheated = false;
 
             // Go to menu
             SwitchToScene("MenuScene", true);
