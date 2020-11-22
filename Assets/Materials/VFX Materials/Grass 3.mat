@@ -43,7 +43,7 @@ Material:
     - _Width: 0.75
     - _WindStrenght: -2
     m_Colors:
-    - _Color: {r: 0.35686275, g: 0.8, b: 0.58823526, a: 1}
+    - _Color: {r: 0.33263162, g: 0.72, b: 0.551579, a: 1}
     - _ShadowColor: {r: 0.30980393, g: 0.67058825, b: 0.5137255, a: 1}
     - _WindFrequency: {r: 0.2, g: 0.2, b: 0.1, a: 0}
     - _WindStrenght: {r: 1, g: 1, b: 1, a: 1}
