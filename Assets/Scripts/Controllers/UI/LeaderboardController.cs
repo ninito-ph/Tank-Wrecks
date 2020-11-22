@@ -88,10 +88,7 @@ public class LeaderboardController : MonoBehaviour
             // Creates a sample leaderboard entry list
             List<LeaderboardEntry> sampleEntryList = new List<LeaderboardEntry>()
             {
-                new LeaderboardEntry(59, 61450, 1,"Delta VI"),
-                new LeaderboardEntry(39, 40990, 1, "Libellula"),
-                new LeaderboardEntry(34, 35400, 1,"Lazertank"),
-                new LeaderboardEntry(91, 95300, 3,"Spark")
+                new LeaderboardEntry(5, 6350, 0,"Beat Me!")
             };
 
             // Creates a leaderboard using the sample entry list
