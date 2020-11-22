@@ -11,6 +11,8 @@ public static class GlobalData
     // Uses a nullable struct because the game checks whether there is an ongoing game by checking if this variable is null or not
     private static LeaderboardEntry? currentGame;
     private static AchievementMetrics? currentAchievements;
+    // Saves whether the player used a cheat
+    private static bool cheated = false;
 
     #region Properties
 
@@ -28,6 +30,7 @@ public static class GlobalData
 
     public static LeaderboardEntry? CurrentGame { get => currentGame; set => currentGame = value; }
     public static AchievementMetrics? CurrentAchievements { get => currentAchievements; set => currentAchievements = value; }
+    public static bool Cheated { get => cheated; set => cheated = value; }
 
     #endregion
 
