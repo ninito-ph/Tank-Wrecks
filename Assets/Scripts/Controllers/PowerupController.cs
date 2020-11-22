@@ -21,9 +21,14 @@ public class PowerupController : MonoBehaviour
     [SerializeField]
     [Tooltip("The lifetime in seconds the powerup will last for")]
     private float powerupLifetime = 60f;
+    [SerializeField]
+    [Tooltip("The pickup explosion feedback for a powerup")]
+    private GameObject pickupExplosion;
 
+    // Coroutines
     private Coroutine powerupLifetimeRoutine;
     private Coroutine powerupDestroyRoutine;
+    private Coroutine disintegrateRoutine;
 
     // Individual powerup properties
     [Header("Individual properties")]
@@ -42,6 +47,9 @@ public class PowerupController : MonoBehaviour
     [SerializeField]
     [Tooltip("The sound effect played when the powerup is picked up")]
     private AudioClip powerupClip;
+    [SerializeField]
+    [Tooltip("The color used in the disintegrate shader for this powerup")]
+    private Color disintegrateColor;
 
     // Private reference to the GameManager
     private GameObject mainCamera;
@@ -74,25 +82,35 @@ public class PowerupController : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        // Iterates through all the audio sources in the main camera
-        foreach (AudioSource audioSource in mainCamera.GetComponents<AudioSource>())
-        {
-            // If the audioSource has the empty SFX Flag clip
-            if (Mathf.Equals(audioSource.maxDistance, 1.01f))
-            {
-                sfxAudioSource = audioSource;
-            }
+        // Gets the object's material
+        powerupRenderer = gameObject.GetComponent<Renderer>();
+        powerupRenderer.material.SetColor("_EdgeColor", disintegrateColor);
+        //powerupRenderer.material.SetFloat("_DisAmount", 0);
 
-            // Skips rest of the loop if the audiosource has already been found
-            if (sfxAudioSource != null)
+        // Starts disintegration coroutine
+        disintegrateRoutine = StartCoroutine(Disintegration(6f, -2f, powerupRenderer.material));
+
+        if (mainCamera != null)
+        {
+            // Iterates through all the audio sources in the main camera
+            foreach (AudioSource audioSource in mainCamera.GetComponents<AudioSource>())
             {
-                break;
+                // If the audioSource has the empty SFX Flag clip
+                if (Mathf.Equals(audioSource.maxDistance, 1.01f))
+                {
+                    sfxAudioSource = audioSource;
+                }
+
+                // Skips rest of the loop if the audiosource has already been found
+                if (sfxAudioSource != null)
+                {
+                    break;
+                }
             }
         }
 
         // Starts the lifetime routine
         powerupLifetimeRoutine = StartCoroutine(PowerupLifetimeRoutine());
-        powerupRenderer = gameObject.GetComponent<Renderer>();
     }
 
     // Update is called once per frame
@@ -114,11 +132,18 @@ public class PowerupController : MonoBehaviour
             EventBroker.CallActivatePowerup(powerupType, powerupDuration, powerupAmount, speedMultipler);
             // Adds score
             EventBroker.CallAddScore(powerupScore);
+            // Calls achievement event
+            EventBroker.CallPowerupAchieve();
             // Sets audiosource clip to the powerup clip
             sfxAudioSource.clip = powerupClip;
             // Plays powerup clip
             sfxAudioSource.Play();
 
+            // Intantiates powerup pickup feedback explosion
+            pickupExplosion = Instantiate(pickupExplosion, transform.position, Quaternion.identity);
+            pickupExplosion.GetComponent<ExplosionGenerator>().ExplosionColor = disintegrateColor;
+
+            // Destroys powerup
             Destroy(gameObject);
         }
     }
@@ -161,26 +186,35 @@ public class PowerupController : MonoBehaviour
     private IEnumerator PowerupLifetimeRoutine()
     {
         // Waits the lifetime of the powerup
-        yield return new WaitForSeconds(powerupLifetime);
+        yield return new WaitForSeconds(powerupLifetime - 6f);
         // Start powerup destroy section
-        // TODO: Switch to dissolve shader
-        // Wait 3 seconds
-        yield return new WaitForSeconds(3);
+        disintegrateRoutine = StartCoroutine(Disintegration(6f, 2f, powerupRenderer.material));
         // Destroy powerup
-        Destroy(gameObject);
+        Destroy(gameObject, 6f);
         // Ends coroutine
         yield break;
     }
 
-    private IEnumerator PowerupDestroyRoutine()
+    // Controls how much the object is disintegrating through the material shader
+    private IEnumerator Disintegration(float disintegrationTime, float disintegrationTarget, Material disintegrationMaterial)
     {
-        // TODO: Switch to dissolve shader
-        // Wait 3 seconds
-        yield return new WaitForSeconds(3);
-        // Destroy powerup
-        Destroy(gameObject);
-        // Ends coroutine
-        yield break;
+        // Gets the current disintegration amount
+        float startingDisintegration = disintegrationMaterial.GetFloat("_DisAmount");
+
+        // Updates text color until fade duration is over
+        for (float time = 0; time <= disintegrationTime; time += Time.deltaTime)
+        {
+            // Calculates the disintegration amount
+            float disintegrationAmount = Mathf.Lerp(startingDisintegration, Mathf.Clamp(disintegrationTarget, -2f, 2f), time / disintegrationTime);
+            // Applies the disintegration amount
+            disintegrationMaterial.SetFloat("_DisAmount", disintegrationAmount);
+
+            // Waits for the next frame
+            yield return null;
+        }
+
+        // Clears coroutine
+        disintegrateRoutine = null;
     }
 
     #endregion

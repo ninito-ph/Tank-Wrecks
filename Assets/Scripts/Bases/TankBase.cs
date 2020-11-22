@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,8 +9,6 @@ public class TankBase : SerializedMonoBehaviour
     #region Field Declarations
 
     #region Core Values
-
-
 
     // Health of the tank
     protected int health;
@@ -82,6 +81,9 @@ public class TankBase : SerializedMonoBehaviour
     [SerializeField]
     protected GameObject deathExplosion;
 
+    // Disintegration coroutine
+    protected Coroutine disintegrateRoutine;
+
     // Properties
     // properties are being used to preserve encapsulation
     public GameObject FireProjectile
@@ -89,7 +91,7 @@ public class TankBase : SerializedMonoBehaviour
         get { return tankShell; }
     }
 
-    public int Health
+    public virtual int Health
     {
         get { return health; }
         set
@@ -215,10 +217,15 @@ public class TankBase : SerializedMonoBehaviour
     {
         // Plays death explosion effect
         Instantiate(deathExplosion, transform.position, Quaternion.identity);
-        Destroy(gameObject);
-
-        // Ends all of the tank's associated coroutines
-        StopAllCoroutines();
+        // Gets all mesh renderer materials
+        List<Material> tankMaterials = new List<Material>();
+        foreach (Renderer renderer in GetComponentsInChildren<Renderer>())
+        {
+            tankMaterials.Add(renderer.material);
+        }
+        // Starts burn coroutine
+        disintegrateRoutine = StartCoroutine(Disintegration(0.75f, 2f, tankMaterials));
+        Destroy(gameObject, 0.75f);
     }
 
     // Fires the tank's cannon
@@ -273,6 +280,36 @@ public class TankBase : SerializedMonoBehaviour
         // Returns a reference to the fired tankShell if needed.
         return firedTankShell;
     }
+
+    #region Coroutines
+
+    // Controls how much the object is disintegrating through the material shader
+    protected IEnumerator Disintegration(float disintegrationTime, float disintegrationTarget, List<Material> disintegrationMaterials)
+    {
+        // Gets the current disintegration amount
+        float startingDisintegration = disintegrationMaterials[0].GetFloat("_DisAmount");
+
+        // Updates text color until fade duration is over
+        for (float time = 0; time <= disintegrationTime; time += Time.deltaTime)
+        {
+            // Calculates the disintegration amount
+            float disintegrationAmount = Mathf.Lerp(startingDisintegration, Mathf.Clamp(disintegrationTarget, -2f, 2f), time / disintegrationTime);
+
+            // Applies the disintegration amount in all tank materials
+            foreach (Material material in disintegrationMaterials)
+            {
+                material.SetFloat("_DisAmount", disintegrationAmount);
+            }
+
+            // Waits for the next frame
+            yield return null;
+        }
+
+        // Clears coroutine
+        disintegrateRoutine = null;
+    }
+
+    #endregion
 
     #endregion
 }

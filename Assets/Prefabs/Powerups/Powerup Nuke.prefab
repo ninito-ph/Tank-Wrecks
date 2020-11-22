@@ -4874,7 +4874,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8e9a83f6871e1cc4984281461fd0f1a4, type: 2}
+  - {fileID: 2100000, guid: 2637b5c84735cc6449529922ea4028ab, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4911,11 +4911,14 @@ MonoBehaviour:
   floatMagnitude: 0.2
   powerupScore: 200
   powerupLifetime: 60
+  pickupExplosion: {fileID: 6193796669752789767, guid: 709c9772b0fa1fe41b904d177a1d4812,
+    type: 3}
   powerupType: 2
   speedMultipler: 0
   powerupDuration: 0
   powerupAmount: 1
   powerupClip: {fileID: 8300000, guid: 915aeec54f8d2da48b774f6db90e7321, type: 3}
+  disintegrateColor: {r: 0, g: 1, b: 0.31713772, a: 1}
 --- !u!65 &8189501108205149699
 BoxCollider:
   m_ObjectHideFlags: 0

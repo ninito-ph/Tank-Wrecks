@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 public class EnemyController : TankBase
 {
@@ -14,22 +15,26 @@ public class EnemyController : TankBase
     private Vector2 aimSpeeds = new Vector2(1.1f, 0.65f);
 
     // Basic variables for the functioning of the class
-    protected GameObject assignedReference;
-    protected PlayerController playerReference;
+    private GameObject assignedReference;
+    private PlayerController playerReference;
 
     // Variables used for state machine functionality
-    protected EnemyBaseState currentState;
-    protected RepositionState repositionState = new RepositionState();
-    protected FireState fireState = new FireState();
+    private EnemyBaseState currentState;
+    private RepositionState repositionState = new RepositionState();
+    private FireState fireState = new FireState();
 
     [SerializeField]
     [Tooltip("The reward in score for defeating the enemy")]
     private float scoreReward;
 
+    // Visual effect variables
+    private List<Material> tankMaterials = new List<Material>();
+
     // AI variables
     private bool isStationary = false;
-    protected NavMeshAgent navigationAgent;
-    protected NavMeshObstacle navigationObstacle;
+    private NavMeshAgent navigationAgent;
+    private NavMeshObstacle navigationObstacle;
+    private Coroutine currentStateRoutine;
 
     [Header("Debug")]
     [Tooltip("Whether or not to draw AI logic to scene view")]
@@ -86,6 +91,8 @@ public class EnemyController : TankBase
     public EnemyBaseState RepositionState { get { return repositionState; } }
     public EnemyBaseState FireState { get { return fireState; } }
 
+    public Coroutine CurrentStateRoutine { get => currentStateRoutine; set => currentStateRoutine = value; }
+
 
     #endregion
 
@@ -105,6 +112,21 @@ public class EnemyController : TankBase
         // Caches the navmesh agent and obstacle reference
         navigationAgent = gameObject.GetComponent<NavMeshAgent>();
         navigationObstacle = gameObject.GetComponent<NavMeshObstacle>();
+
+        // Gets all mesh renderer materials
+        tankMaterials = new List<Material>();
+        foreach (Renderer renderer in GetComponentsInChildren<Renderer>())
+        {
+            tankMaterials.Add(renderer.material);
+            // Also sets the disentegration amount to full and the border color
+            // to blue, to allow the tank to have a materialization effect when
+            // spawning
+            renderer.material.SetFloat("_DisAmount", 2f);
+            renderer.material.SetColor("_EdgeColor", new Color(0f, 0.5f, 1f, 1f));
+        }
+
+        // Materializes the enemy tank using the disintegration coroutine
+        disintegrateRoutine = StartCoroutine(Disintegration(0.75f, -2f, tankMaterials));
 
         // Calls the base class start
         base.Start();
@@ -129,6 +151,8 @@ public class EnemyController : TankBase
         EventBroker.CallAddScore(scoreReward);
         // Notifies the enemy was destroyed
         EventBroker.CallEnemyDestroyed(gameObject);
+        // Notifies the kill achievement
+        EventBroker.CallKillAchieve();
     }
 
     // On draws gizmos runs whenever the editor renders gizmos on the scene view
@@ -145,6 +169,25 @@ public class EnemyController : TankBase
     #endregion
 
     #region Custom Methods
+
+    protected override void DestroyTank()
+    {
+        // Stops current AI coroutine
+        StopCoroutine(currentStateRoutine);
+
+        // Plays death explosion effect
+        Instantiate(deathExplosion, transform.position, Quaternion.identity);
+
+        // Sets color of all materials to explosion orange
+        foreach (Material material in tankMaterials)
+        {
+            material.SetColor("_EdgeColor", new Color(1f, 0.3f, 0f, 1f));
+        }
+
+        // Starts burn coroutine
+        disintegrateRoutine = StartCoroutine(Disintegration(0.75f, 2f, tankMaterials));
+        Destroy(gameObject, 0.75f);
+    }
 
     // Transitions to the state indicated in the state machine
     public void TransitionToState(EnemyBaseState state)

@@ -6,9 +6,6 @@ public class RepositionState : EnemyBaseState
 {
     #region Field Declarations
 
-    // Holds a reference to the pathing coroutine
-    private Coroutine pathingRoutine;
-
     // Information used for AI debugging
     private Vector3 aiDestination = new Vector3(0f, 0f, 0f);
     private bool destinationIsValid = false;
@@ -22,7 +19,7 @@ public class RepositionState : EnemyBaseState
         // Marks enemy as non-stationary
         enemy.IsStationary = false;
         // Starts pathing coroutine
-        pathingRoutine = enemy.StartCoroutine(PathToPlayer(enemy, enemy.transform, enemy.PlayerReference.transform, enemy.PlayerReference.SafeFireAreaRadius));
+        enemy.CurrentStateRoutine = enemy.StartCoroutine(PathToPlayer(enemy, enemy.transform, enemy.PlayerReference.transform, enemy.PlayerReference.SafeFireAreaRadius));
         // Enables steering
         enemy.NavigationAgent.isStopped = false;
     }
@@ -30,7 +27,7 @@ public class RepositionState : EnemyBaseState
     public override void LeaveState(EnemyController enemy)
     {
         // Stops and clears the coroutine
-        enemy.StopCoroutine(pathingRoutine);
+        enemy.StopCoroutine(enemy.CurrentStateRoutine);
     }
 
     public override void Update(EnemyController enemy)

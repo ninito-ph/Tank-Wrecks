@@ -11,9 +11,17 @@ public class GameManager : MonoBehaviour
 
     #region  Core Values
 
+    // Game state variables (A state machine implementation would have been better)
     private bool isPaused = false;
+    private bool isOver = false;
+
+    // Counters for game data
     private int wave = 0;
+    private int newGamePlus = 0;
     private float score = 0;
+    // Local copy of current game data
+    private LeaderboardEntry currentGame;
+
     [Header("Difficulty")]
     [SerializeField]
     [Tooltip("The difficulty config profile to be used")]
@@ -42,6 +50,9 @@ public class GameManager : MonoBehaviour
     // Caches a player and main camera reference
     private PlayerController playerReference;
     private GameObject mainCameraReference;
+
+    // Caches the acheivement tracker reference
+    private AchievementTracker achievementTracker;
 
 #if UNITY_EDITOR
 
@@ -91,6 +102,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public LeaderboardEntry CurrentGame { get => currentGame; set => currentGame = value; }
+
 
     #endregion
 
@@ -104,6 +117,9 @@ public class GameManager : MonoBehaviour
         playerReference = GameObject.Find("Tank Player").GetComponent<PlayerController>();
         mainCameraReference = Camera.main.gameObject;
 
+        // Gets a reference of the achievement tracker component
+        achievementTracker = GetComponent<AchievementTracker>();
+
         //HACK: For some reason, when returning to the game scene from the menu, the TimeScale starts at 0
         // Setting it to 1 works, but ideally we should find what is setting it to 0 in the first place
         Time.timeScale = 1;
@@ -111,9 +127,13 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        // Resumes audio play
+        AudioListener.pause = false;
+
         // Subscribes RemoveEnemyFromList to EnemyDestroyed event
         EventBroker.EnemyDestroyed += RemoveEnemyFromList;
         EventBroker.AddScore += AddScore;
+        EventBroker.PlayerDestroyed += EndGame;
 
         // Starts the game
         StartGame();
@@ -125,6 +145,8 @@ public class GameManager : MonoBehaviour
         // Unsubscribes from events to prevent memory leaks and other behaviours
         EventBroker.EnemyDestroyed -= RemoveEnemyFromList;
         EventBroker.AddScore -= AddScore;
+        EventBroker.PlayerDestroyed -= EndGame;
+
 
         // Stops all coroutines
         StopAllCoroutines();
@@ -161,10 +183,14 @@ public class GameManager : MonoBehaviour
     // Adds score
     private void AddScore(float scoreAmount)
     {
-        score += scoreAmount * difficultyConfig.DifficultyScoreModifier + wave * 20;
+        if (isOver == false)
+        {
+            // Adds the score
+            score += scoreAmount * difficultyConfig.DifficultyScoreModifier + wave * 20;
 
-        // Updates current game metrics
-        GlobalData.CurrentGame = new LeaderboardEntry(wave, (int)score, "");
+            // Updates current game metrics
+            currentGame = new LeaderboardEntry(wave, (int)score, newGamePlus, "");
+        }
     }
 
     // Runs before the first wave in the level
@@ -173,14 +199,24 @@ public class GameManager : MonoBehaviour
         // Checks if an ongoing game already exists
         if (GlobalData.CurrentGame.HasValue == true)
         {
+            // Caches current game metrics
+            currentGame = GlobalData.CurrentGame.Value;
+
             // Loads the survived waves from the previous scene
-            wave = GlobalData.CurrentGame.Value.wavesSurvived;
+            wave = CurrentGame.wavesSurvived;
             // Loads the score from the previous scene
-            score = GlobalData.CurrentGame.Value.playerScore;
+            score = CurrentGame.playerScore;
+
+            // Check if a achievements value exists
+            if (GlobalData.CurrentAchievements.HasValue == true)
+            {
+                // Loads the achievement metrics from the previous scene
+                achievementTracker.AchievementMetrics = GlobalData.CurrentAchievements.Value;
+            }
         }
         else // If one doesn't, create a new one
         {
-            GlobalData.CurrentGame = new LeaderboardEntry(wave, (int)score, "");
+            currentGame = new LeaderboardEntry(wave, (int)score, newGamePlus, "");
         }
 
         // Initial populate spawnpools
@@ -193,19 +229,40 @@ public class GameManager : MonoBehaviour
     }
 
     // Runs after the player dies, handles the end of the game
-    public void EndGame(string sceneName = "MenuScene")
+    private void EndGame()
     {
+        // Marks the game as over
+        isOver = true;
+
+        // Stops all coroutines
+        StopAllCoroutines();
+        EventBroker.CallGameEnded(currentGame);
+    }
+
+    // Runs when the exit button is pressed
+    public void ExitGame()
+    {
+        // Marks the game as over
+        isOver = true;
+
         // Stops all coroutines
         StopAllCoroutines();
 
-        // Unpauses the game
-        Time.timeScale = 1;
+        // Clears player data
+        ClearPlayData();
 
-        // Goes to requested screen
-        // Set the scene to load data to the desired scene
-        GlobalData.SceneToLoad = sceneName;
-        // Load the loading screen scene
+        // Unpauses game
+        Time.timeScale = 1f;
+
+        GlobalData.SceneToLoad = "MenuScene";
         SceneManager.LoadScene("LoadingScene");
+    }
+
+    // Clears the player metrics from global data
+    private void ClearPlayData()
+    {
+        GlobalData.CurrentGame = null;
+        GlobalData.CurrentAchievements = null;
     }
 
     // Begins next wave
@@ -215,7 +272,7 @@ public class GameManager : MonoBehaviour
         wave++;
 
         // Updates current game entry
-        GlobalData.CurrentGame = new LeaderboardEntry(wave, (int)score, "");
+        CurrentGame = new LeaderboardEntry(wave, (int)score, newGamePlus, "");
 
         // Updates the enemy amount
         difficultyConfig.UpdateEnemyAmount(wave, 30);
@@ -230,13 +287,16 @@ public class GameManager : MonoBehaviour
             AddScore(difficultyConfig.WaveCompleteBonus);
         }
 
-        // Calls WaveOver event
+        // Calls WaveStarted event
         EventBroker.CallWaveStarted();
     }
 
     // Ends current wave
     private void EndWave()
     {
+        // Notifies the achievement tracker a wave has ended
+        EventBroker.CallWaveAchieve();
+
         // Checks if gameobject is null first to prevent null reference
         // exceptions
         if (this != null)
@@ -247,7 +307,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Checks if the wave is a multiple of ten. If so, change the level
-        if (wave % 10 == 0)
+        if (wave % 10 == 0 && isOver == false)
         {
             ChangeLevel();
         }
@@ -262,24 +322,13 @@ public class GameManager : MonoBehaviour
     // Loads the next level in the game
     private void ChangeLevel(bool gotoMenu = false)
     {
-        // If we must go to the menu
-        if (gotoMenu == true)
-        {
-            GlobalData.SceneToLoad = "MenuScene";
-            SceneManager.LoadScene("LoadingScene");
-        }
-        else // Otherwise, simply load the next level of the game
-        {
-            // Saves current player metrics
-            GlobalData.CurrentGame = new LeaderboardEntry(wave, (int)score, null);
+        // Saves current player metrics
+        GlobalData.CurrentGame = currentGame;
+        GlobalData.CurrentAchievements = achievementTracker.AchievementMetrics;
 
-            //TODO: Add a transition between scenes
-
-            // Loads the next level
-            GlobalData.SceneToLoad = nextLevel;
-            SceneManager.LoadScene("LoadingScene");
-        }
-
+        // Loads the next level
+        GlobalData.SceneToLoad = nextLevel;
+        SceneManager.LoadScene("LoadingScene");
     }
 
     // Picks an object from a list of spawnables

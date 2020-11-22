@@ -12,7 +12,6 @@ public class GameOverController : MenuBase
     [SerializeField]
     [Tooltip("The amount of time in seconds that it takes for the game over screen to fade in.")]
     private float fadeInTime = 1f;
-
     [Tooltip("The texts present in the game over screen")]
     [SerializeField]
     private Text[] gameOverTexts;
@@ -32,6 +31,9 @@ public class GameOverController : MenuBase
     [SerializeField]
     private Text playerName;
 
+    // The copy of the game metrics
+    private LeaderboardEntry currentGame;
+
     // The coroutine that fades text and images
     private Coroutine fadeRoutine;
     private Coroutine waitForInputRoutine;
@@ -40,11 +42,20 @@ public class GameOverController : MenuBase
 
     #region Unity Methods
 
+    // Runs once before the first update
+    private void Awake()
+    {
+        // Subscribes to game ended event
+        EventBroker.GameEnded += ReceivePlayerMetrics;
+        // Deactivates the gameObject before the onenable event
+        gameObject.SetActive(false);
+    }
+
     // OnEnable is called when the object is enabled
     private void OnEnable()
     {
         // Gets the player metrics for the game and displays them on the screen
-        DisplayPlayerMetrics(GlobalData.CurrentGame.Value.wavesSurvived, GlobalData.CurrentGame.Value.playerScore);
+        DisplayPlayerMetrics(currentGame.wavesSurvived, currentGame.playerScore);
 
         // Waits a given time before activating input field
         waitForInputRoutine = StartCoroutine(WaitToActivateInput(1.5f));
@@ -57,25 +68,45 @@ public class GameOverController : MenuBase
         // If the player presses enter
         if (Input.GetKeyDown(KeyCode.Return) && playerName.text != "")
         {
-            // Saves the player metric into a save file
-            SavePlayerMetrics();
+            // Saves the player metric into a save file, if he hasn't cheated
+            if (GlobalData.Cheated == false)
+            {
+                SavePlayerMetrics();
+            }
 
-            // Clears the current game from global data, as it is over
+            // Clears the current game and achievements from global data, as it is over
             GlobalData.CurrentGame = null;
+            GlobalData.CurrentAchievements = null;
+
+            // Clears the cheat flag
+            GlobalData.Cheated = false;
 
             // Go to menu
             SwitchToScene("MenuScene", true);
         }
     }
 
+    private void OnDestroy()
+    {
+        // Unsubscribes from game ended event
+        EventBroker.GameEnded -= ReceivePlayerMetrics;
+    }
+
     #endregion
 
     #region Custom Methods
 
+    // Receives the player metrics from an event
+    private void ReceivePlayerMetrics(LeaderboardEntry currentGame)
+    {
+        // Gets the current game
+        this.currentGame = currentGame;
+    }
+
     // Gets the player metrics for the match, namely score and waves survived
     private void DisplayPlayerMetrics(int waves, float score)
     {
-        wavesSurvived.text = (waves - 1).ToString();
+        wavesSurvived.text = (waves).ToString();
         pointsAccrued.text = ((int)score).ToString();
     }
 
@@ -86,7 +117,7 @@ public class GameOverController : MenuBase
         string filepath = Application.persistentDataPath + "/Leaderboard.json";
 
         // Stores the game data into a LeaderboardEntry struct
-        LeaderboardEntry playerMetrics = new LeaderboardEntry(GlobalData.CurrentGame.Value.wavesSurvived, (int)GlobalData.CurrentGame.Value.playerScore, playerName.text);
+        LeaderboardEntry playerMetrics = new LeaderboardEntry(currentGame.wavesSurvived, (int)currentGame.playerScore, currentGame.newGamePlus, playerName.text);
 
         // Checks if a save file exists
         if (File.Exists(filepath))

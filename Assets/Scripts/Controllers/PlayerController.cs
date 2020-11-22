@@ -57,19 +57,20 @@ public class PlayerController : TankBase
     private Coroutine OilPowerupRoutine;
     private Coroutine ShieldPowerupRoutine;
     private Coroutine NukePowerupRoutine;
+    private Coroutine correctTiltRoutine;
 
     [Header("Powerups")]
     [SerializeField]
     [Tooltip("The prefab for the shield powerup dome")]
-    private GameObject forceFieldDome;
+    private GameObject forceField;
     [SerializeField]
     [Tooltip("The prefab for the nuke shell powerup")]
     private GameObject nukeShell;
 
-    // The forcefield powerup instance
-    private GameObject forceField;
     // The ammo for nuke shells
     private int nukeShellAmmo = 0;
+    // The flag that the player is currently invulnerable
+    private bool isInvulnerable = false;
 
     [Header("Other Values")]
     [SerializeField]
@@ -98,6 +99,23 @@ public class PlayerController : TankBase
     #endregion
 
     #region Properties
+
+    public override int Health
+    {
+        get => health;
+        set
+        {
+            // If the player isn't invulnerable or the value is a heal
+            if (isInvulnerable == false || value > health)
+            {
+                health = value;
+                if (health <= 0)
+                {
+                    DestroyTank();
+                }
+            }
+        }
+    }
 
     public int Ammo
     {
@@ -129,6 +147,8 @@ public class PlayerController : TankBase
     {
         get { return rushFireAreaRadius; }
     }
+
+    public bool IsInvulnerable { get => isInvulnerable; }
 
     #endregion
 
@@ -175,8 +195,11 @@ public class PlayerController : TankBase
         EventBroker.ActivatePowerup += ActivatePowerup;
 
         // Creates and disables the shield powerup for future use
-        forceField = Instantiate(forceFieldDome, transform.position, Quaternion.identity);
+        forceField = Instantiate(forceField, transform.position, Quaternion.identity);
         forceField.SetActive(false);
+
+        // Starts correct tilt routine
+        correctTiltRoutine = StartCoroutine(CorrectTilt(2f));
     }
 
     // Fixed update runs on every fixed update. Good for physics. 
@@ -266,6 +289,8 @@ public class PlayerController : TankBase
 
             // Notifies that the player has shot
             EventBroker.CallShotFired();
+            // Notifies the shot achievement shot
+            EventBroker.CallShotAchieve();
         }
     }
 
@@ -426,14 +451,27 @@ public class PlayerController : TankBase
     private IEnumerator ShieldPowerup(float duration)
     {
         // Enables the powerup
-        forceField.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
+        isInvulnerable = true;
         forceField.SetActive(true);
+        forceField.transform.position = transform.position;
 
-        // Waits until powerup time is over
-        yield return new WaitForSeconds(duration);
+        // Declares elapsed time
+        float elapsedTime = 0f;
+
+        // Loop until the powerup duration is over
+        while (elapsedTime <= duration)
+        {
+            // Updates forcefield position
+            forceField.transform.position = transform.position;
+            // Increases elapsed time
+            elapsedTime += Time.deltaTime;
+            // Waits until end of next frame
+            yield return null;
+        }
 
         // Disables the powerup
         forceField.SetActive(false);
+        isInvulnerable = false;
 
         //  Marks coroutine as null so as to indicate powerup is inactive
         ShieldPowerupRoutine = null;
@@ -457,6 +495,26 @@ public class PlayerController : TankBase
 
         // Ends coroutine
         yield break;
+    }
+
+    // Periodically corrects any tilt in the x or z axis
+    private IEnumerator CorrectTilt(float correctionInterval)
+    {
+        // The correction interval
+        WaitForSeconds interval = new WaitForSeconds(correctionInterval);
+
+        // Loops eternally
+        while (true)
+        {
+            // If x or z rotation is not zero
+            if (transform.eulerAngles.x != 0 || transform.eulerAngles.z != 0)
+            {
+                transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+            }
+
+            // Waits interval
+            yield return interval;
+        }
     }
 
     #endregion
