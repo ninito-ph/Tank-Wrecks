@@ -95,7 +95,7 @@ public class AchievementTracker : MonoBehaviour
                 TrackAchievement(ref enemiesKilled, 10, 30, killsAchievementReward, "enemies destroyed! Score bonus awarded!");
                 break;
             case Achievement.WaveAchievement:
-                TrackAchievement(ref wavesSurvived, 5, 10, survivalAchievementReward, "waves survived! Score bonus awarded!");
+                TrackAchievement(ref wavesSurvived, 5, 5, survivalAchievementReward, "waves survived! Score bonus awarded!");
                 break;
             case Achievement.ShotAchievement:
                 TrackAchievement(ref shotsFired, 10, 25, shotsAchievementReward, "shots fired! Score bonus awarded!");
