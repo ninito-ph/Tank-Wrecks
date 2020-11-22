@@ -127,6 +127,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        // Resumes audio play
+        AudioListener.pause = false;
+
         // Subscribes RemoveEnemyFromList to EnemyDestroyed event
         EventBroker.EnemyDestroyed += RemoveEnemyFromList;
         EventBroker.AddScore += AddScore;
@@ -216,19 +219,6 @@ public class GameManager : MonoBehaviour
             currentGame = new LeaderboardEntry(wave, (int)score, newGamePlus, "");
         }
 
-        // Checks if a new game plus has begun
-        if (wave % 30 == 0)
-        {
-            newGamePlus = wave % 30;
-            EventBroker.CallNewGamePlusStarted();
-        }
-
-        if (wave % 10 == 0)
-        {
-            // Notifies the achievement tracker that a wave has been survived
-            EventBroker.CallWaveAchieve();
-        }
-
         // Initial populate spawnpools
         PopulateEnemySpawnpool();
         PopulatePowerupSpawnpool();
@@ -260,6 +250,9 @@ public class GameManager : MonoBehaviour
 
         // Clears player data
         ClearPlayData();
+
+        // Unpauses game
+        Time.timeScale = 1f;
 
         GlobalData.SceneToLoad = "MenuScene";
         SceneManager.LoadScene("LoadingScene");
@@ -296,13 +289,14 @@ public class GameManager : MonoBehaviour
 
         // Calls WaveStarted event
         EventBroker.CallWaveStarted();
-        // Calls wave achievement event
-        EventBroker.CallWaveAchieve();
     }
 
     // Ends current wave
     private void EndWave()
     {
+        // Notifies the achievement tracker a wave has ended
+        EventBroker.CallWaveAchieve();
+
         // Checks if gameobject is null first to prevent null reference
         // exceptions
         if (this != null)

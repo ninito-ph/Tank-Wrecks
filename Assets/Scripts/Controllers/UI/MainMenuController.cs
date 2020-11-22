@@ -2,6 +2,15 @@
 
 public class MainMenuController : MenuBase
 {
+    protected override void Start()
+    {
+        // Runs the base's start method
+        base.Start();
+
+        // Resume the audio listener
+        AudioListener.pause = false;
+    }
+
     #region Custom Methods
 
     // Exits the game
